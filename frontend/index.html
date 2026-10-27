@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>दुकान साथी AI • Paytm DukaanSaathi (Merchant Growth AI)</title>
+  <meta name="description" content="भारत के किराना और छोटे व्यापारियों के लिए AI व्यापार साथी। बिक्री अनुमान, अलमारी स्कैनर, ग्राहक वापसी, तिजोरी और साउंडबॉक्स वॉयस।">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="merchant-mode">
+
+  <!-- Top Sticky Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="paytm-badge-logo">
+        <span class="logo-icon">🇮🇳</span>
+        <div class="logo-title">Paytm <span>दुकान साथी</span></div>
+      </div>
+      <div class="brand-tagline">Track 1: Merchant Growth AI • Build for India 2026</div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Live Soundbox Indicator -->
+      <div class="soundbox-indicator" id="soundboxStatusIndicator" title="Paytm Soundbox 4G Active">
+        <span class="pulse-dot"></span>
+        <span id="txtSoundboxStatus">साउंडबॉक्स 4G कनेक्टेड</span>
+      </div>
+
+      <!-- Merchant Switcher -->
+      <div class="merchant-select-wrapper">
+        <span style="font-size:0.85rem">🏪</span>
+        <select id="merchantSelect" aria-label="Select Merchant Profile"></select>
+      </div>
+
+      <!-- Judge Mode Toggle -->
+      <button class="btn-mode-toggle" id="btnModeToggle" title="Toggle between Simple Merchant UI and Detailed ML/Judge View">
+        <span>👨‍💻</span> <span id="txtModeToggle">जज / AI मोड</span>
+      </button>
+
+      <!-- Language Toggle -->
+      <button class="btn-lang-toggle" id="btnLangToggle">🌐 हिंदी / English</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Hero Merchant Profile Banner -->
+    <section class="glass-panel merchant-hero-card">
+      <div class="merchant-meta">
+        <div class="merchant-avatar">🏬</div>
+        <div class="merchant-details">
+          <h2>
+            <span id="heroMerchantName">तुषार किराना स्टोर & सुपरमार्ट</span>
+            <span class="verified-badge">✓ पेटीएम सत्यापित व्यापारी</span>
+          </h2>
+          <div class="merchant-subinfo">
+            <span id="heroMerchantCategory">किराना / जनरल स्टोर • नोएडा सेक्टर 18</span>
+            <span>•</span>
+            <span id="heroMerchantId">PAYTM_M_1001</span>
+            <span>•</span>
+            <span id="heroSoundboxSerial">साउंडबॉक्स: SBX-4G-99201</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-quick-stats">
+        <div class="hero-stat-pill">
+          <div class="hero-stat-label">रोज़ की औसत बिक्री</div>
+          <div class="hero-stat-value" id="heroDailyGmv">₹14,850</div>
+        </div>
+        <div class="hero-stat-pill">
+          <div class="hero-stat-label">दुकान साख स्कोर</div>
+          <div class="hero-stat-value highlight-cyan" id="heroScoreSummary">742 / 900</div>
+        </div>
+        <div class="hero-stat-pill">
+          <div class="hero-stat-label">व्यापार दर्जा</div>
+          <div class="hero-stat-value" style="color:var(--accent-success)">गोल्ड व्यापारी 🥇</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Step Simple Guide for Indian Shopkeeper -->
+    <section class="merchant-guide-banner">
+      <div class="guide-step-item">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-text">
+          <h4>माइक दबाकर बोलें</h4>
+          <p>"आज शाम क्या बिकेगा?" — साथी तुरंत साउंडबॉक्स आवाज़ में बताएगा</p>
+        </div>
+      </div>
+      <div class="guide-step-item">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-text">
+          <h4>शेल्फ़ की फोटो खींचें</h4>
+          <p>खाली सामान लाल डिब्बे में दिखेगा और व्हाट्सएप आर्डर तैयार होगा</p>
+        </div>
+      </div>
+      <div class="guide-step-item">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-text">
+          <h4>1-टैप में रोकड़ा संभालें</h4>
+          <p>महीने के खर्चे का अलर्ट पाएं और ₹25,000 तुरंत लोन खाते में लें</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Indic Voice-First Copilot Bar (Central Hero Feature) -->
+    <section class="glass-panel voice-copilot-section">
+      <div class="copilot-header">
+        <div class="copilot-title">
+          <span>🎙️</span>
+          <span>दुकान साथी वॉयस असिस्टेंट</span>
+          <span class="soundbox-tag">Paytm Soundbox + Sarvam AI</span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-secondary)">
+          सीधे हिंदी या हिंग्लिश में बोलें, टाइप करने की ज़रूरत नहीं
+        </div>
+      </div>
+
+      <div class="copilot-input-row">
+        <button class="voice-record-btn" id="btnVoiceRecord" title="माइक पर क्लिक करें और बोलें">
+          🎤
+        </button>
+        <input 
+          type="text" 
+          class="copilot-text-input" 
+          id="copilotTextInput" 
+          placeholder="बोलिए या टाइप करें: 'भैया, आज क्या बिकेगा?' या 'कल का कैशफ्लो कैसा है?'..."
+        />
+        <button class="copilot-submit-btn" id="btnSubmitCopilot">पूछें साथी से ➔</button>
+      </div>
+
+      <!-- Quick Everyday Kirana Prompt Chips -->
+      <div class="quick-prompts-container">
+        <button class="quick-prompt-chip" onclick="submitVoiceQuery('Bhaiya, aaj kya bikega?')">
+          💡 भैया, आज क्या बिकेगा?
+        </button>
+        <button class="quick-prompt-chip" onclick="submitVoiceQuery('Kal ka cashflow kaisa hai?')">
+          💰 कल का खर्च और रोकड़ा कैसा है?
+        </button>
+        <button class="quick-prompt-chip" onclick="submitVoiceQuery('Maggi ka stock khatam ho gaya')">
+          📦 मैगी का स्टॉक खत्म हो गया
+        </button>
+        <button class="quick-prompt-chip" onclick="submitVoiceQuery('Mera credit score kitna hai?')">
+          🏅 मेरा दुकान साख स्कोर कितना है?
+        </button>
+        <button class="quick-prompt-chip" onclick="submitVoiceQuery('Diwali ke liye kya stock mangaun?')">
+          🪔 दीवाली पर कौन सा सामान मंगाऊं?
+        </button>
+      </div>
+
+      <!-- Live Copilot Audio & Text Response Container -->
+      <div class="copilot-live-response" id="copilotLiveResponse">
+        <div class="copilot-response-header">
+          <span class="copilot-intent-badge" id="copilotIntentBadge">सवाल का विषय: बिक्री अनुमान</span>
+          <button class="copilot-audio-btn" id="btnPlaySoundboxAudio" onclick="playLastVoiceResponse()">
+            <span>🔊</span> साउंडबॉक्स आवाज़ में दोबारा सुनें
+          </button>
+        </div>
+        <div class="copilot-hindi-text" id="copilotHindiText"></div>
+        <div class="copilot-english-text" id="copilotEnglishText"></div>
+      </div>
+    </section>
+
+    <!-- Top KPI Row (Dukaan Dashboard Numbers) -->
+    <section class="kpi-grid">
+      <div class="glass-panel kpi-card">
+        <div class="kpi-top">
+          <span class="kpi-title">आज का अनुमानित गल्ला</span>
+          <span class="kpi-icon">💰</span>
+        </div>
+        <div class="kpi-val" id="kpiGmvVal">₹16,420</div>
+        <div class="kpi-sub positive">
+          <span>▲ 18.2%</span> पड़ोस की दुकानों से ज्यादा
+        </div>
+      </div>
+
+      <div class="glass-panel kpi-card success">
+        <div class="kpi-top">
+          <span class="kpi-title">7-दिन की कुल बिक्री अनुमान</span>
+          <span class="kpi-icon">📈</span>
+        </div>
+        <div class="kpi-val" id="kpi7dDemandVal">₹98,400</div>
+        <div class="kpi-sub info">
+          <span>⚡ त्योहार का असर</span> ज्यादा ग्राहक आने वाले हैं
+        </div>
+      </div>
+
+      <div class="glass-panel kpi-card warning">
+        <div class="kpi-top">
+          <span class="kpi-title">पुराने ग्राहक जो नहीं आए</span>
+          <span class="kpi-icon">👥</span>
+        </div>
+        <div class="kpi-val" id="kpiAtRiskVal">4</div>
+        <div class="kpi-sub warning">
+          <span>⚠️ 30+ दिनों से नहीं आए</span> ₹20 कैशबैक से वापस बुलाएं
+        </div>
+      </div>
+
+      <div class="glass-panel kpi-card purple">
+        <div class="kpi-top">
+          <span class="kpi-title">दुकान साख (क्रेडिट हेल्थ)</span>
+          <span class="kpi-icon">🏅</span>
+        </div>
+        <div class="kpi-val" id="kpiScoreVal">742 / 900</div>
+        <div class="kpi-sub positive">
+          <span>✓ प्री-एप्रूव्ड लोन</span> ₹25,000 तुरंत उपलब्ध
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs with Catchy Bharat Names -->
+    <nav class="tabs-navigation" aria-label="Dashboard Modules">
+      <button class="nav-tab-btn active" data-tab="tabDemand" onclick="switchTab('tabDemand')">
+        📈 बिक्री अनुमान (आज क्या बिकेगा?)
+        <span class="tab-badge tech-badge">XGBoost Hybrid</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabInventory" onclick="switchTab('tabInventory')">
+        📸 दुकान शेल्फ़ स्कैनर (अलमारी जांच)
+        <span class="tab-badge tech-badge">YOLOv8 + Graph</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabRetention" onclick="switchTab('tabRetention')">
+        👥 पुराने ग्राहक वापस लाओ (कैशबैक)
+        <span class="tab-badge tech-badge">RFM + Churn</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabCashflow" onclick="switchTab('tabCashflow')">
+        💰 तिजोरी और रोकड़ा (तुरंत लोन)
+        <span class="tab-badge tech-badge">Monte Carlo</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabScore" onclick="switchTab('tabScore')">
+        🏅 दुकान साख स्कोर (742 / 900)
+        <span class="tab-badge tech-badge">TreeSHAP</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabCompetitor" onclick="switchTab('tabCompetitor')">
+        📡 आस-पास का बाज़ार (पड़ोस ट्रेंड्स)
+        <span class="tab-badge tech-badge">H3 Cluster</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabActions" onclick="switchTab('tabActions')">
+        ⚡ 1-टैप दुकान साथी काम
+        <span class="tab-badge" id="pendingActionsBadge">3</span>
+      </button>
+    </nav>
+
+    <!-- Tab 1: बिक्री अनुमान (Demand Forecast) -->
+    <section class="tab-content-pane active" id="tabDemand">
+      <!-- Bharat Callout -->
+      <div class="bharat-explain-box">
+        <div class="lead-icon">💡</div>
+        <div class="lead-content">
+          <h4>साथी की सलाह: दीवाली की वजह से तेल और बेसन की मांग बढ़ेगी</h4>
+          <p>
+            दीवाली और भाई दूज के चलते अगले 7 दिनों में गल्ला ₹98,400 तक जाने का अनुमान है। फॉर्च्यून तेल और राजधानी बेसन के कम से कम 35 पैकेट एक्स्ट्रा रखें ताकि ग्राहकों को खाली हाथ न लौटना पड़े।
+          </p>
+        </div>
+      </div>
+
+      <div class="three-col-grid">
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>📈 7-दिन का बिक्री व ग्राहक आवागमन अनुमान</h3>
+            <span class="card-header-badge badge-blue tech-badge">MAPE: 8.4% Accuracy</span>
+          </div>
+          <div class="card-body">
+            <div style="height: 320px;">
+              <canvas id="demandChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>⚡ बाज़ार और मौसम के असर</h3>
+            <span class="card-header-badge badge-green">लाइव अलर्ट</span>
+          </div>
+          <div class="card-body">
+            <div style="display:flex; flex-direction:column; gap:0.75rem" id="externalFactorsList">
+              <span class="card-header-badge badge-blue">दीवाली पर्व (+28% अतिरिक्त बिक्री)</span>
+              <span class="card-header-badge badge-blue">सप्ताहांत शाम को ज्यादा ग्राहक (+15%)</span>
+              <span class="card-header-badge badge-blue">मौसम साफ (29°C)</span>
+            </div>
+            <div style="margin-top:1.5rem; padding:1rem; background:rgba(0,41,112,0.3); border-radius:var(--radius-sm); border:1px solid rgba(0,185,241,0.2)">
+              <div style="font-weight:700; font-size:0.85rem; color:#00b9f1; margin-bottom:0.3rem">💡 साथी की खास टिप</div>
+              <div style="font-size:0.8rem; color:#cbd5e1; line-height:1.5">
+                शुक्रवार को दोपहर 3 से 8 बजे तक सबसे ज्यादा रश रहेगा। हेल्पर को दुकान पर पहले से तैयार रखें।
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-panel" style="margin-top:1.5rem;">
+        <div class="card-header">
+          <h3>📦 इस हफ़्ते सबसे ज्यादा बिकने वाले सामान</h3>
+          <span class="card-header-badge badge-blue">स्टॉक स्थिति</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>सामान का नाम</th>
+                <th>अनुमानित खपत</th>
+                <th>संभावित कमाई</th>
+                <th>दुकान में स्थिति</th>
+              </tr>
+            </thead>
+            <tbody id="topForecastProductsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: दुकान शेल्फ़ स्कैनर (Camera Shelf Scanner) -->
+    <section class="tab-content-pane" id="tabInventory">
+      <div class="bharat-explain-box">
+        <div class="lead-icon">📸</div>
+        <div class="lead-content">
+          <h4>अलमारी की फोटो खींचिए — खाली जगह और खत्म सामान तुरंत दिखेगा</h4>
+          <p>
+            दुकान की अलमारी (शेल्फ़) की फोटो खींचने पर AI तुरंत बता देता है कि कौन सा बिस्कुट, नमकीन या तेल खत्म हो चुका है। आप 1-क्लिक में होलसेलर को व्हाट्सएप आर्डर भेज सकते हैं।
+          </p>
+        </div>
+      </div>
+
+      <div class="glass-panel" style="margin-bottom:1.5rem;">
+        <div class="card-header">
+          <h3>📷 "फोटो से स्टॉक जांचें" — अलमारी स्कैनर</h3>
+          <span class="card-header-badge badge-blue tech-badge">YOLOv8 + Retail Vision</span>
+        </div>
+        <div class="card-body">
+          <div class="shelf-scanner-wrapper">
+            <div class="shelf-dropzone" onclick="document.getElementById('shelfImageInput').click()">
+              <input type="file" id="shelfImageInput" accept="image/*" style="display:none;" />
+              <div style="font-size:2.5rem; margin-bottom:0.5rem">📸</div>
+              <div style="font-size:1.15rem; font-weight:700; color:#fff">दुकान की अलमारी की फोटो चुनें या कैमरा खोलें</div>
+              <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.3rem">
+                AI तुरंत खाली रैक और कम स्टॉक वाले सामान को लाल डिब्बे में दिखा देगा
+              </div>
+              <button type="button" class="btn-action-primary" style="margin-top:1rem;" onclick="event.stopPropagation(); triggerDemoShelfScan();">
+                ⚡ डेमो अलमारी स्कैन करके देखें
+              </button>
+            </div>
+
+            <div class="shelf-scan-result-container" id="shelfResultPreview" style="display:none;">
+              <div class="shelf-image-preview">
+                <img id="shelfAnnotatedImage" src="" alt="YOLO Annotated Shelf" />
+              </div>
+              <div class="shelf-metrics-col">
+                <div class="glass-panel" style="padding:1.2rem;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                      <div style="font-size:0.8rem; color:#94a3b8">अलमारी का भराव (Fullness)</div>
+                      <div style="font-size:2.2rem; font-weight:800; color:#00b9f1" id="shelfFullnessVal">68.5%</div>
+                    </div>
+                    <div>
+                      <div style="font-size:0.8rem; color:#94a3b8">पहचाने गए पैकेट</div>
+                      <div style="font-size:2.2rem; font-weight:800; color:#10b981" id="shelfDetectedCount">18</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="glass-panel" style="padding:1.2rem;">
+                  <div style="font-weight:700; font-size:0.9rem; margin-bottom:0.75rem; color:#ef4444">
+                    ⚠️ खत्म हुआ सामान (तुरंत आर्डर करें)
+                  </div>
+                  <div id="shelfStockoutList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-panel">
+        <div class="card-header">
+          <h3>📦 कौन सा सामान कितना मंगाना है (स्मार्ट इन्वेंट्री)</h3>
+          <span class="card-header-badge badge-green tech-badge">NetworkX Product Graph</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>सामान</th>
+                <th>वर्तमान स्टॉक</th>
+                <th>खतरे का निशान</th>
+                <th>मंगाने की सलाह</th>
+                <th>साथ में बिकने वाला सामान</th>
+                <th>1-क्लिक एक्शन</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: पुराने ग्राहक वापस लाओ (Customer Retention) -->
+    <section class="tab-content-pane" id="tabRetention">
+      <div class="bharat-explain-box">
+        <div class="lead-icon">🎁</div>
+        <div class="lead-content">
+          <h4>पुराने ग्राहकों को दुकान पर वापस बुलाएं — ₹20 पेटीएम कैशबैक ऑफर</h4>
+          <p>
+            जो पक्के ग्राहक पिछले 15–30 दिनों से नहीं आए हैं, वे शायद ऑनलाइन डार्क स्टोर (Blinkit/Zepto) जा रहे हैं। साथी ने उनके लिए ₹20 का विशेष पेटीएम कैशबैक ऑफर तैयार किया है — बस 'ऑफर भेजें' पर क्लिक करें।
+          </p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:1.5rem;" id="customerSegmentsContainer">
+      </div>
+
+      <div class="glass-panel">
+        <div class="card-header">
+          <h3>👥 ग्राहक जो काफी दिनों से नहीं आए (खतरे में पक्के ग्राहक)</h3>
+          <span class="card-header-badge badge-amber">तुरंत वापस लाएं</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ग्राहक का नाम व नंबर</th>
+                <th>पिछली खरीदारी</th>
+                <th>दूर जाने का खतरा</th>
+                <th>तैयार कैशबैक ऑफर</th>
+                <th>1-क्लिक ऑफर</th>
+              </tr>
+            </thead>
+            <tbody id="atRiskCustomersTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: तिजोरी और रोकड़ा (Cash Flow & Instant Loans) -->
+    <section class="tab-content-pane" id="tabCashflow">
+      <!-- Early Crunch Alert Banner -->
+      <div class="glass-panel" id="cashCrunchAlertCard" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--accent-danger); background:linear-gradient(135deg, rgba(239,68,68,0.1), rgba(18,24,41,0.8)); display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="display:flex; align-items:center; gap:0.5rem; font-weight:800; font-size:1.15rem; color:#ef4444">
+              <span>🚨</span>
+              <span>रोकड़े की संभावित तंगी का अलर्ट</span>
+              <span class="card-header-badge badge-red" id="crunchDaysVal">9 दिन में</span>
+            </div>
+            <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem" id="crunchActionText">
+              दुकान का किराया (₹16,000) और होलसेलर बिल (₹12,500) 48 घंटे के भीतर आने वाले हैं।
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:0.75rem; color:#94a3b8">संभावित कमी</div>
+            <div style="font-size:1.5rem; font-weight:800; color:#ef4444" id="crunchShortfallVal">₹11,400</div>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem; padding:1.2rem; background:rgba(0,41,112,0.4); border-radius:var(--radius-sm); border:1px solid rgba(0,185,241,0.3); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700; font-size:1.05rem; color:#fff">घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है</div>
+            <div style="font-size:0.82rem; color:#94a3b8">आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.2% मासिक ब्याज</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:1.2rem;">
+            <div style="font-size:1.35rem; font-weight:800; color:var(--paytm-cyan)" id="loanAmountVal">₹25,000</div>
+            <button class="btn-gold-claim" onclick="applyForInstantLoan()">1-क्लिक में वॉलेट में लें</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-panel">
+        <div class="card-header">
+          <h3>💰 अगले 30 दिनों का रोकड़ा अनुमान (आने वाले पैसे बनाम खर्च)</h3>
+          <span class="card-header-badge badge-green tech-badge">Monte Carlo Simulation</span>
+        </div>
+        <div class="card-body">
+          <div style="height: 350px;">
+            <canvas id="cashflowChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 5: दुकान साख स्कोर (MerchantMind Credit Score) -->
+    <section class="tab-content-pane" id="tabScore">
+      <div class="bharat-explain-box">
+        <div class="lead-icon">🏅</div>
+        <div class="lead-content">
+          <h4>आपकी दुकान का साख स्कोर: 742 / 900 (शानदार प्रतिष्ठा)</h4>
+          <p>
+            जैसे सिबिल (CIBIL) स्कोर होता है, वैसे ही यह आपकी दुकान का स्कोर है। जितना ऊंचा स्कोर, उतना बड़ा और सस्ता पेटीएम लोन तुरंत मिलेगा।
+          </p>
+        </div>
+      </div>
+
+      <div class="two-col-grid">
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>🏅 दुकान साख मीटर</h3>
+            <span class="score-tier-badge" id="scoreTierBadge">गोल्ड श्रेणी (Tier 1 Gold)</span>
+          </div>
+          <div class="card-body">
+            <div class="score-radial-wrapper">
+              <div class="score-number-overlay">
+                <div class="main-score" id="mainScoreNumber">742</div>
+                <div class="score-sub">कुल 900 अंकों में से</div>
+              </div>
+            </div>
+
+            <div style="margin-top:1.5rem;" id="scoreDimensionsList"></div>
+          </div>
+        </div>
+
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>🔬 स्कोर किस बात पर तय हुआ (AI विश्लेषण)</h3>
+            <span class="card-header-badge badge-blue tech-badge">TreeSHAP Attribution</span>
+          </div>
+          <div class="card-body">
+            <div style="height: 250px;">
+              <canvas id="shapChartCanvas"></canvas>
+            </div>
+
+            <div style="margin-top:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">
+              <div style="font-weight:700; font-size:0.88rem; color:#10b981; margin-bottom:0.5rem">
+                🎯 स्कोर 780 तक बढ़ाने के आसान उपाय (+38 अंक):
+              </div>
+              <ul id="scoreBoostChecklist" style="list-style:none; padding:0;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 6: आस-पास का बाज़ार (Competitor Radar) -->
+    <section class="tab-content-pane" id="tabCompetitor">
+      <div class="two-col-grid">
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>📡 पड़ोस का बाज़ार: <span id="radarClusterName" style="color:#00b9f1">सेक्टर 18 किराना क्लस्टर</span></h3>
+            <span class="card-header-badge badge-blue" id="radarPeerCount">14 पड़ौसी दुकानें</span>
+          </div>
+          <div class="card-body">
+            <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:1rem">
+              आपके 1 किलोमीटर दायरे में पेटीएम नेटवर्क पर सबसे तेज़ी से बिक रहे नए उत्पाद:
+            </div>
+            <div id="radarTrendingProductsList"></div>
+          </div>
+        </div>
+
+        <div class="glass-panel">
+          <div class="card-header">
+            <h3>⚠️ आस-पास के डिस्काउंट और ऑनलाइन डार्क स्टोर अलर्ट</h3>
+            <span class="card-header-badge badge-amber">लोकल रडार</span>
+          </div>
+          <div class="card-body">
+            <div id="radarThreatAlertsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 7: 1-टैप दुकान साथी काम (Agentic Actions) -->
+    <section class="tab-content-pane" id="tabActions">
+      <div class="glass-panel" style="margin-bottom:1rem;">
+        <div class="card-header">
+          <h3>⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)</h3>
+          <span class="card-header-badge badge-green">व्यापारी का पूरा नियंत्रण</span>
+        </div>
+        <div class="card-body">
+          <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:1.2rem">
+            दुकान साथी ने आपकी बिक्री और स्टॉक देखकर होलसेलर आर्डर, ग्राहक कैशबैक और लोन के जरूरी फैसले तैयार किए हैं। आप 1-टैप में मंज़ूर या रद्द कर सकते हैं।
+          </div>
+          <div id="pendingActionsContainer"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main JavaScript App Controller -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
