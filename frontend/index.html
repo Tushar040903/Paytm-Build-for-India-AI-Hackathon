@@ -590,7 +590,7 @@
       <div class="bharat-explain-box">
         <div class="lead-icon">🏅</div>
         <div class="lead-content">
-          <h4 id="scoreExplainHeading" data-i18n="t5_lead_title">आपकी दुकान का साख स्कोर: 742 / 900 (शानदार प्रतिष्ठा)</h4>
+          <h4 id="scoreExplainHeading">आपकी दुकान का साख स्कोर: 742 / 900 (शानदार प्रतिष्ठा)</h4>
           <p data-i18n="t5_lead_desc">
             जैसे सिबिल (CIBIL) स्कोर होता है, वैसे ही यह आपकी दुकान का स्कोर है। जितना ऊंचा स्कोर, उतना बड़ा और सस्ता पेटीएम लोन तुरंत मिलेगा।
           </p>
@@ -604,10 +604,16 @@
             <span class="score-tier-badge" id="scoreTierBadge">गोल्ड श्रेणी (Tier 1 Gold)</span>
           </div>
           <div class="card-body">
-            <div class="score-radial-wrapper">
-              <div class="score-number-overlay">
-                <div class="main-score" id="mainScoreNumber">742</div>
-                <div class="score-sub" data-i18n="t5_score_sub">कुल 900 अंकों में से</div>
+            <div class="score-radial-wrapper" style="min-height:160px; display:flex; align-items:center; justify-content:center; padding:0.8rem 0;">
+              <div style="position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center;">
+                <svg width="150" height="150" viewBox="0 0 150 150" style="transform: rotate(-90deg);">
+                  <circle cx="75" cy="75" r="62" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="transparent"/>
+                  <circle id="scoreMeterCircle" cx="75" cy="75" r="62" stroke="#10b981" stroke-width="10" stroke-linecap="round" fill="transparent" stroke-dasharray="390" stroke-dashoffset="68" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;"/>
+                </svg>
+                <div class="score-number-overlay" style="position:absolute; text-align:center;">
+                  <div class="main-score" id="mainScoreNumber">742</div>
+                  <div class="score-sub" data-i18n="t5_score_sub">कुल 900 अंकों में से</div>
+                </div>
               </div>
             </div>
 
@@ -626,7 +632,7 @@
             </div>
 
             <div style="margin-top:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">
-              <div style="font-weight:700; font-size:0.88rem; color:#10b981; margin-bottom:0.5rem" data-i18n="t5_checklist_title">
+              <div style="font-weight:700; font-size:0.88rem; color:#10b981; margin-bottom:0.5rem" id="scoreChecklistTitle">
                 🎯 स्कोर 780 तक बढ़ाने के आसान उपाय (+38 अंक):
               </div>
               <ul id="scoreBoostChecklist" style="list-style:none; padding:0;"></ul>

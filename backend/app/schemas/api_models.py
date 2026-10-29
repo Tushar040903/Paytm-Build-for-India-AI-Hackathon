@@ -180,8 +180,11 @@ class CashFlowResponse(BaseModel):
 # --- MerchantMind Score Schemas ---
 class DimensionScore(BaseModel):
     name: str
+    name_hi: Optional[str] = None
+    name_en: Optional[str] = None
     weight_pct: int
     score: int # 0 to 100
+    max_score: int = 100
     grade: str # A+, A, B, C, D
     key_driver: str
     improvement_tip: str
@@ -190,11 +193,16 @@ class MerchantMindScoreResponse(BaseModel):
     merchant_id: str
     total_score: int # 0 to 900
     tier: str # "Platinum (800+)", "Gold (700-799)", "Silver (550-699)", "Bronze (<550)"
+    tier_badge: Optional[str] = None
+    tier_badge_hi: Optional[str] = None
+    tier_badge_en: Optional[str] = None
     percentile_in_category: float
     dimensions: List[DimensionScore]
     shap_top_contributors: List[Dict[str, Any]]
     preapproved_benefits: List[str]
     immediate_actions_to_boost_score: List[str]
+    immediate_actions_to_boost_score_hi: Optional[List[str]] = None
+    immediate_actions_to_boost_score_en: Optional[List[str]] = None
     preapproved_loan_inr: int = 0
     loan_interest_rate_monthly_pct: Optional[float] = None
     loan_status_en: str = "Pre-Approved Loan"

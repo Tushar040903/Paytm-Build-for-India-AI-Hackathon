@@ -1195,7 +1195,32 @@ async function loadMerchantScore(merchantId) {
 
     document.getElementById("kpiScoreVal").textContent = `${data.total_score} / 900`;
     document.getElementById("mainScoreNumber").textContent = data.total_score;
-    document.getElementById("scoreTierBadge").textContent = data.tier_badge || "गोल्ड श्रेणी 🥇";
+
+    // Dynamic Tier Badge and Color Class
+    const badgeText = currentLanguage === 'hi' 
+      ? (data.tier_badge_hi || data.tier_badge || "गोल्ड श्रेणी 🥇")
+      : (data.tier_badge_en || `${data.tier} Tier 🥇`);
+    
+    const tierBadgeElem = document.getElementById("scoreTierBadge");
+    if (tierBadgeElem) {
+      tierBadgeElem.textContent = badgeText;
+      tierBadgeElem.className = data.total_score >= 800 ? "score-tier-badge badge-platinum"
+                              : data.total_score >= 700 ? "score-tier-badge badge-gold"
+                              : data.total_score >= 600 ? "score-tier-badge badge-silver"
+                              : "score-tier-badge badge-bronze";
+    }
+
+    // Dynamic Circular SVG Gauge Animation
+    const circle = document.getElementById("scoreMeterCircle");
+    if (circle) {
+      const circ = 390;
+      const offset = Math.max(0, circ - (data.total_score / 900.0) * circ);
+      circle.style.strokeDashoffset = offset;
+      circle.style.stroke = data.total_score >= 800 ? "#8b5cf6" 
+                          : data.total_score >= 700 ? "#10b981" 
+                          : data.total_score >= 600 ? "#00b9f1" 
+                          : "#f59e0b";
+    }
 
     // Dynamic Underwriting-Driven KPI 4 Tag & Subtext
     const kpiScoreCard = document.getElementById("kpiScoreCard");
@@ -1236,16 +1261,24 @@ async function loadMerchantScore(merchantId) {
     }
     const heroStatusElem = document.getElementById("heroBusinessStatus");
     if (heroStatusElem) {
-      heroStatusElem.textContent = data.tier_badge || "गोल्ड व्यापारी 🥇";
+      heroStatusElem.textContent = badgeText;
+    }
+    const homeStoreTierElem = document.getElementById("homeStoreTier");
+    if (homeStoreTierElem) {
+      homeStoreTierElem.textContent = badgeText;
+    }
+    const metricTierElem = document.getElementById("metricTierBadge");
+    if (metricTierElem) {
+      metricTierElem.textContent = badgeText;
     }
 
     // Update Tab 5 explanation heading
     const explainHeading = document.getElementById("scoreExplainHeading");
     if (explainHeading) {
-      const ratingWord = data.total_score >= 800 ? (currentLanguage === "hi" ? "उत्कृष्ट प्रतिष्ठा" : "Outstanding Tier")
-                       : data.total_score >= 700 ? (currentLanguage === "hi" ? "शानदार प्रतिष्ठा" : "Excellent Tier")
-                       : data.total_score >= 600 ? (currentLanguage === "hi" ? "संतोषजनक प्रतिष्ठा" : "Good Tier")
-                       : (currentLanguage === "hi" ? "सुधार योग्य" : "Emerging Tier");
+      const ratingWord = data.total_score >= 800 ? (currentLanguage === "hi" ? "उत्कृष्ट प्रतिष्ठा (Prime Tier 💎)" : "Outstanding Prime Tier 💎")
+                       : data.total_score >= 700 ? (currentLanguage === "hi" ? "शानदार प्रतिष्ठा (Growth Tier 🥇)" : "Excellent Growth Tier 🥇")
+                       : data.total_score >= 600 ? (currentLanguage === "hi" ? "संतोषजनक प्रतिष्ठा (Standard Tier 🥈)" : "Good Standard Tier 🥈")
+                       : (currentLanguage === "hi" ? "साख निर्माणधीन (Emerging Tier 🥉)" : "Emerging Subprime Tier 🥉");
       explainHeading.textContent = currentLanguage === "hi"
         ? `आपकी दुकान का साख स्कोर: ${data.total_score} / 900 (${ratingWord})`
         : `Your Store Credit Score: ${data.total_score} / 900 (${ratingWord})`;
@@ -1253,28 +1286,84 @@ async function loadMerchantScore(merchantId) {
 
     // Render 5 dimensions
     const dimsContainer = document.getElementById("scoreDimensionsList");
-    if (dimsContainer) {
-      dimsContainer.innerHTML = data.dimensions.map(d => `
-        <div class="dim-item">
-          <div class="dim-top">
-            <span><strong>${d.name}</strong> <small style="color:#64748b">(${d.weight_pct}% ${currentLanguage === "hi" ? "महत्व" : "weight"})</small></span>
-            <span style="color:#00b9f1; font-weight:700">${d.score} / ${d.max_score}</span>
+    if (dimsContainer && data.dimensions) {
+      dimsContainer.innerHTML = data.dimensions.map(d => {
+        const dimName = currentLanguage === "hi" ? (d.name_hi || d.name) : (d.name_en || d.name);
+        const scoreVal = d.score || 70;
+        const maxScore = d.max_score || 100;
+        const pct = Math.min(100, Math.round((scoreVal / maxScore) * 100));
+        const barColor = scoreVal >= 80 ? "linear-gradient(90deg, #10b981, #059669)"
+                       : scoreVal >= 70 ? "linear-gradient(90deg, #00b9f1, #0284c7)"
+                       : scoreVal >= 60 ? "linear-gradient(90deg, #f59e0b, #d97706)"
+                       : "linear-gradient(90deg, #ef4444, #dc2626)";
+        const gradeBadgeClass = scoreVal >= 80 ? "badge-green" : scoreVal >= 70 ? "badge-blue" : "badge-amber";
+        return `
+        <div class="dim-item" style="margin-bottom: 0.85rem;">
+          <div class="dim-top" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span>
+              <strong style="color:#f1f5f9; font-size:0.88rem">${dimName}</strong>
+              <small style="color:#64748b; margin-left:0.35rem">(${d.weight_pct}% ${currentLanguage === "hi" ? "महत्व" : "weight"})</small>
+            </span>
+            <span style="font-weight:700; font-size:0.88rem; color:#f8fafc">
+              ${scoreVal} / ${maxScore}
+              <span class="card-header-badge ${gradeBadgeClass}" style="margin-left:0.35rem; font-size:0.7rem; padding:1px 6px;">${d.grade || 'A'}</span>
+            </span>
           </div>
-          <div class="dim-bar-track">
-            <div class="dim-bar-fill" style="width: ${(d.score / d.max_score) * 100}%"></div>
+          <div class="dim-bar-track" style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+            <div class="dim-bar-fill" style="width: ${pct}%; height:100%; background: ${barColor}; border-radius:3px; transition: width 0.6s ease;"></div>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
 
-    // Action checklist
+    // Dynamic score boost checklist title based on score & tier
+    const checklistTitleElem = document.getElementById("scoreChecklistTitle");
+    if (checklistTitleElem) {
+      const s = data.total_score;
+      let nextMilestone, targetTierHi, targetTierEn;
+      if (s >= 850) {
+        nextMilestone = 900;
+        targetTierHi = "सर्वोच्च 900 अंक (Perfect Diamond 💎)";
+        targetTierEn = "Perfect 900 Score (Diamond 💎)";
+      } else if (s >= 800) {
+        nextMilestone = 850;
+        targetTierHi = "सुपर-प्राइम 850 (Super-Prime 💎)";
+        targetTierEn = "Super-Prime 850 (Tier 1 Prime 💎)";
+      } else if (s >= 700) {
+        nextMilestone = 800;
+        targetTierHi = "प्लैटिनम श्रेणी 800 (Platinum 💎)";
+        targetTierEn = "Platinum Tier 800 (Tier 1 Prime 💎)";
+      } else if (s >= 600) {
+        nextMilestone = 700;
+        targetTierHi = "गोल्ड श्रेणी 700 (Gold 🥇)";
+        targetTierEn = "Gold Tier 700 (Tier 2 Growth 🥇)";
+      } else {
+        nextMilestone = 650;
+        targetTierHi = "सिल्वर श्रेणी 650 (Silver 🥈)";
+        targetTierEn = "Silver Tier 650 (Tier 3 Standard 🥈)";
+      }
+      const ptsToGain = nextMilestone - s;
+      checklistTitleElem.textContent = currentLanguage === 'hi'
+        ? `🎯 ${targetTierHi} तक पहुँचने के आसान उपाय (+${ptsToGain} अंक):`
+        : `🎯 Steps to reach ${targetTierEn} (+${ptsToGain} pts):`;
+    }
+
+    // Action checklist items
     const checklist = document.getElementById("scoreBoostChecklist");
     if (checklist) {
-      checklist.innerHTML = data.immediate_actions_to_boost_score.map(a => `
-        <li style="padding:0.4rem 0; font-size:0.85rem; color:#cbd5e1; display:flex; align-items:center; gap:0.5rem">
-          <span style="color:#10b981">✓</span> ${a}
-        </li>
-      `).join("");
+      const actions = currentLanguage === 'hi'
+        ? (data.immediate_actions_to_boost_score_hi || data.immediate_actions_to_boost_score)
+        : (data.immediate_actions_to_boost_score_en || data.immediate_actions_to_boost_score);
+
+      if (Array.isArray(actions) && actions.length > 0) {
+        checklist.innerHTML = actions.map(a => `
+          <li style="padding:0.45rem 0.55rem; margin-bottom:0.35rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:6px; font-size:0.84rem; color:#cbd5e1; display:flex; align-items:flex-start; gap:0.55rem; line-height:1.4">
+            <span style="color:#10b981; font-weight:700; margin-top:1px">✓</span>
+            <span style="flex:1">${a}</span>
+          </li>
+        `).join("");
+      }
     }
 
     renderShapChart(data.shap_top_contributors);
@@ -1284,10 +1373,33 @@ async function loadMerchantScore(merchantId) {
 }
 
 function renderShapChart(shapContributors) {
-  const ctx = document.getElementById("shapChartCanvas").getContext("2d");
-  const labels = shapContributors.map(s => s.feature);
-  const values = shapContributors.map(s => s.impact_pts);
-  const colors = values.map(v => v >= 0 ? '#10b981' : '#ef4444');
+  const canvasElem = document.getElementById("shapChartCanvas");
+  if (!canvasElem) return;
+  const ctx = canvasElem.getContext("2d");
+  if (!ctx) return;
+
+  if (!shapContributors || !shapContributors.length) {
+    if (shapChartInstance) shapChartInstance.destroy();
+    return;
+  }
+
+  // Bilingual dynamic labels and impact values
+  const labels = shapContributors.map(s => {
+    if (currentLanguage === 'hi') {
+      return s.factor_hi || s.factor || s.feature || "";
+    } else {
+      return s.factor_en || s.factor || s.feature || "";
+    }
+  });
+
+  const values = shapContributors.map(s => {
+    if (s.impact_pts !== undefined) return s.impact_pts;
+    if (s.impact_points !== undefined) return s.impact_points;
+    return 0;
+  });
+
+  const colors = values.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)');
+  const borderColors = values.map(v => v >= 0 ? '#10b981' : '#ef4444');
 
   if (shapChartInstance) shapChartInstance.destroy();
 
@@ -1296,9 +1408,11 @@ function renderShapChart(shapContributors) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'साख में योगदान (अंक)',
+        label: currentLanguage === 'hi' ? 'साख स्कोर प्रभाव (अंक)' : 'Credit Score Impact (pts)',
         data: values,
         backgroundColor: colors,
+        borderColor: borderColors,
+        borderWidth: 1,
         borderRadius: 4
       }]
     },
@@ -1307,11 +1421,46 @@ function renderShapChart(shapContributors) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15, 23, 42, 0.95)',
+          titleColor: '#f8fafc',
+          bodyColor: '#cbd5e1',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          padding: 8,
+          callbacks: {
+            label: function(context) {
+              const val = context.raw;
+              const sign = val > 0 ? '+' : '';
+              return currentLanguage === 'hi'
+                ? ` स्कोर प्रभाव: ${sign}${val} अंक`
+                : ` Score Impact: ${sign}${val} pts`;
+            }
+          }
+        }
       },
       scales: {
-        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { size: 11 } } }
+        x: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: {
+            color: '#94a3b8',
+            callback: val => (val > 0 ? `+${val}` : `${val}`)
+          },
+          title: {
+            display: true,
+            text: currentLanguage === 'hi' ? 'स्कोर में प्रभाव (अंक)' : 'Impact on Credit Score (Points)',
+            color: '#64748b',
+            font: { size: 10 }
+          }
+        },
+        y: {
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: {
+            color: '#cbd5e1',
+            font: { size: 10.5 }
+          }
+        }
       }
     }
   });
