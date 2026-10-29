@@ -1043,45 +1043,52 @@ async function applyForInstantLoan() {
 
 // Voice Copilot Query Submission
 async function submitVoiceQuery(queryText) {
-  showToast(`सवाल: "${queryText}" का जवाब तैयार हो रहा है...`);
+  showToast(currentLanguage === 'hi' ? `सवाल: "${queryText}" का जवाब तैयार हो रहा है...` : `Answering query: "${queryText}"...`);
   try {
     const res = await fetch("/api/copilot/query", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         merchant_id: currentMerchantId,
-        text_query: queryText
+        text_query: queryText,
+        language: currentLanguage
       })
     });
     const copilotData = await res.json();
 
     // Display live response card
     copilotLiveResponse.style.display = "block";
-    document.getElementById("copilotIntentBadge").textContent = `विषय: ${copilotData.detected_intent}`;
+    const intentLabel = currentLanguage === 'hi' ? 'विषय' : 'Topic';
+    document.getElementById("copilotIntentBadge").textContent = `${intentLabel}: ${copilotData.detected_intent}`;
     document.getElementById("copilotHindiText").textContent = copilotData.response_text_hindi;
     document.getElementById("copilotEnglishText").textContent = copilotData.response_text_english;
 
     // Speak response (Paytm Soundbox Voice)
-    speakSoundboxVoice(copilotData.response_text_hindi);
+    if (currentLanguage === "hi") {
+      speakSoundboxVoice(copilotData.response_text_hindi, 'hi-IN');
+    } else {
+      speakSoundboxVoice(copilotData.response_text_english, 'en-IN');
+    }
 
     // Contextual tab switch
-    if (copilotData.detected_intent === "DEMAND_FORECAST") switchTab("tabDemand");
-    if (copilotData.detected_intent === "INVENTORY_RESTOCK") switchTab("tabInventory");
-    if (copilotData.detected_intent === "CASHFLOW_ALERT") switchTab("tabCashflow");
-    if (copilotData.detected_intent === "SCORE_INQUIRY") switchTab("tabScore");
+    if (copilotData.detected_intent === "DEMAND_FORECAST" || copilotData.detected_intent === "HISTORICAL_SALES") switchTab("tabDemand");
+    if (copilotData.detected_intent === "INVENTORY_STATUS" || copilotData.detected_intent === "INVENTORY_RESTOCK") switchTab("tabInventory");
+    if (copilotData.detected_intent === "CASH_FLOW" || copilotData.detected_intent === "CASHFLOW_ALERT") switchTab("tabCashflow");
+    if (copilotData.detected_intent === "CREDIT_SCORE" || copilotData.detected_intent === "SCORE_INQUIRY") switchTab("tabScore");
+    if (copilotData.detected_intent === "CUSTOMER_RETENTION") switchTab("tabRetention");
 
   } catch (err) {
     console.error("Copilot error:", err);
-    showToast("वॉयस असिस्टेंट में त्रुटि आई।");
+    showToast(currentLanguage === 'hi' ? "वॉयस असिस्टेंट में त्रुटि आई।" : "Voice assistant encountered an error.");
   }
 }
 
 // Soundbox Voice Synthesizer
-function speakSoundboxVoice(text) {
+function speakSoundboxVoice(text, lang = 'hi-IN') {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
+    utterance.lang = lang;
     utterance.rate = 1.05;
     utterance.pitch = 1.0;
     window.speechSynthesis.speak(utterance);
@@ -1089,8 +1096,10 @@ function speakSoundboxVoice(text) {
 }
 
 function playLastVoiceResponse() {
-  const hindiText = document.getElementById("copilotHindiText").textContent;
-  if (hindiText) speakSoundboxVoice(hindiText);
+  const text = currentLanguage === 'hi' 
+    ? document.getElementById("copilotHindiText").textContent
+    : document.getElementById("copilotEnglishText").textContent;
+  if (text) speakSoundboxVoice(text, currentLanguage === 'hi' ? 'hi-IN' : 'en-IN');
 }
 
 // Friendly Toast Notifications
