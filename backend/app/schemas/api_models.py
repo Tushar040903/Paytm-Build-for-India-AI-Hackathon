@@ -214,22 +214,66 @@ class MerchantMindScoreResponse(BaseModel):
 # --- Hyperlocal Competitor Radar Schemas ---
 class CompetitorTrend(BaseModel):
     title: str
+    title_hi: str = ""
+    title_en: str = ""
+    product_name: str = ""
     category: str
+    category_hi: str = ""
+    category_en: str = ""
     growth_rate_pct: float
+    local_growth_pct: float = 0.0
     nearby_adoption_pct: float
-    urgency: str # "High", "Medium", "Opportunity"
+    urgency: str # "High Opportunity", "Medium", "Opportunity", "Competitive Threat"
+    urgency_hi: str = ""
+    urgency_en: str = ""
     details: str
+    details_hi: str = ""
+    details_en: str = ""
+    suggested_stock_units: int = 15
+    estimated_extra_revenue_inr: float = 12000.0
+
+class CompetitorThreatAlert(BaseModel):
+    threat_type: str
+    threat_type_hi: str = ""
+    threat_type_en: str = ""
+    description: str
+    description_hi: str = ""
+    description_en: str = ""
+    severity: str = "MEDIUM" # "HIGH", "MEDIUM", "LOW"
+    suggested_countermeasure: str
+    suggested_countermeasure_hi: str = ""
+    suggested_countermeasure_en: str = ""
+
+class UntappedOpportunity(BaseModel):
+    title: str
+    title_hi: str = ""
+    title_en: str = ""
+    potential_revenue_inr: float = 15000.0
+    action_plan: str
+    action_plan_hi: str = ""
+    action_plan_en: str = ""
 
 class CompetitorRadarResponse(BaseModel):
     merchant_id: str
     neighborhood: str
+    neighborhood_cluster: str = ""
+    neighborhood_cluster_hi: str = ""
+    neighborhood_cluster_en: str = ""
     pincode: str
     total_peer_merchants_in_radius: int
     peer_avg_monthly_gmv_inr: float
+    peer_avg_daily_sales_inr: float = 12500.0
+    merchant_daily_sales_inr: float = 14850.0
     merchant_percentile: float
+    percentile_rank_label_hi: str = ""
+    percentile_rank_label_en: str = ""
+    market_summary_hi: str = ""
+    market_summary_en: str = ""
     trending_products: List[CompetitorTrend]
-    threat_alerts: List[str]
-    untapped_opportunities: List[str]
+    threat_alerts: List[CompetitorThreatAlert]
+    threat_alerts_raw: List[str] = []
+    untapped_opportunities: List[UntappedOpportunity]
+    untapped_opportunities_raw: List[str] = []
 
 # --- Agentic Actions Schemas ---
 class AgenticAction(BaseModel):

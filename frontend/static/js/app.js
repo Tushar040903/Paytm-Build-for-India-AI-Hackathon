@@ -1470,39 +1470,190 @@ function renderShapChart(shapContributors) {
 async function loadCompetitorRadar(merchantId) {
   try {
     const res = await fetch(`/api/competitor/radar/${merchantId}`);
+    if (!res.ok) return;
     const data = await res.json();
 
-    document.getElementById("radarClusterName").textContent = data.neighborhood_cluster;
-    document.getElementById("radarPeerCount").textContent = `${data.total_peer_merchants_in_radius} ${currentLanguage === 'hi' ? 'पड़ौसी दुकानें' : 'peer merchants'}`;
+    const clusterName = currentLanguage === 'hi' 
+      ? (data.neighborhood_cluster_hi || data.neighborhood_cluster || "स्थानीय व्यापार क्लस्टर")
+      : (data.neighborhood_cluster_en || data.neighborhood_cluster || "Hyperlocal Commercial Cluster");
 
-    // Trending products
+    // 1. Cluster Names & Subheadings
+    const clusterNameEl = document.getElementById("radarClusterName");
+    if (clusterNameEl) clusterNameEl.textContent = clusterName;
+
+    const clusterPillEl = document.getElementById("radarClusterPill");
+    if (clusterPillEl) clusterPillEl.textContent = clusterName;
+
+    const pincodeTagEl = document.getElementById("radarPincodeTag");
+    if (pincodeTagEl) {
+      pincodeTagEl.textContent = currentLanguage === 'hi' ? `पिन कोड: ${data.pincode}` : `PIN: ${data.pincode}`;
+    }
+
+    // 2. Peer count
+    const peerText = currentLanguage === 'hi' 
+      ? `${data.total_peer_merchants_in_radius} पड़ौसी दुकानें` 
+      : `${data.total_peer_merchants_in_radius} Active Peer Merchants`;
+    const peerHeaderBadge = document.getElementById("radarPeerCount");
+    if (peerHeaderBadge) peerHeaderBadge.textContent = peerText;
+
+    const peerValEl = document.getElementById("radarPeerCountVal");
+    if (peerValEl) {
+      peerValEl.textContent = currentLanguage === 'hi'
+        ? `${data.total_peer_merchants_in_radius} दुकानें`
+        : `${data.total_peer_merchants_in_radius} Stores`;
+    }
+
+    // 3. Percentile Rank
+    const rankValEl = document.getElementById("radarRankVal");
+    if (rankValEl) {
+      rankValEl.textContent = currentLanguage === 'hi'
+        ? (data.percentile_rank_label_hi || `शीर्ष ${Math.max(5, Math.round(100 - data.merchant_percentile))}% स्टोर`)
+        : (data.percentile_rank_label_en || `Top ${Math.max(5, Math.round(100 - data.merchant_percentile))}% Store`);
+    }
+
+    const rankSubEl = document.getElementById("radarRankSub");
+    if (rankSubEl) {
+      const diffPct = Math.round(((data.merchant_daily_sales_inr - data.peer_avg_daily_sales_inr) / (data.peer_avg_daily_sales_inr || 1)) * 100);
+      if (diffPct > 0) {
+        rankSubEl.textContent = currentLanguage === 'hi' 
+          ? `औसत दुकान से +${diffPct}% अधिक बिक्री` 
+          : `+${diffPct}% higher than peer average`;
+        rankSubEl.style.color = "#10b981";
+      } else {
+        rankSubEl.textContent = currentLanguage === 'hi' 
+          ? `क्लस्टर के औसत के अनुरूप` 
+          : `Tracking with peer baseline`;
+        rankSubEl.style.color = "#38bdf8";
+      }
+    }
+
+    // 4. GMV Benchmark
+    const peerGmvEl = document.getElementById("radarPeerGmvVal");
+    if (peerGmvEl) {
+      peerGmvEl.textContent = `₹${Math.round(data.peer_avg_monthly_gmv_inr).toLocaleString('en-IN')}`;
+    }
+
+    const yourGmvEl = document.getElementById("radarYourGmvCompare");
+    if (yourGmvEl) {
+      const myMonthly = Math.round((data.merchant_daily_sales_inr || 15000) * 30);
+      yourGmvEl.textContent = currentLanguage === 'hi'
+        ? `आपकी दुकान: ₹${myMonthly.toLocaleString('en-IN')}`
+        : `Your Store: ₹${myMonthly.toLocaleString('en-IN')}`;
+    }
+
+    // 5. Trending Products
     const trendContainer = document.getElementById("radarTrendingProductsList");
-    if (trendContainer) {
-      trendContainer.innerHTML = data.trending_products.map(p => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.6rem 0; border-bottom:1px solid rgba(255,255,255,0.05)">
-          <div>
-            <strong>${p.product_name}</strong>
-            <div style="font-size:0.75rem; color:#64748b">${p.category}</div>
+    if (trendContainer && data.trending_products) {
+      trendContainer.innerHTML = data.trending_products.map(p => {
+        const prodName = currentLanguage === 'hi' 
+          ? (p.title_hi || p.product_name || p.title) 
+          : (p.title_en || p.title || p.product_name);
+        const catName = currentLanguage === 'hi' 
+          ? (p.category_hi || p.category) 
+          : (p.category_en || p.category);
+        const detailText = currentLanguage === 'hi' 
+          ? (p.details_hi || p.details) 
+          : (p.details_en || p.details);
+        const urgencyText = currentLanguage === 'hi' 
+          ? (p.urgency_hi || (p.urgency === "High Opportunity" ? "उच्च अवसर" : p.urgency === "Opportunity" ? "अच्छा अवसर" : "प्रतिस्पर्धा अलर्ट"))
+          : (p.urgency_en || p.urgency);
+        const urgencyClass = (p.urgency || "").includes("High") ? "badge-green" 
+                           : (p.urgency || "").includes("Threat") ? "badge-amber" 
+                           : "badge-blue";
+        const growthVal = p.local_growth_pct || p.growth_rate_pct || 25;
+        const stockUnits = p.suggested_stock_units || 20;
+        const extraRev = p.estimated_extra_revenue_inr || 15000;
+
+        return `
+        <div style="padding:0.9rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius-sm); transition:background 0.2s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.4rem;">
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                <strong style="color:#f8fafc; font-size:0.95rem;">${prodName}</strong>
+                <span class="card-header-badge ${urgencyClass}" style="font-size:0.7rem; padding:1px 6px;">${urgencyText}</span>
+              </div>
+              <div style="font-size:0.76rem; color:#64748b; margin-top:0.15rem;">
+                ${catName} • <span style="color:#38bdf8;">${p.nearby_adoption_pct}% ${currentLanguage === 'hi' ? 'दुकानों में उपलब्ध' : 'peer adoption'}</span>
+              </div>
+            </div>
+            <div style="text-align:right; flex-shrink:0;">
+              <span class="card-header-badge badge-green" style="font-size:0.8rem; font-weight:700;">+${growthVal}% ${currentLanguage === 'hi' ? 'मांग बढ़ी' : 'growth'}</span>
+            </div>
           </div>
-          <div style="text-align:right">
-            <span class="card-header-badge badge-green">+${p.local_growth_pct}% ${currentLanguage === 'hi' ? 'मांग बढ़ी' : 'growth'}</span>
-            <div style="font-size:0.75rem; color:#00b9f1; margin-top:0.2rem">${currentLanguage === 'hi' ? 'स्टॉक रखने की सलाह' : 'Suggested stock'}: ${p.suggested_stock_units} ${currentLanguage === 'hi' ? 'पैकेट' : 'units'}</div>
+          
+          <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.45; margin-bottom:0.6rem;">
+            ${detailText}
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:0.78rem; color:#00b9f1; font-weight:600;">
+              📦 ${currentLanguage === 'hi' ? 'सुझाया गया स्टॉक' : 'Suggested Stock'}: <strong>${stockUnits} ${currentLanguage === 'hi' ? 'यूनिट' : 'units'}</strong>
+              <span style="color:#64748b; margin-left:0.4rem;">(≈ +₹${extraRev.toLocaleString('en-IN')})</span>
+            </div>
+            <button class="btn-action-success" style="padding:0.25rem 0.65rem; font-size:0.75rem;" onclick="showToast('${currentLanguage === 'hi' ? '✅ ' + prodName + ' का होलसेलर आर्डर तैयार किया गया!' : '✅ Order queued for ' + prodName + '!'}')">
+              🛒 ${currentLanguage === 'hi' ? '+ स्टॉक ऑर्डर जोड़ें' : '+ Reorder Stock'}
+            </button>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
 
-    // Threats & alerts
+    // 6. Threats & Competition Alerts
     const alertsContainer = document.getElementById("radarThreatAlertsList");
-    if (alertsContainer) {
-      alertsContainer.innerHTML = data.threat_alerts.map(t => `
-        <div class="glass-panel" style="padding:0.85rem; margin-bottom:0.6rem; border-left:3px solid #f59e0b">
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b">${t.threat_type}</div>
-          <div style="font-size:0.8rem; color:#cbd5e1; margin:0.3rem 0">${t.description}</div>
-          <div style="font-size:0.75rem; color:#10b981">💡 ${currentLanguage === 'hi' ? 'साथी का उपाय' : 'Countermeasure'}: ${t.suggested_countermeasure}</div>
+    if (alertsContainer && data.threat_alerts) {
+      alertsContainer.innerHTML = data.threat_alerts.map(t => {
+        const title = currentLanguage === 'hi' ? (t.threat_type_hi || t.threat_type) : (t.threat_type_en || t.threat_type);
+        const desc = currentLanguage === 'hi' ? (t.description_hi || t.description) : (t.description_en || t.description);
+        const countermeasure = currentLanguage === 'hi' 
+          ? (t.suggested_countermeasure_hi || t.suggested_countermeasure) 
+          : (t.suggested_countermeasure_en || t.suggested_countermeasure);
+        const isHigh = t.severity === "HIGH";
+
+        return `
+        <div style="padding:0.85rem 1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02); border-left:4px solid ${isHigh ? '#ef4444' : '#f59e0b'}; border-radius:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+            <div style="font-size:0.88rem; font-weight:700; color:${isHigh ? '#f87171' : '#fbbf24'};">${title}</div>
+            <span class="card-header-badge ${isHigh ? 'badge-amber' : 'badge-blue'}" style="font-size:0.68rem; padding:1px 6px;">
+              ${isHigh ? (currentLanguage === 'hi' ? 'उच्च प्रभाव' : 'HIGH IMPACT') : (currentLanguage === 'hi' ? 'मध्यम' : 'MODERATE')}
+            </span>
+          </div>
+          <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.45; margin-bottom:0.5rem;">
+            ${desc}
+          </div>
+          <div style="font-size:0.8rem; color:#34d399; background:rgba(16,185,129,0.08); padding:0.4rem 0.6rem; border-radius:4px; display:flex; align-items:flex-start; gap:0.4rem;">
+            <span>💡</span>
+            <div><strong>${currentLanguage === 'hi' ? 'पेटीएम साथी रणनीति' : 'Paytm Strategy'}:</strong> ${countermeasure}</div>
+          </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
     }
+
+    // 7. Untapped Hyperlocal Opportunities
+    const oppContainer = document.getElementById("radarOpportunitiesList");
+    if (oppContainer && data.untapped_opportunities) {
+      oppContainer.innerHTML = data.untapped_opportunities.map(o => {
+        const title = currentLanguage === 'hi' ? (o.title_hi || o.title) : (o.title_en || o.title);
+        const plan = currentLanguage === 'hi' ? (o.action_plan_hi || o.action_plan) : (o.action_plan_en || o.action_plan);
+        const potential = o.potential_revenue_inr || 15000;
+
+        return `
+        <div style="padding:0.75rem 0.9rem; margin-bottom:0.65rem; background:rgba(255,255,255,0.02); border:1px solid rgba(16,185,129,0.2); border-radius:var(--radius-sm);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <strong style="color:#f1f5f9; font-size:0.88rem;">${title}</strong>
+            <span style="font-size:0.8rem; font-weight:700; color:#10b981; background:rgba(16,185,129,0.12); padding:1px 6px; border-radius:4px;">
+              +₹${potential.toLocaleString('en-IN')} ${currentLanguage === 'hi' ? 'अतिरिक्त' : 'revenue'}
+            </span>
+          </div>
+          <div style="font-size:0.81rem; color:#94a3b8; line-height:1.4;">
+            ${plan}
+          </div>
+        </div>
+      `;
+      }).join("");
+    }
+
   } catch (err) {
     console.error("Radar error:", err);
   }

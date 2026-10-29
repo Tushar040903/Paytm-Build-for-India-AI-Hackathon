@@ -644,11 +644,50 @@
 
     <!-- Tab 6: आस-पास का बाज़ार (Competitor Radar) -->
     <section class="tab-content-pane" id="tabCompetitor">
+      <!-- Bharat Explanatory Header Box -->
+      <div class="bharat-explain-box" style="margin-bottom: 1.25rem;">
+        <div class="lead-icon">📡</div>
+        <div class="lead-content">
+          <h4 id="radarLeadTitle">आस-पास का बाज़ार रडार (Hyperlocal Neighborhood Radar)</h4>
+          <p id="radarLeadDesc">
+            पेटीएम नेटवर्क के 1 किलोमीटर दायरे का लाइव विश्लेषण। जानें कि पड़ोस की दुकानों में कौन सा सामान सबसे तेज़ी से बिक रहा है और ऑनलाइन क्विक-कॉमर्स (Blinkit/Zepto) का मुकाबला कैसे करें।
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Quick Cluster Benchmark Cards -->
+      <div class="real-metrics-grid" style="margin-bottom: 1.25rem;">
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📍 व्यापार क्लस्टर (Bazaar Cluster)</div>
+          <div style="font-size:1.02rem; font-weight:700; color:#00b9f1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="radarClusterPill">सेक्टर 18 किराना क्लस्टर</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="radarPincodeTag">पिन कोड: 201301</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🏪 1 किमी में साथी दुकानें (Active Peers)</div>
+          <div style="font-size:1.3rem; font-weight:800; color:#38bdf8;" id="radarPeerCountVal">32 दुकानें</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="radarRadiusLabel">साउंडबॉक्स 4G व QR सक्रिय</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🏆 क्लस्टर में स्थिति (Percentile Rank)</div>
+          <div style="font-size:1.25rem; font-weight:800; color:#10b981;" id="radarRankVal">शीर्ष 18% स्टोर</div>
+          <div style="font-size:0.72rem; color:#10b981; margin-top:0.25rem;" id="radarRankSub">औसत दुकान से अधिक बिक्री</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📊 क्लस्टर औसत मासिक GMV (Peer Avg)</div>
+          <div style="font-size:1.3rem; font-weight:800; color:#f59e0b;" id="radarPeerGmvVal">₹3,84,000</div>
+          <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.25rem;" id="radarYourGmvCompare">आपकी दुकान: ₹4,45,500</div>
+        </div>
+      </div>
+
       <div class="two-col-grid">
+        <!-- Left: Trending Fast-Moving Products in 1km Radius -->
         <div class="glass-panel">
           <div class="card-header">
             <h3><span data-i18n="t6_c1_title">📡 पड़ोस का बाज़ार: </span><span id="radarClusterName" style="color:#00b9f1">सेक्टर 18 किराना क्लस्टर</span></h3>
-            <span class="card-header-badge badge-blue" id="radarPeerCount">14 पड़ौसी दुकानें</span>
+            <span class="card-header-badge badge-blue" id="radarPeerCount">32 पड़ौसी दुकानें</span>
           </div>
           <div class="card-body">
             <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:1rem" data-i18n="t6_c1_sub">
@@ -658,13 +697,29 @@
           </div>
         </div>
 
-        <div class="glass-panel">
-          <div class="card-header">
-            <h3 data-i18n="t6_c2_title">⚠️ आस-पास के डिस्काउंट और ऑनलाइन डार्क स्टोर अलर्ट</h3>
-            <span class="card-header-badge badge-amber" data-i18n="t6_c2_badge">लोकल रडार</span>
+        <!-- Right: Threat Alerts & Untapped Opportunities -->
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+          <div class="glass-panel">
+            <div class="card-header">
+              <h3 data-i18n="t6_c2_title">⚠️ आस-पास के डिस्काउंट और ऑनलाइन डार्क स्टोर अलर्ट</h3>
+              <span class="card-header-badge badge-amber" data-i18n="t6_c2_badge">लोकल रडार</span>
+            </div>
+            <div class="card-body">
+              <div id="radarThreatAlertsList"></div>
+            </div>
           </div>
-          <div class="card-body">
-            <div id="radarThreatAlertsList"></div>
+
+          <div class="glass-panel">
+            <div class="card-header">
+              <h3 style="color:#10b981">💡 अप्रयुक्त बाज़ार अवसर (Untapped Opportunities)</h3>
+              <span class="card-header-badge badge-green">अतिरिक्त मुनाफा</span>
+            </div>
+            <div class="card-body">
+              <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.75rem;">
+                आस-पास की दुकानों में स्टॉक की कमी या छूटे हुए ग्राहक जिन्हें आप तुरंत पकड़ सकते हैं:
+              </div>
+              <div id="radarOpportunitiesList"></div>
+            </div>
           </div>
         </div>
       </div>

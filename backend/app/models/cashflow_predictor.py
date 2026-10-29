@@ -195,7 +195,7 @@ class CashFlowPredictor:
                     "shortfall_date": date_str,
                     "shortfall_amount_inr": shortfall,
                     "days_until_crunch": d + 1,
-                    "risk_level": "HIGH" if shortfall > (safety_reserve * 0.5) else "MEDIUM",
+                    "risk_level": "HIGH" if (shortfall > (safety_reserve * 0.3) or (d + 1) <= 7) else "MEDIUM",
                     "suggested_action": action_en,
                     "suggested_action_hi": action_hi,
                     "suggested_action_en": action_en,
