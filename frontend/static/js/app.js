@@ -330,6 +330,7 @@ function applyLanguage(lang) {
   loadDemandForecast(currentMerchantId);
   loadInventoryRecommendations(currentMerchantId);
   loadCustomerRetention(currentMerchantId);
+  loadCashflowProjection(currentMerchantId);
   loadCompetitorRadar(currentMerchantId);
   loadPendingActions(currentMerchantId);
 }
@@ -969,26 +970,113 @@ async function loadCashflowProjection(merchantId) {
     const res = await fetch(`/api/cashflow/projection/${merchantId}?days=30`);
     const data = await res.json();
 
-    // Crunch Alert Banner
     const alertCard = document.getElementById("cashCrunchAlertCard");
+    const crunchIcon = document.getElementById("crunchCardIcon");
+    const crunchHeading = document.getElementById("crunchCardHeading");
+    const crunchDaysElem = document.getElementById("crunchDaysVal");
+    const crunchActionText = document.getElementById("crunchActionText");
+    const shortfallLabel = document.getElementById("crunchShortfallLabel");
+    const shortfallElem = document.getElementById("crunchShortfallVal");
+    const loanTitleElem = document.getElementById("crunchLoanTitle");
+    const loanSubElem = document.getElementById("crunchLoanSub");
+    const loanElem = document.getElementById("loanAmountVal");
+    const btnLoanClaim = document.getElementById("btnLoanClaim");
+
     if (data.crunch_alert) {
-      alertCard.style.display = "block";
-      const crunchDaysElem = document.getElementById("crunchDaysVal");
+      // High/Medium Risk: Active Crunch Alert with merchant-tailored expense & date
+      if (alertCard) {
+        alertCard.style.display = "block";
+        alertCard.style.borderLeft = "4px solid var(--accent-danger)";
+        alertCard.style.background = "linear-gradient(135deg, rgba(239,68,68,0.12), rgba(18,24,41,0.85))";
+      }
+      if (crunchIcon) crunchIcon.textContent = "🚨";
+      if (crunchHeading) {
+        crunchHeading.textContent = currentLanguage === 'hi' ? "रोकड़े की संभावित तंगी का अलर्ट" : "Predictive Cash Crunch Alert";
+        crunchHeading.style.color = "#ef4444";
+      }
       if (crunchDaysElem) {
+        crunchDaysElem.className = "card-header-badge badge-red";
         crunchDaysElem.textContent = currentLanguage === 'hi' 
           ? `${data.crunch_alert.days_until_crunch} दिन में` 
           : `In ${data.crunch_alert.days_until_crunch} days`;
       }
-      const shortfallElem = document.getElementById("crunchShortfallVal");
+      if (crunchActionText) {
+        const reason = currentLanguage === 'hi' 
+          ? (data.crunch_alert.expense_reason_hi || "होलसेलर आपूर्ति व दुकान किराया देय")
+          : (data.crunch_alert.expense_reason_en || "Distributor restock and rent payments due");
+        const action = currentLanguage === 'hi'
+          ? (data.crunch_alert.suggested_action_hi || "1-क्लिक प्री-एप्रूव्ड लोन से नकदी संकट टालें।")
+          : (data.crunch_alert.suggested_action_en || "Bridge temporary dip with pre-approved credit.");
+        crunchActionText.textContent = `${reason}। ${action}`;
+      }
+      if (shortfallLabel) {
+        shortfallLabel.textContent = currentLanguage === 'hi' ? "संभावित कमी (Shortfall)" : "Projected Shortfall";
+      }
       if (shortfallElem) {
+        shortfallElem.style.color = "#ef4444";
         shortfallElem.textContent = `₹${Math.round(data.crunch_alert.shortfall_amount_inr).toLocaleString('en-IN')}`;
       }
-      const loanElem = document.getElementById("loanAmountVal");
+      if (loanTitleElem) {
+        loanTitleElem.textContent = currentLanguage === 'hi' 
+          ? "घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है" 
+          : "No worries! Pre-approved Paytm Merchant Credit is ready";
+      }
+      if (loanSubElem) {
+        loanSubElem.textContent = currentLanguage === 'hi'
+          ? `साउंडबॉक्स UPI लेनदेन पर आधारित • बिना कागज़ात • ${data.crunch_alert.preapproved_loan_interest_pct}% मासिक ब्याज`
+          : `Underwritten by Soundbox UPI transaction flows • Zero paperwork • ${data.crunch_alert.preapproved_loan_interest_pct}% monthly interest`;
+      }
       if (loanElem) {
-        loanElem.textContent = `₹${data.crunch_alert.preapproved_loan_amount_inr.toLocaleString('en-IN')}`;
+        loanElem.textContent = `₹${Math.round(data.crunch_alert.preapproved_loan_amount_inr).toLocaleString('en-IN')}`;
+      }
+      if (btnLoanClaim) {
+        btnLoanClaim.textContent = currentLanguage === 'hi' ? "1-क्लिक में वॉलेट में लें" : "1-Click Disburse to Wallet";
       }
     } else {
-      alertCard.style.display = "none";
+      // Healthy Positive Cashflow (Zero Crunch)
+      if (alertCard) {
+        alertCard.style.display = "block";
+        alertCard.style.borderLeft = "4px solid #10b981";
+        alertCard.style.background = "linear-gradient(135deg, rgba(16,185,129,0.12), rgba(18,24,41,0.85))";
+      }
+      if (crunchIcon) crunchIcon.textContent = "✅";
+      if (crunchHeading) {
+        crunchHeading.textContent = currentLanguage === 'hi' ? "रोकड़ा स्थिति सुरक्षित • कोई कमी नहीं" : "Healthy Cashflow — Zero Projected Shortfall";
+        crunchHeading.style.color = "#10b981";
+      }
+      if (crunchDaysElem) {
+        crunchDaysElem.className = "card-header-badge badge-green";
+        crunchDaysElem.textContent = currentLanguage === 'hi' ? "मजबूत तरलता ✓" : "Strong Liquidity ✓";
+      }
+      if (crunchActionText) {
+        crunchActionText.textContent = currentLanguage === 'hi' 
+          ? (data.health_summary_hi || "अगले 30 दिनों में कोई नकदी संकट नहीं। दुकान का रोकड़ा निरंतर सुरक्षित सीमा से ऊपर रहेगा।")
+          : (data.health_summary_en || "Zero projected shortfall over the next 30 days. Operating balance remains well above safety reserves.");
+      }
+      if (shortfallLabel) {
+        shortfallLabel.textContent = currentLanguage === 'hi' ? "30 दिनों का अनुमानित अधिशेष (Surplus)" : "30-Day Net Cash Surplus";
+      }
+      if (shortfallElem) {
+        shortfallElem.style.color = "#10b981";
+        const netChange = data.net_30d_projected_cash_change_inr || 45000;
+        shortfallElem.textContent = `+₹${Math.round(netChange).toLocaleString('en-IN')}`;
+      }
+      if (loanTitleElem) {
+        loanTitleElem.textContent = currentLanguage === 'hi' 
+          ? "व्यापार विस्तार हेतु प्री-एप्रूव्ड ग्रोथ क्रेडिट उपलब्ध" 
+          : "Pre-Approved Growth Capital Available for Expansion";
+      }
+      if (loanSubElem) {
+        loanSubElem.textContent = currentLanguage === 'hi'
+          ? "दुकान नवीनीकरण व त्योहारी थोक स्टॉक के लिए तुरंत क्रेडिट • 0.85% प्राइम दर"
+          : "Instant credit line for bulk festive purchasing & store expansion • 0.85% prime rate";
+      }
+      if (loanElem) {
+        loanElem.textContent = currentLanguage === 'hi' ? "₹1,00,000+" : "₹100,000+";
+      }
+      if (btnLoanClaim) {
+        btnLoanClaim.textContent = currentLanguage === 'hi' ? "ग्रोथ क्रेडिट देखें" : "Explore Growth Line";
+      }
     }
 
     renderCashflowChart(data.projected_days, data.current_cash_reserve_inr);
@@ -1001,10 +1089,14 @@ function renderCashflowChart(projectedDays, startingCash) {
   const ctx = document.getElementById("cashflowChartCanvas").getContext("2d");
   const labels = projectedDays.map(d => d.date.slice(5));
   const cumulative = projectedDays.map(d => d.cumulative_cash_balance_inr);
-  const p10 = projectedDays.map(d => d.p10_inflow);
-  const p90 = projectedDays.map(d => d.p90_inflow);
+  const inflows = projectedDays.map(d => d.expected_inflow_inr);
+  const outflows = projectedDays.map(d => d.expected_outflow_inr);
 
   if (cashflowChartInstance) cashflowChartInstance.destroy();
+
+  const isNetPositive = (cumulative[cumulative.length - 1] >= startingCash);
+  const balanceColor = isNetPositive ? '#10b981' : '#f59e0b';
+  const balanceBg = isNetPositive ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)';
 
   cashflowChartInstance = new Chart(ctx, {
     type: 'line',
@@ -1012,32 +1104,37 @@ function renderCashflowChart(projectedDays, startingCash) {
       labels: labels,
       datasets: [
         {
-          label: 'तिजोरी का रोकड़ा (₹)',
+          label: currentLanguage === 'hi' ? 'तिजोरी का कुल रोकड़ा (Cash Balance)' : 'Cumulative Cash Balance (₹)',
           data: cumulative,
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          borderColor: balanceColor,
+          backgroundColor: balanceBg,
           fill: true,
           tension: 0.3,
           borderWidth: 3,
-          pointRadius: 2
+          pointRadius: 2,
+          yAxisID: 'y'
         },
         {
-          label: 'कम बिक्री का दिन (P10)',
-          data: p10,
-          borderColor: 'rgba(239, 68, 68, 0.6)',
-          borderDash: [4, 4],
+          label: currentLanguage === 'hi' ? 'दैनिक बिक्री आवक (Daily Inflow)' : 'Daily Sales Inflow (₹)',
+          data: inflows,
+          borderColor: '#00b9f1',
+          borderDash: [3, 3],
           fill: false,
-          tension: 0.3,
-          pointRadius: 0
+          tension: 0.25,
+          borderWidth: 2,
+          pointRadius: 1,
+          yAxisID: 'y1'
         },
         {
-          label: 'तेज़ बिक्री का दिन (P90)',
-          data: p90,
-          borderColor: 'rgba(0, 185, 241, 0.6)',
-          borderDash: [4, 4],
+          label: currentLanguage === 'hi' ? 'दैनिक खर्च व सप्लायर बिल (Daily Outflow)' : 'Daily Expenses & Bills (₹)',
+          data: outflows,
+          borderColor: '#ef4444',
+          borderDash: [5, 4],
           fill: false,
-          tension: 0.3,
-          pointRadius: 0
+          tension: 0.2,
+          borderWidth: 2,
+          pointRadius: 1,
+          yAxisID: 'y1'
         }
       ]
     },
@@ -1045,13 +1142,45 @@ function renderCashflowChart(projectedDays, startingCash) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#94a3b8' } }
+        legend: { labels: { color: '#94a3b8' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const val = Math.round(context.raw).toLocaleString('en-IN');
+              return `${context.dataset.label}: ₹${val}`;
+            },
+            afterBody: function(contexts) {
+              const idx = contexts[0].dataIndex;
+              const dayData = projectedDays[idx];
+              if (dayData && dayData.scheduled_expenses && dayData.scheduled_expenses.length > 0) {
+                return ['\n📌 ' + (currentLanguage === 'hi' ? 'आज का देय बिल:' : 'Scheduled bills:'), ...dayData.scheduled_expenses.map(e => '  • ' + e)];
+              }
+              return [];
+            }
+          }
+        }
       },
       scales: {
         x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
         y: {
           grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#10b981', callback: val => '₹' + val }
+          ticks: { color: balanceColor, callback: val => '₹' + Math.round(val).toLocaleString('en-IN') },
+          position: 'left',
+          title: {
+            display: true,
+            text: currentLanguage === 'hi' ? 'कुल रोकड़ा (₹)' : 'Cash Balance (₹)',
+            color: balanceColor
+          }
+        },
+        y1: {
+          grid: { drawOnChartArea: false },
+          ticks: { color: '#00b9f1', callback: val => '₹' + Math.round(val).toLocaleString('en-IN') },
+          position: 'right',
+          title: {
+            display: true,
+            text: currentLanguage === 'hi' ? 'दैनिक आवक/खर्च (₹)' : 'Daily Flow (₹)',
+            color: '#00b9f1'
+          }
         }
       }
     }

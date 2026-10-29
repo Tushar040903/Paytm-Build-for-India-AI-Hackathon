@@ -542,32 +542,32 @@
     <!-- Tab 4: तिजोरी और रोकड़ा (Cash Flow & Instant Loans) -->
     <section class="tab-content-pane" id="tabCashflow">
       <!-- Early Crunch Alert Banner -->
-      <div class="glass-panel" id="cashCrunchAlertCard" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--accent-danger); background:linear-gradient(135deg, rgba(239,68,68,0.1), rgba(18,24,41,0.8)); display:none;">
+      <div class="glass-panel" id="cashCrunchAlertCard" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--accent-danger); background:linear-gradient(135deg, rgba(239,68,68,0.1), rgba(18,24,41,0.8));">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div>
-            <div style="display:flex; align-items:center; gap:0.5rem; font-weight:800; font-size:1.15rem; color:#ef4444">
-              <span>🚨</span>
-              <span data-i18n="t4_alert_heading">रोकड़े की संभावित तंगी का अलर्ट</span>
-              <span class="card-header-badge badge-red" id="crunchDaysVal">9 दिन में</span>
+            <div style="display:flex; align-items:center; gap:0.5rem; font-weight:800; font-size:1.15rem; color:#ef4444" id="crunchHeaderGroup">
+              <span id="crunchCardIcon">🚨</span>
+              <span id="crunchCardHeading" data-i18n="t4_alert_heading">रोकड़े की संभावित तंगी का अलर्ट</span>
+              <span class="card-header-badge badge-red" id="crunchDaysVal">4 दिन में</span>
             </div>
             <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem" id="crunchActionText" data-i18n="t4_alert_sub">
-              दुकान का किराया और होलसेलर बिल 48 घंटे के भीतर आने वाले हैं।
+              थोक किराना आपूर्ति चालान (ITC व अडानी विल्मर) और दुकान का किराया 4 दिन में देय।
             </div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:0.75rem; color:#94a3b8" data-i18n="t4_shortfall_lbl">संभावित कमी</div>
+            <div style="font-size:0.75rem; color:#94a3b8" id="crunchShortfallLabel" data-i18n="t4_shortfall_lbl">संभावित कमी</div>
             <div style="font-size:1.5rem; font-weight:800; color:#ef4444" id="crunchShortfallVal">₹11,400</div>
           </div>
         </div>
 
-        <div style="margin-top:1rem; padding:1.2rem; background:rgba(0,41,112,0.4); border-radius:var(--radius-sm); border:1px solid rgba(0,185,241,0.3); display:flex; justify-content:space-between; align-items:center;">
+        <div style="margin-top:1rem; padding:1.2rem; background:rgba(0,41,112,0.4); border-radius:var(--radius-sm); border:1px solid rgba(0,185,241,0.3); display:flex; justify-content:space-between; align-items:center;" id="crunchLoanBanner">
           <div>
-            <div style="font-weight:700; font-size:1.05rem; color:#fff" data-i18n="t4_loan_title">घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है</div>
-            <div style="font-size:0.82rem; color:#94a3b8" data-i18n="t4_loan_sub">आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.2% मासिक ब्याज</div>
+            <div style="font-weight:700; font-size:1.05rem; color:#fff" id="crunchLoanTitle" data-i18n="t4_loan_title">घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है</div>
+            <div style="font-size:0.82rem; color:#94a3b8" id="crunchLoanSub" data-i18n="t4_loan_sub">आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.1% मासिक ब्याज</div>
           </div>
           <div style="display:flex; align-items:center; gap:1.2rem;">
             <div style="font-size:1.35rem; font-weight:800; color:var(--paytm-cyan)" id="loanAmountVal">₹25,000</div>
-            <button class="btn-gold-claim" onclick="applyForInstantLoan()" data-i18n="t4_loan_btn">1-क्लिक में वॉलेट में लें</button>
+            <button class="btn-gold-claim" id="btnLoanClaim" onclick="applyForInstantLoan()" data-i18n="t4_loan_btn">1-क्लिक में वॉलेट में लें</button>
           </div>
         </div>
       </div>

@@ -159,6 +159,10 @@ class CashCrunchAlert(BaseModel):
     days_until_crunch: int
     risk_level: str # "HIGH", "MEDIUM", "LOW"
     suggested_action: str
+    suggested_action_hi: Optional[str] = None
+    suggested_action_en: Optional[str] = None
+    expense_reason_hi: Optional[str] = None
+    expense_reason_en: Optional[str] = None
     preapproved_loan_amount_inr: float
     preapproved_loan_interest_pct: float
 
@@ -168,6 +172,10 @@ class CashFlowResponse(BaseModel):
     forecast_days: int
     projected_days: List[CashFlowDay]
     crunch_alert: Optional[CashCrunchAlert] = None
+    cashflow_health_status: str = "HEALTHY" # "CRUNCH_ALERT" or "HEALTHY_SURPLUS"
+    health_summary_hi: Optional[str] = None
+    health_summary_en: Optional[str] = None
+    net_30d_projected_cash_change_inr: Optional[float] = None
 
 # --- MerchantMind Score Schemas ---
 class DimensionScore(BaseModel):
