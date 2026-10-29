@@ -91,6 +91,12 @@ const TRANSLATIONS = {
     t2_fullness_lbl: "अलमारी का भराव",
     t2_detected_lbl: "पहचाने गए पैकेट",
     t2_stockout_heading: "⚠️ खत्म हुआ सामान (तुरंत आर्डर करें)",
+    t2_samples_title: "⚡ या इनमें से कोई भी असली अलमारी चुनकर टेस्ट करें:",
+    t2_sample_1: "स्नैक्स और बिस्कुट शेल्फ",
+    t2_sample_2: "डेयरी और पेय फ्रिज",
+    t2_sample_3: "साबुन और पर्सनल केयर",
+    t2_sample_4: "किराना आटा और तेल रैक",
+    t2_sample_5: "खाली अलमारी (संकट अलर्ट)",
     t2_c2_title: "📦 कौन सा सामान कितना मंगाना है (स्मार्ट इन्वेंट्री)",
     th_item: "सामान",
     th_current_stock: "वर्तमान स्टॉक",
@@ -230,6 +236,12 @@ const TRANSLATIONS = {
     t2_fullness_lbl: "Shelf Fullness Ratio",
     t2_detected_lbl: "Packets Detected",
     t2_stockout_heading: "⚠️ Stocked Out Items (Order Now)",
+    t2_samples_title: "⚡ Or click to test with realistic retail shelves:",
+    t2_sample_1: "Snacks & Biscuits Rack",
+    t2_sample_2: "Dairy & Beverage Cooler",
+    t2_sample_3: "Personal Care & Soaps",
+    t2_sample_4: "Kirana Staples & Atta Rack",
+    t2_sample_5: "Empty Rack (Stockout Alert)",
     t2_c2_title: "📦 Smart Inventory Reorder Recommendations",
     th_item: "Product Item",
     th_current_stock: "Current Stock",
@@ -949,6 +961,33 @@ async function handleShelfUpload(event) {
   }
 }
 
+async function loadSampleShelfScan(sampleFileName) {
+  const isHi = currentLanguage === 'hi';
+  showToast(isHi ? `अलमारी फोटो लोड हो रही है: ${sampleFileName}...` : `Loading sample shelf: ${sampleFileName}...`);
+  
+  try {
+    const response = await fetch(`/static/sample_shelves/${sampleFileName}`);
+    if (!response.ok) throw new Error("Sample file fetch failed");
+    const blob = await response.blob();
+    const file = new File([blob], sampleFileName, { type: "image/jpeg" });
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    showToast(isHi ? "AI अलमारी का विश्लेषण कर रहा है (YOLOv8)..." : "Analyzing shelf image via YOLOv8 Vision...");
+    const scanRes = await fetch(`/api/inventory/scan-shelf?merchant_id=${currentMerchantId}`, {
+      method: "POST",
+      body: formData
+    });
+    const scanData = await scanRes.json();
+    displayShelfScanResults(scanData);
+    showToast(isHi ? `✓ शेल्फ स्कैन पूरा! भराव: ${scanData.shelf_fullness_pct}%` : `✓ Shelf scan complete! Fullness: ${scanData.shelf_fullness_pct}%`);
+  } catch (err) {
+    console.error("Failed to load sample shelf:", err);
+    triggerDemoShelfScan();
+  }
+}
+
 function triggerDemoShelfScan() {
   showToast(currentLanguage === 'hi' ? "डेमो अलमारी स्कैन की जा रही है..." : "Running demo shelf scan...");
   fetch(`/api/inventory/scan-shelf?merchant_id=${currentMerchantId}`, {
@@ -974,20 +1013,55 @@ function displayShelfScanResults(scanData) {
     imgElem.src = scanData.image_annotated_url || `data:image/jpeg;base64,${scanData.annotated_image_base64}`;
   }
   if (fullnessElem) fullnessElem.textContent = `${scanData.shelf_fullness_pct || 68.5}%`;
-  if (detectedCountElem) detectedCountElem.textContent = scanData.total_items_detected || 18;
+  if (detectedCountElem) detectedCountElem.textContent = scanData.total_items_detected || (scanData.detections ? scanData.detections.length : 18);
 
   if (stockoutListElem) {
-    stockoutListElem.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:0.6rem 0; border-bottom:1px solid rgba(255,255,255,0.05)">
-        <div>
-          <span style="color:#ef4444; font-weight:700">⚠️ ${currentLanguage === 'hi' ? 'कुरकुरे मसाला मंच (खाली शेल्फ)' : 'Kurkure Masala Munch (Empty)'}</span>
-          <div style="font-size:0.75rem; color:#94a3b8">${currentLanguage === 'hi' ? 'रैक नंबर 2 पूरा खाली पाया गया' : 'Rack #2 completely out of stock'}</div>
+    const isHi = currentLanguage === 'hi';
+    const recs = scanData.reorder_recommendations || [];
+    const stockouts = scanData.critical_stockouts || [];
+    
+    // Combine items to display
+    const itemsToShow = recs.length > 0 ? recs : stockouts.map(s => ({
+      product_id: s.product_id,
+      item_name: s.product_name,
+      action: s.stock_status === 'OUT_OF_STOCK' ? 'URGENT_RESTOCK' : 'REORDER_NOW',
+      suggested_order: s.suggested_order || "24 units",
+      cost_estimate_inr: s.cost_estimate_inr || 1200,
+      reason: s.stock_status === 'OUT_OF_STOCK' ? (isHi ? 'रैक पर सामान खत्म है' : 'Out of stock on shelf') : (isHi ? 'स्टॉक कम है' : 'Low stock on shelf')
+    }));
+
+    if (itemsToShow.length === 0) {
+      stockoutListElem.innerHTML = `
+        <div style="padding:1rem; text-align:center; color:#10b981; font-weight:600;">
+          ✓ ${isHi ? 'सभी शेल्फ पूरी तरह भरे हुए हैं! कोई कमी नहीं मिली।' : 'All shelves adequately stocked! No stockout detected.'}
         </div>
-        <button class="btn-whatsapp-action" onclick="triggerQuickReorder('PROD_007', 'Kurkure Masala Munch', 24)">
-          📲 ${currentLanguage === 'hi' ? '2 पेटी मंगाएं' : 'Order 2 Crates'}
-        </button>
-      </div>
-    `;
+      `;
+    } else {
+      stockoutListElem.innerHTML = itemsToShow.map(item => {
+        const isUrgent = item.action === 'URGENT_RESTOCK' || (item.reason && item.reason.includes('CRITICAL'));
+        const safeName = (item.item_name || 'Product').replace(/'/g, "\\'");
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 0; border-bottom:1px solid rgba(255,255,255,0.08); gap:0.75rem;">
+            <div style="flex:1;">
+              <div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">
+                <span style="color:${isUrgent ? '#ef4444' : '#f59e0b'}; font-weight:700">
+                  ${isUrgent ? '🚨' : '⚠️'} ${item.item_name}
+                </span>
+                <span class="card-header-badge ${isUrgent ? 'badge-red' : 'badge-orange'}" style="font-size:0.7rem; padding:2px 6px;">
+                  ${isUrgent ? (isHi ? 'खत्म' : 'Out of Stock') : (isHi ? 'कम स्टॉक' : 'Low Stock')}
+                </span>
+              </div>
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;">
+                ${isHi ? `सलाह: ${item.suggested_order} (अनुमानित लागत: ₹${Number(item.cost_estimate_inr || 0).toLocaleString('en-IN')})` : `Restock: ${item.suggested_order} (Est. ₹${Number(item.cost_estimate_inr || 0).toLocaleString('en-IN')})`}
+              </div>
+            </div>
+            <button class="btn-whatsapp-action" onclick="triggerQuickReorder('${item.product_id || 'PROD_001'}', '${safeName}', '${item.suggested_order || '24 units'}')">
+              📲 ${isHi ? 'WhatsApp आर्डर' : 'WhatsApp Order'}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
   }
 }
 
@@ -2003,13 +2077,14 @@ async function resolveAction(actionId, approved) {
 
 // Quick WhatsApp Reorder Trigger
 async function triggerQuickReorder(productId, productName, qty) {
-  showToast(`📲 होलसेलर (शर्मा जी) के लिए WhatsApp आर्डर तैयार: ${qty}x ${productName}...`);
+  const isHi = currentLanguage === 'hi';
+  showToast(isHi ? `📲 होलसेलर के लिए WhatsApp आर्डर तैयार: ${qty}x ${productName}...` : `📲 Preparing WhatsApp PO for distributor: ${qty}x ${productName}...`);
   try {
     const res = await fetch(`/api/actions/approve?merchant_id=${currentMerchantId}&action_id=ACT_REORDER_01&approved=true`, {
       method: "POST"
     });
     const result = await res.json();
-    showToast(`✓ शर्मा डिस्ट्रीब्यूटर्स को WhatsApp पर पर्चा भेजा गया!`);
+    showToast(isHi ? `✓ होलसेलर को WhatsApp पर आर्डर पर्चा भेजा गया!` : `✓ WhatsApp PO dispatched to distributor!`);
     loadPendingActions(currentMerchantId);
   } catch (err) {
     console.error(err);
@@ -2018,21 +2093,23 @@ async function triggerQuickReorder(productId, productName, qty) {
 
 // Quick Cashback Dispatch
 async function dispatchCashbackOffer(name, phone, amount) {
-  showToast(`🎁 ${name} को ₹${amount} का पेटीएम कैशबैक भेजा जा रहा है...`);
+  const isHi = currentLanguage === 'hi';
+  showToast(isHi ? `🎁 ${name} को ₹${amount} का पेटीएम कैशबैक भेजा जा रहा है...` : `🎁 Dispatching ₹${amount} Paytm cashback offer to ${name}...`);
   setTimeout(() => {
-    showToast(`✓ ${phone} पर SMS और पेटीएम नोटिफिकेशन डिलीवर हुआ!`);
+    showToast(isHi ? `✓ ${phone} पर SMS और पेटीएम नोटिफिकेशन डिलीवर हुआ!` : `✓ SMS & Paytm notification delivered to ${phone}!`);
   }, 600);
 }
 
 // Instant Pre-Approved Loan Claim
 async function applyForInstantLoan() {
-  showToast("पेटीएम व्यापारी तुरंत लोन (₹25,000) खाते में भेजा जा रहा है...");
+  const isHi = currentLanguage === 'hi';
+  showToast(isHi ? "पेटीएम व्यापारी तुरंत लोन (₹25,000) खाते में भेजा जा रहा है..." : "Processing instant Paytm Merchant Loan (₹25,000)...");
   try {
     const res = await fetch(`/api/actions/approve?merchant_id=${currentMerchantId}&action_id=ACT_LOAN_01&approved=true`, {
       method: "POST"
     });
     const result = await res.json();
-    showToast("🎉 बधाई हो! ₹25,000 तुरंत आपके पेटीएम मर्चेंट वॉलेट में ट्रांसफर हो गए!");
+    showToast(isHi ? "🎉 बधाई हो! ₹25,000 तुरंत आपके पेटीएम मर्चेंट वॉलेट में ट्रांसफर हो गए!" : "🎉 Congratulations! ₹25,000 instantly credited to your Paytm Merchant Wallet!");
     loadCashflowProjection(currentMerchantId);
   } catch (err) {
     console.error(err);

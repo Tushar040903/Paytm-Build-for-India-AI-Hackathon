@@ -449,6 +449,31 @@
               </button>
             </div>
 
+            <!-- Pre-loaded Sample Shelves for Instant Testing -->
+            <div class="sample-shelves-selector" style="margin-top:1rem; padding:0.9rem; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.15); border-radius:10px;">
+              <div style="font-size:0.85rem; font-weight:600; color:#94a3b8; margin-bottom:0.6rem; display:flex; justify-content:space-between; align-items:center;">
+                <span data-i18n="t2_samples_title">⚡ या इनमें से कोई भी असली अलमारी चुनकर टेस्ट करें:</span>
+                <span style="font-size:0.75rem; color:#00b9f1;">5 Real Shelf Photos</span>
+              </div>
+              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_1_snacks_biscuits.jpg')">
+                  🍪 <span data-i18n="t2_sample_1">स्नैक्स और बिस्कुट शेल्फ</span>
+                </button>
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_2_beverages_dairy.jpg')">
+                  🥛 <span data-i18n="t2_sample_2">डेयरी और पेय फ्रिज</span>
+                </button>
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_3_personal_care.jpg')">
+                  🧴 <span data-i18n="t2_sample_3">साबुन और पर्सनल केयर</span>
+                </button>
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_4_kirana_staples.jpg')">
+                  🌾 <span data-i18n="t2_sample_4">किराना आटा और तेल रैक</span>
+                </button>
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px; border-color:rgba(239,68,68,0.4); color:#fca5a5;" onclick="loadSampleShelfScan('shelf_5_empty_depleted.jpg')">
+                  ⚠️ <span data-i18n="t2_sample_5">खाली अलमारी (संकट अलर्ट)</span>
+                </button>
+              </div>
+            </div>
+
             <div class="shelf-scan-result-container" id="shelfResultPreview" style="display:none;">
               <div class="shelf-image-preview">
                 <img id="shelfAnnotatedImage" src="" alt="YOLO Annotated Shelf" />
