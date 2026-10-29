@@ -37,17 +37,22 @@ class VoiceCopilot:
         }
         
         # Name handling (bilingual)
-        raw_name = m.get("name", "व्यापारी")
-        first_name_hi = raw_name.split()[0]
-        first_name_en = first_name_hi
-        if "(" in raw_name and ")" in raw_name:
-            en_part = raw_name.split("(")[1].replace(")", "").strip()
-            first_name_en = en_part.split()[0]
-            first_name_hi = raw_name.split("(")[0].strip().split()[0]
+        name_hi = m.get("name_hi")
+        name_en = m.get("name_en")
+        if not name_hi or not name_en:
+            raw_name = m.get("name", "व्यापारी")
+            if "(" in raw_name and ")" in raw_name:
+                name_en = raw_name.split("(")[1].replace(")", "").strip()
+                name_hi = raw_name.split("(")[0].strip()
+            else:
+                name_hi = raw_name
+                name_en = raw_name
 
+        first_name_hi = name_hi.split()[0]
+        first_name_en = name_en.split()[0]
         owner_title_hi = f"{first_name_hi} जी"
         owner_title_en = f"{first_name_en} ji"
-        store_name_hi = m.get("business_name", "आपकी दुकान")
+        store_name_hi = m.get("business_name_hi", m.get("business_name", "आपकी दुकान"))
         store_name_en = m.get("business_name_en", store_name_hi)
 
         # Sales history

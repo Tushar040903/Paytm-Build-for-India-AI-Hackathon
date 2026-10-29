@@ -152,8 +152,8 @@ class DataStore:
         actions.append({
             "action_id": f"ACT_{merchant_id}_01",
             "action_type": "REORDER_WHATSAPP",
-            "action_type_hi": "सप्लायर आर्डर (WhatsApp)",
-            "action_type_en": "Supplier Reorder (WhatsApp)",
+            "action_type_hi": "सप्लायर आर्डर",
+            "action_type_en": "Supplier Reorder",
             "title": reorder_title_en,
             "title_hi": reorder_title_hi,
             "title_en": reorder_title_en,
@@ -161,7 +161,7 @@ class DataStore:
             "description_hi": reorder_desc_hi,
             "description_en": reorder_desc_en,
             "priority": "HIGH",
-            "priority_hi": "अति आवश्यक (HIGH)",
+            "priority_hi": "अति आवश्यक",
             "priority_en": "HIGH URGENT",
             "details": {
                 "supplier_name": sup_name,
@@ -192,8 +192,8 @@ class DataStore:
         actions.append({
             "action_id": f"ACT_{merchant_id}_02",
             "action_type": "CUSTOMER_WINBACK_COUPON",
-            "action_type_hi": "ग्राहक विन-बैक (Paytm)",
-            "action_type_en": "Customer Retention (Paytm)",
+            "action_type_hi": "ग्राहक विन-बैक",
+            "action_type_en": "Customer Retention",
             "title": wb_title_en,
             "title_hi": wb_title_hi,
             "title_en": wb_title_en,
@@ -201,7 +201,7 @@ class DataStore:
             "description_hi": wb_desc_hi,
             "description_en": wb_desc_en,
             "priority": "HIGH",
-            "priority_hi": "अति आवश्यक (HIGH)",
+            "priority_hi": "अति आवश्यक",
             "priority_en": "HIGH IMPACT",
             "details": {
                 "target_customers_count": at_risk_count,
@@ -226,7 +226,7 @@ class DataStore:
             actions.append({
                 "action_id": f"ACT_{merchant_id}_03",
                 "action_type": "SUPPLIER_DISCOUNT",
-                "action_type_hi": "सप्लायर छूट (Early Settlement)",
+                "action_type_hi": "सप्लायर छूट",
                 "action_type_en": "Vendor Cash Discount",
                 "title": f"Supplier Consignment Early Payment: Capture ₹{disc_amt:,.0f} Cash Discount",
                 "title_hi": f"थोक चालान पर ₹{disc_amt:,.0f} नकद छूट: सप्लायर को 5 दिन पहले भुगतान करें",
@@ -235,7 +235,7 @@ class DataStore:
                 "description_hi": f"दुकान में पर्याप्त नकदी सरप्लस है। ₹{inv_amt:,.0f} के थोक चालान का 5 दिन पहले भुगतान करके ₹{disc_amt:,.0f} की सीधी नकद बचत लॉक करें।",
                 "description_en": f"Healthy cash surplus allows early payment of ₹{inv_amt:,.0f} shipment, securing ₹{disc_amt:,.0f} instant cash savings.",
                 "priority": "MEDIUM",
-                "priority_hi": "सुझाव (MEDIUM)",
+                "priority_hi": "सुझाव",
                 "priority_en": "SUGGESTION",
                 "details": {
                     "supplier_name": sup_name,
@@ -257,7 +257,7 @@ class DataStore:
             actions.append({
                 "action_id": f"ACT_{merchant_id}_03",
                 "action_type": "LOAN_APPLY",
-                "action_type_hi": "पेटीएम लोन (Working Capital)",
+                "action_type_hi": "पेटीएम लोन",
                 "action_type_en": "Paytm Working Capital",
                 "title": f"Paytm Business Loan Pre-Approval: ₹{loan_amt:,.0f} Working Capital Disbursal",
                 "title_hi": f"पेटीएम बिज़नेस लोन स्वीकृति: ₹{loan_amt:,.0f} तुरंत मर्चेंट वॉलेट में प्राप्त करें",
@@ -266,7 +266,7 @@ class DataStore:
                 "description_hi": f"साउंडबॉक्स दैनिक लेनदेन के आधार पर बिना किसी कागजी कार्रवाई ₹{loan_amt:,.0f} का लोन तुरंत स्वीकृत है।",
                 "description_en": f"Pre-approved instant disbursal based on daily Soundbox UPI volume to bridge supplier invoices without cash strain.",
                 "priority": "HIGH" if score < 700 else "MEDIUM",
-                "priority_hi": "अति आवश्यक (HIGH)" if score < 700 else "सुझाव (MEDIUM)",
+                "priority_hi": "अति आवश्यक" if score < 700 else "सुझाव",
                 "priority_en": "HIGH URGENT" if score < 700 else "SUGGESTION",
                 "details": {
                     "lending_partner": "Paytm Lending",
@@ -319,7 +319,7 @@ class DataStore:
         actions.append({
             "action_id": f"ACT_{merchant_id}_04",
             "action_type": "FESTIVE_PROMOTION",
-            "action_type_hi": "त्योहारी प्रचार (Local Promo)",
+            "action_type_hi": "त्योहारी प्रचार",
             "action_type_en": "Hyperlocal Festive Promo",
             "title": p_title_en,
             "title_hi": p_title_hi,
@@ -328,7 +328,7 @@ class DataStore:
             "description_hi": p_desc_hi,
             "description_en": p_desc_en,
             "priority": "MEDIUM",
-            "priority_hi": "सुझाव (MEDIUM)",
+            "priority_hi": "सुझाव",
             "priority_en": "SUGGESTION",
             "details": {
                 "offer_name": p_title_en,

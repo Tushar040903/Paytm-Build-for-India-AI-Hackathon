@@ -58,28 +58,28 @@
     <!-- Top Navigation Pages / Tabs -->
     <nav class="tabs-navigation" aria-label="Dashboard Pages">
       <button class="nav-tab-btn active" data-tab="tabHome" onclick="switchTab('tabHome')">
-        <span data-i18n="tab_home">🏪 मुख्य पृष्ठ (Store Home)</span>
+        <span data-i18n="tab_home">🏪 मुख्य पृष्ठ</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabDemand" onclick="switchTab('tabDemand')">
-        <span data-i18n="tab_demand">📈 बिक्री अनुमान (Demand Forecast)</span>
+        <span data-i18n="tab_demand">📈 बिक्री अनुमान</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabInventory" onclick="switchTab('tabInventory')">
-        <span data-i18n="tab_inventory">📸 शेल्फ़ स्कैनर (Shelf Scanner)</span>
+        <span data-i18n="tab_inventory">📸 शेल्फ़ स्कैनर</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabRetention" onclick="switchTab('tabRetention')">
-        <span data-i18n="tab_retention">👥 ग्राहक वापसी (Customer Retention)</span>
+        <span data-i18n="tab_retention">👥 ग्राहक वापसी</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabCashflow" onclick="switchTab('tabCashflow')">
-        <span data-i18n="tab_cashflow">💰 रोकड़ा व लोन (Cashflow & Credit)</span>
+        <span data-i18n="tab_cashflow">💰 रोकड़ा व लोन</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabScore" onclick="switchTab('tabScore')">
-        <span data-i18n="tab_score">🏅 साख स्कोर (Merchant Score)</span>
+        <span data-i18n="tab_score">🏅 साख स्कोर</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabCompetitor" onclick="switchTab('tabCompetitor')">
-        <span data-i18n="tab_competitor">📡 पड़ोस बाज़ार (Competitor Radar)</span>
+        <span data-i18n="tab_competitor">📡 पड़ोस बाज़ार</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabActions" onclick="switchTab('tabActions')">
-        <span data-i18n="tab_actions">⚡ 1-टैप काम (Action Hub)</span>
+        <span data-i18n="tab_actions">⚡ 1-टैप काम</span>
         <span class="tab-badge" id="pendingActionsBadge">3</span>
       </button>
     </nav>
@@ -97,7 +97,7 @@
               <span class="tier-badge-pill" id="homeStoreTier">गोल्ड व्यापारी 🥇</span>
             </div>
             <div class="store-category-row" id="homeStoreCategory">
-              किराना व दैनिक उपभोग (Kirana & Grocery) • नोएडा सेक्टर 18
+              किराना व दैनिक उपभोग • सेक्टर 18, नोएडा
             </div>
           </div>
           <div class="store-soundbox-status">
@@ -111,12 +111,12 @@
 
         <div class="store-details-grid">
           <div class="store-info-item">
-            <span class="info-label" data-i18n="home_owner">👤 दुकानदार / मालिक:</span>
-            <strong class="info-val" id="homeStoreOwner">तुषार शर्मा (Tushar Sharma)</strong>
+            <span class="info-label" data-i18n="home_owner">👤 दुकानदार:</span>
+            <strong class="info-val" id="homeStoreOwner">तुषार शर्मा</strong>
           </div>
           <div class="store-info-item">
             <span class="info-label" data-i18n="home_location">📍 दुकान का पता:</span>
-            <strong class="info-val" id="homeStoreLocation">सेक्टर 18, नोएडा (पिनकोड: 201301)</strong>
+            <strong class="info-val" id="homeStoreLocation">सेक्टर 18, नोएडा (पिन: 201301)</strong>
           </div>
           <div class="store-info-item">
             <span class="info-label" data-i18n="home_today_date">📅 आज की तारीख:</span>
@@ -273,7 +273,7 @@
             </div>
             <div class="rm-val" id="metricCreditScore">742 / 900</div>
             <div class="rm-sub">
-              <span>✓ उत्कृष्ट क्रेडिट रिकॉर्ड • प्री-एप्रूव्ड लोन</span>
+              <span data-i18n="home_footer_score">✓ उत्कृष्ट क्रेडिट रिकॉर्ड • प्री-एप्रूव्ड लोन</span>
             </div>
           </div>
 
@@ -285,7 +285,7 @@
             </div>
             <div class="rm-val" id="metricTierBadge" style="font-size:1.35rem">गोल्ड व्यापारी 🥇</div>
             <div class="rm-sub">
-              <span>सत्यापित पेटीएम पार्टनर क्लब</span>
+              <span data-i18n="home_footer_tier">सत्यापित पेटीएम पार्टनर क्लब</span>
             </div>
           </div>
 
@@ -297,7 +297,7 @@
             </div>
             <div class="rm-val" id="metricRegularCustomers">60 ग्राहक</div>
             <div class="rm-sub">
-              <span>दुकान से नियमित खरीदारी करने वाले</span>
+              <span data-i18n="home_footer_cust">दुकान से नियमित खरीदारी करने वाले</span>
             </div>
           </div>
         </div>
@@ -648,8 +648,8 @@
       <div class="bharat-explain-box" style="margin-bottom: 1.25rem;">
         <div class="lead-icon">📡</div>
         <div class="lead-content">
-          <h4 id="radarLeadTitle">आस-पास का बाज़ार रडार (Hyperlocal Neighborhood Radar)</h4>
-          <p id="radarLeadDesc">
+          <h4 id="radarLeadTitle" data-i18n="radar_lead_title">आस-पास का बाज़ार रडार</h4>
+          <p id="radarLeadDesc" data-i18n="radar_lead_desc">
             पेटीएम नेटवर्क के 1 किलोमीटर दायरे का लाइव विश्लेषण। जानें कि पड़ोस की दुकानों में कौन सा सामान सबसे तेज़ी से बिक रहा है और ऑनलाइन क्विक-कॉमर्स (Blinkit/Zepto) का मुकाबला कैसे करें।
           </p>
         </div>
@@ -658,25 +658,25 @@
       <!-- 4 Quick Cluster Benchmark Cards -->
       <div class="real-metrics-grid" style="margin-bottom: 1.25rem;">
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📍 व्यापार क्लस्टर (Bazaar Cluster)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="radar_stat_cluster">📍 व्यापार क्लस्टर</div>
           <div style="font-size:1.02rem; font-weight:700; color:#00b9f1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="radarClusterPill">सेक्टर 18 किराना क्लस्टर</div>
           <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="radarPincodeTag">पिन कोड: 201301</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🏪 1 किमी में साथी दुकानें (Active Peers)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="radar_stat_peers">🏪 1 किमी में साथी दुकानें</div>
           <div style="font-size:1.3rem; font-weight:800; color:#38bdf8;" id="radarPeerCountVal">32 दुकानें</div>
-          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="radarRadiusLabel">साउंडबॉक्स 4G व QR सक्रिय</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="radarRadiusLabel" data-i18n="radar_stat_sbx">साउंडबॉक्स 4G व QR सक्रिय</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🏆 क्लस्टर में स्थिति (Percentile Rank)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="radar_stat_rank">🏆 क्लस्टर में स्थिति</div>
           <div style="font-size:1.25rem; font-weight:800; color:#10b981;" id="radarRankVal">शीर्ष 18% स्टोर</div>
           <div style="font-size:0.72rem; color:#10b981; margin-top:0.25rem;" id="radarRankSub">औसत दुकान से अधिक बिक्री</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📊 क्लस्टर औसत मासिक GMV (Peer Avg)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="radar_stat_gmv">📊 क्लस्टर औसत मासिक GMV</div>
           <div style="font-size:1.3rem; font-weight:800; color:#f59e0b;" id="radarPeerGmvVal">₹3,84,000</div>
           <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.25rem;" id="radarYourGmvCompare">आपकी दुकान: ₹4,45,500</div>
         </div>
@@ -711,11 +711,11 @@
 
           <div class="glass-panel">
             <div class="card-header">
-              <h3 style="color:#10b981">💡 अप्रयुक्त बाज़ार अवसर (Untapped Opportunities)</h3>
-              <span class="card-header-badge badge-green">अतिरिक्त मुनाफा</span>
+              <h3 style="color:#10b981" data-i18n="radar_opp_title">💡 अप्रयुक्त बाज़ार अवसर</h3>
+              <span class="card-header-badge badge-green" data-i18n="radar_opp_badge">अतिरिक्त मुनाफा</span>
             </div>
             <div class="card-body">
-              <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.75rem;">
+              <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:0.75rem;" data-i18n="radar_opp_desc">
                 आस-पास की दुकानों में स्टॉक की कमी या छूटे हुए ग्राहक जिन्हें आप तुरंत पकड़ सकते हैं:
               </div>
               <div id="radarOpportunitiesList"></div>
@@ -731,8 +731,8 @@
       <div class="bharat-explain-box" style="margin-bottom: 1.25rem;">
         <div class="lead-icon">⚡</div>
         <div class="lead-content">
-          <h4 id="actionsLeadTitle">1-टैप स्वायत्त दुकान साथी (Human-in-the-Loop Agentic Operations)</h4>
-          <p id="actionsLeadDesc">
+          <h4 id="actionsLeadTitle" data-i18n="actions_lead_title">1-टैप स्वायत्त दुकान साथी</h4>
+          <p id="actionsLeadDesc" data-i18n="actions_lead_desc">
             दुकान साथी AI बिक्री, स्टॉक और ग्राहकों की निगरानी करके तैयार फैसले बनाता है। कोई भी आर्डर या प्रमोशन आपकी 1-क्लिक मंज़ूरी के बिना नहीं भेजा जाता — हर फैसले पर आपका 100% पूरा नियंत्रण है।
           </p>
         </div>
@@ -741,37 +741,37 @@
       <!-- 4 Quick Action Metric Cards -->
       <div class="real-metrics-grid" style="margin-bottom: 1.25rem;">
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">⚡ लंबित फैसले (Pending Approval)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="act_stat_pending">⚡ लंबित फैसले</div>
           <div style="font-size:1.35rem; font-weight:800; color:#f59e0b;" id="actionsPendingCountVal">4 कार्य</div>
-          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsPendingSub">1-क्लिक मंज़ूरी हेतु तैयार</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsPendingSub" data-i18n="act_stat_pending_sub">1-क्लिक मंज़ूरी हेतु तैयार</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📈 अनुमानित अतिरिक्त लाभ (Est. ROI Unlocked)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="act_stat_roi">📈 अनुमानित अतिरिक्त लाभ</div>
           <div style="font-size:1.35rem; font-weight:800; color:#10b981;" id="actionsTotalRoiVal">₹34,800</div>
-          <div style="font-size:0.72rem; color:#10b981; margin-top:0.25rem;" id="actionsRoiSub">मंज़ूरी से मिलने वाला लाभ</div>
+          <div style="font-size:0.72rem; color:#10b981; margin-top:0.25rem;" id="actionsRoiSub" data-i18n="act_stat_roi_sub">मंज़ूरी से मिलने वाला लाभ</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🛡️ व्यापारी नियंत्रण (Human Control)</div>
-          <div style="font-size:1.15rem; font-weight:800; color:#38bdf8;" id="actionsControlVal">100% सुरक्षित</div>
-          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsControlSub">बिना मंज़ूरी कोई ऑटो-खर्च नहीं</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="act_stat_control">🛡️ व्यापारी नियंत्रण</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#38bdf8;" id="actionsControlVal" data-i18n="act_stat_control_val">100% सुरक्षित</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsControlSub" data-i18n="act_stat_control_sub">बिना मंज़ूरी कोई ऑटो-खर्च नहीं</div>
         </div>
 
         <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
-          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📜 निष्पादित कार्य (Audit Trail)</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;" data-i18n="act_stat_executed">📜 निष्पादित कार्य</div>
           <div style="font-size:1.35rem; font-weight:800; color:#8b5cf6;" id="actionsExecutedCountVal">0 पूर्ण</div>
-          <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.25rem;" id="actionsExecutedSub">सफलतापूर्वक भेजे गए संदेश</div>
+          <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.25rem;" id="actionsExecutedSub" data-i18n="act_stat_executed_sub">सफलतापूर्वक भेजे गए संदेश</div>
         </div>
       </div>
 
       <!-- Action Sub-Tab Bar -->
       <div style="display:flex; gap:0.5rem; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">
         <button id="btnTabPendingActions" class="tab-btn active" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('pending')">
-          ⚡ लंबित फैसले (<span id="pendingTabBadge">4</span>)
+          <span data-i18n="act_tab_pending">⚡ लंबित फैसले</span> (<span id="pendingTabBadge">4</span>)
         </button>
         <button id="btnTabHistoryActions" class="tab-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('history')">
-          📜 निष्पादित कार्य व ऑडिट ट्रेल (<span id="historyTabBadge">0</span>)
+          <span data-i18n="act_tab_history">📜 निष्पादित कार्य व ऑडिट ट्रेल</span> (<span id="historyTabBadge">0</span>)
         </button>
       </div>
 

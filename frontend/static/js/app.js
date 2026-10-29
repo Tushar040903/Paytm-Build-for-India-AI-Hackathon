@@ -15,24 +15,27 @@ const TRANSLATIONS = {
   hi: {
     hdr_soundbox: "साउंडबॉक्स 4G कनेक्टेड",
     hdr_judge_mode: "जज / AI मोड",
-    tab_home: "🏪 मुख्य पृष्ठ (Store Home)",
+    tab_home: "🏪 मुख्य पृष्ठ",
     home_verified_badge: "✓ पेटीएम सत्यापित व्यापारी",
-    home_owner: "👤 दुकानदार / मालिक:",
+    home_owner: "👤 दुकानदार:",
     home_location: "📍 दुकान का पता:",
     home_today_date: "📅 आज की तारीख:",
     home_partner_since: "🗓️ पेटीएम पार्टनर:",
     home_merchant_id: "🆔 मर्चेंट आईडी:",
     home_qr_status: "💳 QR व भुगतान:",
-    home_metrics_title: "📊 दुकान के वास्तविक आंकड़े (Real Store Metrics)",
-    home_metrics_sub: "✓ केवल सत्यापित वास्तविक डेटा • कोई अनुमान नहीं (Verified True Values Only)",
+    home_metrics_title: "📊 दुकान के वास्तविक आंकड़े",
+    home_metrics_sub: "✓ केवल सत्यापित वास्तविक डेटा • कोई अनुमान नहीं",
     metric_today_sales: "आज की बिक्री (अब तक)",
-    metric_yesterday_sales: "कल की बिक्री (Yesterday)",
+    metric_yesterday_sales: "कल की बिक्री",
     metric_2d_sales: "2 दिन पहले की बिक्री",
     metric_7d_gmv: "पिछले 7 दिनों का कुल गल्ला",
     metric_monthly_gmv: "30 दिनों का कुल व्यापार",
-    metric_credit_score: "दुकान साख (Credit Score)",
-    metric_merchant_tier: "व्यापार दर्जा (Merchant Tier)",
+    metric_credit_score: "दुकान साख",
+    metric_merchant_tier: "व्यापार दर्जा",
     metric_regular_customers: "पक्के नियमित ग्राहक",
+    home_footer_score: "✓ उत्कृष्ट क्रेडिट रिकॉर्ड • प्री-एप्रूव्ड लोन",
+    home_footer_tier: "सत्यापित पेटीएम पार्टनर क्लब",
+    home_footer_cust: "दुकान से नियमित खरीदारी करने वाले",
     hero_verified: "✓ पेटीएम सत्यापित व्यापारी",
     hero_daily_sales: "रोज़ की औसत बिक्री",
     hero_credit_score: "दुकान साख स्कोर",
@@ -59,13 +62,13 @@ const TRANSLATIONS = {
     kpi_4_title: "दुकान साख (क्रेडिट हेल्थ)",
     kpi_4_tag: "प्री-एप्रूव्ड लोन",
     kpi_4_sub: "₹25,000 तुरंत उपलब्ध",
-    tab_demand: "📈 बिक्री अनुमान (Demand Forecast)",
-    tab_inventory: "📸 शेल्फ़ स्कैनर (Shelf Scanner)",
-    tab_retention: "👥 ग्राहक वापसी (Customer Retention)",
-    tab_cashflow: "💰 रोकड़ा व लोन (Cashflow & Credit)",
-    tab_score: "🏅 साख स्कोर (Merchant Score)",
-    tab_competitor: "📡 पड़ोस बाज़ार (Competitor Radar)",
-    tab_actions: "⚡ 1-टैप काम (Action Hub)",
+    tab_demand: "📈 बिक्री अनुमान",
+    tab_inventory: "📸 शेल्फ़ स्कैनर",
+    tab_retention: "👥 ग्राहक वापसी",
+    tab_cashflow: "💰 रोकड़ा व लोन",
+    tab_score: "🏅 साख स्कोर",
+    tab_competitor: "📡 पड़ोस बाज़ार",
+    tab_actions: "⚡ 1-टैप काम",
     t1_lead_title: "साथी की सलाह: त्योहारों के कारण मांग में 25% तक वृद्धि",
     t1_lead_desc: "अगले 7 दिनों में गल्ला बढ़ने का पूरा अनुमान है। रोजमर्रा के जरूरी सामान और तेल-मसाले का पर्याप्त स्टॉक रखें ताकि ग्राहकों को खाली हाथ न लौटना पड़े।",
     t1_c1_title: "📈 7-दिन का बिक्री व ग्राहक आवागमन अनुमान",
@@ -85,7 +88,7 @@ const TRANSLATIONS = {
     t2_dropzone_title: "दुकान की अलमारी की फोटो चुनें या कैमरा खोलें",
     t2_dropzone_sub: "AI तुरंत खाली रैक और कम स्टॉक वाले सामान को लाल डिब्बे में दिखा देगा",
     t2_btn_demo: "⚡ डेमो अलमारी स्कैन करके देखें",
-    t2_fullness_lbl: "अलमारी का भराव (Fullness)",
+    t2_fullness_lbl: "अलमारी का भराव",
     t2_detected_lbl: "पहचाने गए पैकेट",
     t2_stockout_heading: "⚠️ खत्म हुआ सामान (तुरंत आर्डर करें)",
     t2_c2_title: "📦 कौन सा सामान कितना मंगाना है (स्मार्ट इन्वेंट्री)",
@@ -112,7 +115,7 @@ const TRANSLATIONS = {
     t4_loan_btn: "1-क्लिक में वॉलेट में लें",
     t4_c1_title: "💰 अगले 30 दिनों का रोकड़ा अनुमान (आने वाले पैसे बनाम खर्च)",
     t5_lead_title: "आपकी दुकान का साख स्कोर: 742 / 900 (शानदार प्रतिष्ठा)",
-    t5_lead_desc: "जैसे सिबिल (CIBIL) स्कोर होता है, वैसे ही यह आपकी दुकान का स्कोर है। जितना ऊंचा स्कोर, उतना बड़ा और सस्ता पेटीएम लोन तुरंत मिलेगा।",
+    t5_lead_desc: "जैसे सिबिल स्कोर होता है, वैसे ही यह आपकी दुकान का स्कोर है। जितना ऊंचा स्कोर, उतना बड़ा और सस्ता पेटीएम लोन तुरंत मिलेगा।",
     t5_c1_title: "🏅 दुकान साख मीटर",
     t5_score_sub: "कुल 900 अंकों में से",
     t5_c2_title: "🔬 स्कोर किस बात पर तय हुआ (AI विश्लेषण)",
@@ -121,16 +124,39 @@ const TRANSLATIONS = {
     t6_c1_sub: "आपके 1 किलोमीटर दायरे में पेटीएम नेटवर्क पर सबसे तेज़ी से बिक रहे नए उत्पाद:",
     t6_c2_title: "⚠️ आस-पास के डिस्काउंट और ऑनलाइन डार्क स्टोर अलर्ट",
     t6_c2_badge: "लोकल रडार",
+    radar_lead_title: "आस-पास का बाज़ार रडार",
+    radar_lead_desc: "पेटीएम नेटवर्क के 1 किलोमीटर दायरे का लाइव विश्लेषण। जानें कि पड़ोस की दुकानों में कौन सा सामान सबसे तेज़ी से बिक रहा है और ऑनलाइन क्विक-कॉमर्स का मुकाबला कैसे करें।",
+    radar_stat_cluster: "📍 व्यापार क्लस्टर",
+    radar_stat_peers: "🏪 1 किमी में साथी दुकानें",
+    radar_stat_sbx: "साउंडबॉक्स 4G व QR सक्रिय",
+    radar_stat_rank: "🏆 क्लस्टर में स्थिति",
+    radar_stat_gmv: "📊 क्लस्टर औसत मासिक GMV",
+    radar_opp_title: "💡 अप्रयुक्त बाज़ार अवसर",
+    radar_opp_badge: "अतिरिक्त मुनाफा",
+    radar_opp_desc: "आस-पास की दुकानों में स्टॉक की कमी या छूटे हुए ग्राहक जिन्हें आप तुरंत पकड़ सकते हैं:",
     t7_c1_title: "⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)",
     t7_c1_badge: "व्यापारी का पूरा नियंत्रण",
-    t7_c1_desc: "दुकान साथी ने आपकी बिक्री और स्टॉक देखकर होलसेलर आर्डर, ग्राहक कैशबैक और लोन के जरूरी फैसले तैयार किए हैं। आप 1-टैप में मंज़ूर या रद्द कर सकते हैं।"
+    t7_c1_desc: "दुकान साथी ने आपकी बिक्री और स्टॉक देखकर होलसेलर आर्डर, ग्राहक कैशबैक और लोन के जरूरी फैसले तैयार किए हैं। आप 1-टैप में मंज़ूर या रद्द कर सकते हैं।",
+    actions_lead_title: "1-टैप स्वायत्त दुकान साथी",
+    actions_lead_desc: "दुकान साथी AI बिक्री, स्टॉक और ग्राहकों की निगरानी करके तैयार फैसले बनाता है। कोई भी आर्डर या प्रमोशन आपकी 1-क्लिक मंज़ूरी के बिना नहीं भेजा जाता — हर फैसले पर आपका 100% पूरा नियंत्रण है।",
+    act_stat_pending: "⚡ लंबित फैसले",
+    act_stat_pending_sub: "1-क्लिक मंज़ूरी हेतु तैयार",
+    act_stat_roi: "📈 अनुमानित अतिरिक्त लाभ",
+    act_stat_roi_sub: "मंज़ूरी से मिलने वाला लाभ",
+    act_stat_control: "🛡️ व्यापारी नियंत्रण",
+    act_stat_control_val: "100% सुरक्षित",
+    act_stat_control_sub: "बिना मंज़ूरी कोई ऑटो-खर्च नहीं",
+    act_stat_executed: "📜 निष्पादित कार्य",
+    act_stat_executed_sub: "सफलतापूर्वक भेजे गए संदेश",
+    act_tab_pending: "⚡ लंबित फैसले",
+    act_tab_history: "📜 निष्पादित कार्य व ऑडिट ट्रेल"
   },
   en: {
     hdr_soundbox: "Soundbox 4G Active",
     hdr_judge_mode: "Judge / AI View",
     tab_home: "🏪 Store Home",
     home_verified_badge: "✓ Paytm Verified Merchant",
-    home_owner: "👤 Store Owner / Merchant:",
+    home_owner: "👤 Store Owner:",
     home_location: "📍 Store Location:",
     home_today_date: "📅 Today's Date:",
     home_partner_since: "🗓️ Paytm Partner Since:",
@@ -146,6 +172,9 @@ const TRANSLATIONS = {
     metric_credit_score: "Store Credit Score",
     metric_merchant_tier: "Merchant Tier",
     metric_regular_customers: "Regular Loyal Customers",
+    home_footer_score: "✓ High credit standing • Pre-approved credit",
+    home_footer_tier: "Verified Paytm Merchant Club",
+    home_footer_cust: "Regular recurring shoppers",
     hero_verified: "✓ Paytm Verified Merchant",
     hero_daily_sales: "Average Daily Sales",
     hero_credit_score: "Store Credit Score",
@@ -172,13 +201,13 @@ const TRANSLATIONS = {
     kpi_4_title: "Store Credit Health",
     kpi_4_tag: "Pre-Approved Loan",
     kpi_4_sub: "₹25,000 instantly available",
-    tab_demand: "📈 Demand Forecast (What Will Sell?)",
-    tab_inventory: "📸 Shelf Scanner (Rack Vision)",
-    tab_retention: "👥 Customer Retention (Cashback)",
-    tab_cashflow: "💰 Cashflow & Instant Credit",
-    tab_score: "🏅 Credit Health Score (MerchantMind)",
-    tab_competitor: "📡 Competitor Radar (Local Trends)",
-    tab_actions: "⚡ 1-Tap Autonomous Actions",
+    tab_demand: "📈 Demand Forecast",
+    tab_inventory: "📸 Shelf Scanner",
+    tab_retention: "👥 Customer Retention",
+    tab_cashflow: "💰 Cashflow & Credit",
+    tab_score: "🏅 Credit Health Score",
+    tab_competitor: "📡 Competitor Radar",
+    tab_actions: "⚡ 1-Tap Action Hub",
     t1_lead_title: "Saathi's Advice: Festive demand up by ~25% across categories",
     t1_lead_desc: "Sales are projected to surge over the next 7 days. Maintain adequate safety stock of staple groceries and cooking oil so no customer walks away empty-handed.",
     t1_c1_title: "📈 7-Day Sales & Footfall Forecast",
@@ -234,9 +263,32 @@ const TRANSLATIONS = {
     t6_c1_sub: "Fastest-selling trending items across Paytm merchant network within 1km radius:",
     t6_c2_title: "⚠️ Local Competition & Dark Store Discount Alerts",
     t6_c2_badge: "Local Radar",
+    radar_lead_title: "Hyperlocal Neighborhood Radar",
+    radar_lead_desc: "Live intelligence across Paytm merchant network within a 1 km radius. See top-selling products in nearby stores and formulate effective strategies against quick-commerce dark stores.",
+    radar_stat_cluster: "📍 Commercial Cluster",
+    radar_stat_peers: "🏪 Active Peers (1km)",
+    radar_stat_sbx: "Soundbox 4G & QR Active",
+    radar_stat_rank: "🏆 Cluster Percentile Rank",
+    radar_stat_gmv: "📊 Peer Average Monthly GMV",
+    radar_opp_title: "💡 Untapped Market Opportunities",
+    radar_opp_badge: "Incremental Profit",
+    radar_opp_desc: "Stock gaps and unmet customer demand across nearby stores that you can capture immediately:",
     t7_c1_title: "⚡ Dukaan Saathi Autonomous Action Queue (1-Tap Approve)",
     t7_c1_badge: "Full Merchant Control",
-    t7_c1_desc: "Dukaan Saathi analyzed your daily velocity and prepared distributor replenishment, customer cashback, and working capital credit actions. Tap to approve or dismiss."
+    t7_c1_desc: "Dukaan Saathi analyzed your daily velocity and prepared distributor replenishment, customer cashback, and working capital credit actions. Tap to approve or dismiss.",
+    actions_lead_title: "1-Tap Autonomous Action Operations",
+    actions_lead_desc: "Dukaan Saathi AI continuously tracks your sales, shelf gaps, and customers to draft actionable operational decisions. Nothing is dispatched without your explicit 1-click confirmation — 100% merchant control at all times.",
+    act_stat_pending: "⚡ Pending Approval",
+    act_stat_pending_sub: "Ready for 1-Click Confirmation",
+    act_stat_roi: "📈 Est. Incremental ROI",
+    act_stat_roi_sub: "Unlocked upon approval",
+    act_stat_control: "🛡️ Merchant Control",
+    act_stat_control_val: "100% Human Confirmation",
+    act_stat_control_sub: "Zero auto-charges or silent POs",
+    act_stat_executed: "📜 Completed Actions",
+    act_stat_executed_sub: "Logged in audit trail",
+    act_tab_pending: "⚡ Pending Actions",
+    act_tab_history: "📜 Execution History & Audit Trail"
   }
 };
 
@@ -273,6 +325,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupModeToggle();
   await loadMerchants();
   setupEventListeners();
+  applyLanguage(currentLanguage);
   loadAllDashboardData(currentMerchantId);
 });
 
@@ -306,7 +359,7 @@ function applyLanguage(lang) {
 
   // 4. Update language toggle button text
   if (btnLangToggle) {
-    btnLangToggle.textContent = lang === "hi" ? "🌐 हिंदी / English" : "🌐 English / हिंदी";
+    btnLangToggle.textContent = lang === "hi" ? "🌐 English" : "🌐 हिंदी";
   }
 
   // 5. Update mode toggle button text
@@ -445,9 +498,14 @@ async function loadMerchants() {
     merchants.forEach(m => {
       const opt = document.createElement("option");
       opt.value = m.merchant_id;
-      const cityShort = (m.city || "").split(',')[0].trim();
+      const bName = currentLanguage === 'hi' 
+        ? (m.business_name_hi || m.business_name) 
+        : (m.business_name_en || m.business_name);
+      const cityVal = currentLanguage === 'hi' 
+        ? (m.city_hi || m.city || "") 
+        : (m.city_en || m.city || "");
+      const cityShort = cityVal.split(',')[0].trim();
       const salesK = Math.round((m.avg_daily_sales_inr || 14850)).toLocaleString('en-IN');
-      const bName = (currentLanguage === 'hi' ? m.business_name : (m.business_name_en || m.business_name));
       const perDay = currentLanguage === 'hi' ? 'दिन' : 'day';
       opt.textContent = `${bName} — ${cityShort} (₹${salesK}/${perDay})`;
       if (m.merchant_id === currentMerchantId) opt.selected = true;
@@ -484,20 +542,22 @@ async function loadHomeStoreDetails(merchantId) {
     const storeNameEl = document.getElementById("homeStoreName");
     if (storeNameEl) {
       storeNameEl.textContent = currentLanguage === 'hi' 
-        ? (m.business_name || m.owner_name) 
-        : (m.business_name_en || m.business_name || m.owner_name);
+        ? (m.business_name_hi || m.business_name) 
+        : (m.business_name_en || m.business_name);
     }
 
     const tierEl = document.getElementById("homeStoreTier");
     if (tierEl) {
       tierEl.textContent = currentLanguage === 'hi' 
-        ? (m.tier_badge || "गोल्ड व्यापारी 🥇") 
-        : `${m.tier || "Gold"} Merchant 🥇`;
+        ? (m.tier_badge_hi || m.tier_badge || "गोल्ड व्यापारी 🥇") 
+        : (m.tier_badge_en || `${m.tier || "Gold"} Merchant 🥇`);
     }
 
     const catEl = document.getElementById("homeStoreCategory");
     if (catEl) {
-      catEl.textContent = `${m.category} • ${m.city}`;
+      const cat = currentLanguage === 'hi' ? (m.category_hi || m.category) : (m.category_en || m.category);
+      const city = currentLanguage === 'hi' ? (m.city_hi || m.city) : (m.city_en || m.city);
+      catEl.textContent = `${cat} • ${city}`;
     }
 
     const soundboxEl = document.getElementById("homeSoundboxSerial");
@@ -507,12 +567,16 @@ async function loadHomeStoreDetails(merchantId) {
 
     const ownerEl = document.getElementById("homeStoreOwner");
     if (ownerEl) {
-      ownerEl.textContent = m.owner_name || "Merchant Owner";
+      ownerEl.textContent = currentLanguage === 'hi'
+        ? (m.owner_name_hi || m.owner_name || "दुकानदार")
+        : (m.owner_name_en || m.owner_name || "Store Owner");
     }
 
     const locEl = document.getElementById("homeStoreLocation");
     if (locEl) {
-      locEl.textContent = `${m.city} (PIN: ${m.pincode || "201301"})`;
+      const city = currentLanguage === 'hi' ? (m.city_hi || m.city) : (m.city_en || m.city);
+      const pinLabel = currentLanguage === 'hi' ? 'पिन' : 'PIN';
+      locEl.textContent = `${city} (${pinLabel}: ${m.pincode || "201301"})`;
     }
 
     const todayDateEl = document.getElementById("homeTodayDate");
@@ -610,8 +674,8 @@ async function loadHomeStoreDetails(merchantId) {
     const tierBadgeEl = document.getElementById("metricTierBadge");
     if (tierBadgeEl) {
       tierBadgeEl.textContent = currentLanguage === 'hi'
-        ? (m.tier_badge || "गोल्ड व्यापारी 🥇")
-        : `${m.tier || "Gold"} Merchant 🥇`;
+        ? (m.tier_badge_hi || m.tier_badge || "गोल्ड व्यापारी 🥇")
+        : (m.tier_badge_en || `${m.tier || "Gold"} Merchant 🥇`);
     }
 
     const regCustEl = document.getElementById("metricRegularCustomers");
@@ -633,9 +697,13 @@ async function loadMerchantProfile(merchantId) {
     const m = await res.json();
     
     // Merchant name & business
-    const storeDisplayName = m.business_name ? `${m.business_name} (${m.name})` : m.name;
+    const oName = currentLanguage === 'hi' ? (m.name_hi || m.name) : (m.name_en || m.name);
+    const bName = currentLanguage === 'hi' ? (m.business_name_hi || m.business_name) : (m.business_name_en || m.business_name);
+    const storeDisplayName = bName ? `${bName} (${oName})` : oName;
     document.getElementById("heroMerchantName").textContent = storeDisplayName;
-    document.getElementById("heroMerchantCategory").textContent = `${m.category} • ${m.city}`;
+    const cat = currentLanguage === 'hi' ? (m.category_hi || m.category) : (m.category_en || m.category);
+    const city = currentLanguage === 'hi' ? (m.city_hi || m.city) : (m.city_en || m.city);
+    document.getElementById("heroMerchantCategory").textContent = `${cat} • ${city}`;
     document.getElementById("heroMerchantId").textContent = m.merchant_id;
     
     const sbxLabel = currentLanguage === "hi" ? "साउंडबॉक्स" : "Soundbox";
@@ -655,7 +723,9 @@ async function loadMerchantProfile(merchantId) {
     // Business status tier badge
     const heroStatusElem = document.getElementById("heroBusinessStatus");
     if (heroStatusElem) {
-      heroStatusElem.textContent = m.tier_badge || "गोल्ड व्यापारी 🥇";
+      heroStatusElem.textContent = currentLanguage === 'hi'
+        ? (m.tier_badge_hi || m.tier_badge || "गोल्ड व्यापारी 🥇")
+        : (m.tier_badge_en || `${m.tier || "Gold"} Merchant 🥇`);
     }
   } catch (err) {
     console.error("Profile error:", err);
@@ -1324,24 +1394,24 @@ async function loadMerchantScore(merchantId) {
       let nextMilestone, targetTierHi, targetTierEn;
       if (s >= 850) {
         nextMilestone = 900;
-        targetTierHi = "सर्वोच्च 900 अंक (Perfect Diamond 💎)";
+        targetTierHi = "सर्वोच्च 900 अंक (डायमंड 💎)";
         targetTierEn = "Perfect 900 Score (Diamond 💎)";
       } else if (s >= 800) {
         nextMilestone = 850;
-        targetTierHi = "सुपर-प्राइम 850 (Super-Prime 💎)";
-        targetTierEn = "Super-Prime 850 (Tier 1 Prime 💎)";
+        targetTierHi = "सुपर-प्राइम 850 (डायमंड 💎)";
+        targetTierEn = "Super-Prime 850 (Prime 💎)";
       } else if (s >= 700) {
         nextMilestone = 800;
-        targetTierHi = "प्लैटिनम श्रेणी 800 (Platinum 💎)";
-        targetTierEn = "Platinum Tier 800 (Tier 1 Prime 💎)";
+        targetTierHi = "प्लैटिनम श्रेणी 800 💎";
+        targetTierEn = "Platinum Tier 800 💎";
       } else if (s >= 600) {
         nextMilestone = 700;
-        targetTierHi = "गोल्ड श्रेणी 700 (Gold 🥇)";
-        targetTierEn = "Gold Tier 700 (Tier 2 Growth 🥇)";
+        targetTierHi = "गोल्ड श्रेणी 700 🥇";
+        targetTierEn = "Gold Tier 700 🥇";
       } else {
         nextMilestone = 650;
-        targetTierHi = "सिल्वर श्रेणी 650 (Silver 🥈)";
-        targetTierEn = "Silver Tier 650 (Tier 3 Standard 🥈)";
+        targetTierHi = "सिल्वर श्रेणी 650 🥈";
+        targetTierEn = "Silver Tier 650 🥈";
       }
       const ptsToGain = nextMilestone - s;
       checklistTitleElem.textContent = currentLanguage === 'hi'
@@ -1476,6 +1546,16 @@ async function loadCompetitorRadar(merchantId) {
     const clusterName = currentLanguage === 'hi' 
       ? (data.neighborhood_cluster_hi || data.neighborhood_cluster || "स्थानीय व्यापार क्लस्टर")
       : (data.neighborhood_cluster_en || data.neighborhood_cluster || "Hyperlocal Commercial Cluster");
+
+    // 0. Lead titles
+    const radarLeadTitleEl = document.getElementById("radarLeadTitle");
+    if (radarLeadTitleEl && TRANSLATIONS[currentLanguage]) {
+      radarLeadTitleEl.textContent = TRANSLATIONS[currentLanguage].radar_lead_title;
+    }
+    const radarLeadDescEl = document.getElementById("radarLeadDesc");
+    if (radarLeadDescEl && TRANSLATIONS[currentLanguage]) {
+      radarLeadDescEl.textContent = TRANSLATIONS[currentLanguage].radar_lead_desc;
+    }
 
     // 1. Cluster Names & Subheadings
     const clusterNameEl = document.getElementById("radarClusterName");
@@ -1687,7 +1767,7 @@ function switchActionSubTab(tab) {
     if (historyCont) historyCont.style.display = "block";
     if (panelHeading) {
       panelHeading.textContent = currentLanguage === 'hi' 
-        ? "📜 निष्पादित कार्य व ऑडिट ट्रेल (Execution History)" 
+        ? "📜 निष्पादित कार्य व ऑडिट ट्रेल" 
         : "📜 Execution History & Action Audit Trail";
     }
   }
@@ -1695,6 +1775,15 @@ function switchActionSubTab(tab) {
 
 async function loadPendingActions(merchantId) {
   try {
+    const actLeadTitleEl = document.getElementById("actionsLeadTitle");
+    if (actLeadTitleEl && TRANSLATIONS[currentLanguage]) {
+      actLeadTitleEl.textContent = TRANSLATIONS[currentLanguage].actions_lead_title;
+    }
+    const actLeadDescEl = document.getElementById("actionsLeadDesc");
+    if (actLeadDescEl && TRANSLATIONS[currentLanguage]) {
+      actLeadDescEl.textContent = TRANSLATIONS[currentLanguage].actions_lead_desc;
+    }
+
     const [pendingRes, allRes] = await Promise.all([
       fetch(`/api/actions/pending/${merchantId}`),
       fetch(`/api/actions/history/${merchantId}`)
@@ -1757,8 +1846,8 @@ async function loadPendingActions(merchantId) {
           const roiText = currentLanguage === 'hi' ? (act.expected_roi_hi || act.expected_roi) : (act.expected_roi_en || act.expected_roi);
           const isHigh = act.priority === 'HIGH';
           const priorityText = isHigh 
-            ? (currentLanguage === 'hi' ? 'अति आवश्यक (HIGH)' : 'HIGH URGENT')
-            : (currentLanguage === 'hi' ? 'सुझाव (MEDIUM)' : 'SUGGESTION');
+            ? (currentLanguage === 'hi' ? 'अति आवश्यक' : 'HIGH URGENT')
+            : (currentLanguage === 'hi' ? 'सुझाव' : 'SUGGESTION');
           const borderStyle = isHigh ? 'border-left: 4px solid #f59e0b;' : 'border-left: 4px solid #00b9f1;';
 
           // Render contextual details grid

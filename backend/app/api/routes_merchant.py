@@ -79,10 +79,17 @@ def get_merchant_real_metrics(merchant_id: str):
     return {
         "merchant_id": merchant_id,
         "owner_name": m.get("name"),
+        "owner_name_hi": m.get("name_hi", m.get("name")),
+        "owner_name_en": m.get("name_en", m.get("name")),
         "business_name": m.get("business_name"),
+        "business_name_hi": m.get("business_name_hi", m.get("business_name")),
         "business_name_en": m.get("business_name_en", m.get("business_name")),
         "category": m.get("category"),
+        "category_hi": m.get("category_hi", m.get("category")),
+        "category_en": m.get("category_en", m.get("category")),
         "city": m.get("city"),
+        "city_hi": m.get("city_hi", m.get("city")),
+        "city_en": m.get("city_en", m.get("city")),
         "pincode": m.get("pincode"),
         "joined_date": m.get("joined_date"),
         "soundbox_serial_id": m.get("soundbox_serial_id", "SBX-4G-99201"),
@@ -105,6 +112,8 @@ def get_merchant_real_metrics(merchant_id: str):
         "avg_daily_sales_inr": round(base_daily),
         "credit_score": score_data.get("total_score", m.get("merchantmind_score", 742)),
         "tier_badge": m.get("tier_badge", "गोल्ड व्यापारी 🥇"),
+        "tier_badge_hi": m.get("tier_badge_hi", m.get("tier_badge")),
+        "tier_badge_en": m.get("tier_badge_en", f"{m.get('tier', 'Gold')} Merchant 🥇"),
         "tier": m.get("tier", "Gold"),
         "regular_customers_count": len(customers)
     }

@@ -6,10 +6,17 @@ from datetime import date, datetime
 class MerchantProfile(BaseModel):
     merchant_id: str
     name: str
+    name_hi: Optional[str] = None
+    name_en: Optional[str] = None
     business_name: str
+    business_name_hi: Optional[str] = None
     business_name_en: Optional[str] = None
     category: str
+    category_hi: Optional[str] = None
+    category_en: Optional[str] = None
     city: str
+    city_hi: Optional[str] = None
+    city_en: Optional[str] = None
     pincode: str
     latitude: float
     longitude: float
@@ -18,6 +25,8 @@ class MerchantProfile(BaseModel):
     paytm_postpaid_enabled: bool = True
     tier: str = "Silver"
     tier_badge: str = "गोल्ड व्यापारी 🥇"
+    tier_badge_hi: Optional[str] = None
+    tier_badge_en: Optional[str] = None
     monthly_gmv: float
     avg_daily_sales_inr: float = 14850.0
     soundbox_serial_id: str = "SBX-4G-99201"
