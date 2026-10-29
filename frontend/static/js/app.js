@@ -10,6 +10,217 @@ let demandChartInstance = null;
 let cashflowChartInstance = null;
 let shapChartInstance = null;
 
+// Translation Dictionary for Full Bilingual Support (Hindi / English)
+const TRANSLATIONS = {
+  hi: {
+    hdr_soundbox: "साउंडबॉक्स 4G कनेक्टेड",
+    hdr_judge_mode: "जज / AI मोड",
+    hero_verified: "✓ पेटीएम सत्यापित व्यापारी",
+    hero_daily_sales: "रोज़ की औसत बिक्री",
+    hero_credit_score: "दुकान साख स्कोर",
+    hero_business_tier: "व्यापार दर्जा",
+    guide_s1_title: "माइक दबाकर बोलें",
+    guide_s1_desc: '"आज शाम क्या बिकेगा?" — साथी तुरंत साउंडबॉक्स आवाज़ में बताएगा',
+    guide_s2_title: "शेल्फ़ की फोटो खींचें",
+    guide_s2_desc: "खाली सामान लाल डिब्बे में दिखेगा और व्हाट्सएप आर्डर तैयार होगा",
+    guide_s3_title: "1-टैप में रोकड़ा संभालें",
+    guide_s3_desc: "महीने के खर्चे का अलर्ट पाएं और ₹25,000 तुरंत लोन खाते में लें",
+    copilot_title: "दुकान साथी वॉयस असिस्टेंट",
+    copilot_subtitle: "सीधे हिंदी या हिंग्लिश में बोलें, टाइप करने की ज़रूरत नहीं",
+    copilot_btn: "पूछें साथी से ➔",
+    copilot_intent_init: "सवाल का विषय: बिक्री अनुमान",
+    copilot_audio_replay: "साउंडबॉक्स आवाज़ में दोबारा सुनें",
+    kpi_1_title: "आज का अनुमानित गल्ला",
+    kpi_1_sub: "पड़ोस की दुकानों से ज्यादा",
+    kpi_2_title: "7-दिन की कुल बिक्री अनुमान",
+    kpi_2_tag: "त्योहार का असर",
+    kpi_2_sub: "ज्यादा ग्राहक आने वाले हैं",
+    kpi_3_title: "पुराने ग्राहक जो नहीं आए",
+    kpi_3_tag: "30+ दिनों से नहीं आए",
+    kpi_3_sub: "₹20 कैशबैक से वापस बुलाएं",
+    kpi_4_title: "दुकान साख (क्रेडिट हेल्थ)",
+    kpi_4_tag: "प्री-एप्रूव्ड लोन",
+    kpi_4_sub: "₹25,000 तुरंत उपलब्ध",
+    tab_demand: "📈 बिक्री अनुमान (आज क्या बिकेगा?)",
+    tab_inventory: "📸 दुकान शेल्फ़ स्कैनर (अलमारी जांच)",
+    tab_retention: "👥 पुराने ग्राहक वापस लाओ (कैशबैक)",
+    tab_cashflow: "💰 तिजोरी और रोकड़ा (तुरंत लोन)",
+    tab_score: "🏅 दुकान साख स्कोर (MerchantMind)",
+    tab_competitor: "📡 आस-पास का बाज़ार (पड़ोस ट्रेंड्स)",
+    tab_actions: "⚡ 1-टैप दुकान साथी काम",
+    t1_lead_title: "साथी की सलाह: त्योहारों के कारण मांग में 25% तक वृद्धि",
+    t1_lead_desc: "अगले 7 दिनों में गल्ला बढ़ने का पूरा अनुमान है। रोजमर्रा के जरूरी सामान और तेल-मसाले का पर्याप्त स्टॉक रखें ताकि ग्राहकों को खाली हाथ न लौटना पड़े।",
+    t1_c1_title: "📈 7-दिन का बिक्री व ग्राहक आवागमन अनुमान",
+    t1_c2_title: "⚡ बाज़ार और मौसम के असर",
+    t1_live_badge: "लाइव अलर्ट",
+    t1_tip_title: "💡 साथी की खास टिप",
+    t1_tip_desc: "शुक्रवार को दोपहर 3 से 8 बजे तक सबसे ज्यादा रश रहेगा। हेल्पर को दुकान पर पहले से तैयार रखें।",
+    t1_c3_title: "📦 इस हफ़्ते सबसे ज्यादा बिकने वाले सामान",
+    t1_stock_badge: "स्टॉक स्थिति",
+    th_prod_name: "सामान का नाम",
+    th_est_demand: "अनुमानित खपत",
+    th_est_rev: "संभावित कमाई",
+    th_stock_status: "दुकान में स्थिति",
+    t2_lead_title: "अलमारी की फोटो खींचिए — खाली जगह और खत्म सामान तुरंत दिखेगा",
+    t2_lead_desc: "दुकान की अलमारी (शेल्फ़) की फोटो खींचने पर AI तुरंत बता देता है कि कौन सा बिस्कुट, नमकीन या तेल खत्म हो चुका है। आप 1-क्लिक में होलसेलर को व्हाट्सएप आर्डर भेज सकते हैं।",
+    t2_c1_title: '📷 "फोटो से स्टॉक जांचें" — अलमारी स्कैनर',
+    t2_dropzone_title: "दुकान की अलमारी की फोटो चुनें या कैमरा खोलें",
+    t2_dropzone_sub: "AI तुरंत खाली रैक और कम स्टॉक वाले सामान को लाल डिब्बे में दिखा देगा",
+    t2_btn_demo: "⚡ डेमो अलमारी स्कैन करके देखें",
+    t2_fullness_lbl: "अलमारी का भराव (Fullness)",
+    t2_detected_lbl: "पहचाने गए पैकेट",
+    t2_stockout_heading: "⚠️ खत्म हुआ सामान (तुरंत आर्डर करें)",
+    t2_c2_title: "📦 कौन सा सामान कितना मंगाना है (स्मार्ट इन्वेंट्री)",
+    th_item: "सामान",
+    th_current_stock: "वर्तमान स्टॉक",
+    th_min_threshold: "खतरे का निशान",
+    th_reorder_qty: "मंगाने की सलाह",
+    th_co_purchased: "साथ में बिकने वाला सामान",
+    th_action: "1-क्लिक एक्शन",
+    t3_lead_title: "पुराने ग्राहकों को दुकान पर वापस बुलाएं — ₹20 पेटीएम कैशबैक ऑफर",
+    t3_lead_desc: "जो पक्के ग्राहक पिछले 15–30 दिनों से नहीं आए हैं, वे शायद ऑनलाइन डार्क स्टोर जा रहे हैं। साथी ने उनके लिए ₹20 का विशेष पेटीएम कैशबैक ऑफर तैयार किया है — बस 'ऑफर भेजें' पर क्लिक करें।",
+    t3_c1_title: "👥 ग्राहक जो काफी दिनों से नहीं आए (खतरे में पक्के ग्राहक)",
+    t3_badge: "तुरंत वापस लाएं",
+    th_cust_name: "ग्राहक का नाम व नंबर",
+    th_last_visit: "पिछली खरीदारी",
+    th_churn_risk: "दूर जाने का खतरा",
+    th_offer: "तैयार कैशबैक ऑफर",
+    th_action_offer: "1-क्लिक ऑफर",
+    t4_alert_heading: "रोकड़े की संभावित तंगी का अलर्ट",
+    t4_alert_sub: "दुकान का किराया और होलसेलर बिल 48 घंटे के भीतर आने वाले हैं।",
+    t4_shortfall_lbl: "संभावित कमी",
+    t4_loan_title: "घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है",
+    t4_loan_sub: "आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.2% मासिक ब्याज",
+    t4_loan_btn: "1-क्लिक में वॉलेट में लें",
+    t4_c1_title: "💰 अगले 30 दिनों का रोकड़ा अनुमान (आने वाले पैसे बनाम खर्च)",
+    t5_lead_title: "आपकी दुकान का साख स्कोर: 742 / 900 (शानदार प्रतिष्ठा)",
+    t5_lead_desc: "जैसे सिबिल (CIBIL) स्कोर होता है, वैसे ही यह आपकी दुकान का स्कोर है। जितना ऊंचा स्कोर, उतना बड़ा और सस्ता पेटीएम लोन तुरंत मिलेगा।",
+    t5_c1_title: "🏅 दुकान साख मीटर",
+    t5_score_sub: "कुल 900 अंकों में से",
+    t5_c2_title: "🔬 स्कोर किस बात पर तय हुआ (AI विश्लेषण)",
+    t5_checklist_title: "🎯 स्कोर 780 तक बढ़ाने के आसान उपाय (+38 अंक):",
+    t6_c1_title: "📡 पड़ोस का बाज़ार: ",
+    t6_c1_sub: "आपके 1 किलोमीटर दायरे में पेटीएम नेटवर्क पर सबसे तेज़ी से बिक रहे नए उत्पाद:",
+    t6_c2_title: "⚠️ आस-पास के डिस्काउंट और ऑनलाइन डार्क स्टोर अलर्ट",
+    t6_c2_badge: "लोकल रडार",
+    t7_c1_title: "⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)",
+    t7_c1_badge: "व्यापारी का पूरा नियंत्रण",
+    t7_c1_desc: "दुकान साथी ने आपकी बिक्री और स्टॉक देखकर होलसेलर आर्डर, ग्राहक कैशबैक और लोन के जरूरी फैसले तैयार किए हैं। आप 1-टैप में मंज़ूर या रद्द कर सकते हैं।"
+  },
+  en: {
+    hdr_soundbox: "Soundbox 4G Active",
+    hdr_judge_mode: "Judge / AI View",
+    hero_verified: "✓ Paytm Verified Merchant",
+    hero_daily_sales: "Average Daily Sales",
+    hero_credit_score: "Store Credit Score",
+    hero_business_tier: "Merchant Tier",
+    guide_s1_title: "Press Mic & Speak",
+    guide_s1_desc: '"What will sell tonight?" — Saathi answers instantly via Soundbox audio',
+    guide_s2_title: "Snap Shelf Photo",
+    guide_s2_desc: "Empty items highlighted in red bounding box with WhatsApp reorder draft",
+    guide_s3_title: "1-Tap Cashflow & Credit",
+    guide_s3_desc: "Get early crunch warning and disburse ₹25,000 instant loan in 1 tap",
+    copilot_title: "Dukaan Saathi Voice Copilot",
+    copilot_subtitle: "Speak directly in Hindi or Hinglish, no typing needed",
+    copilot_btn: "Ask Saathi ➔",
+    copilot_intent_init: "Topic: Demand Forecast",
+    copilot_audio_replay: "Replay in Soundbox Voice",
+    kpi_1_title: "Today's Est. Sales (GMV)",
+    kpi_1_sub: "Higher than nearby peer stores",
+    kpi_2_title: "7-Day Sales Forecast",
+    kpi_2_tag: "Festive Spike",
+    kpi_2_sub: "Higher footfall projected",
+    kpi_3_title: "At-Risk Churned Customers",
+    kpi_3_tag: "Inactive 30+ Days",
+    kpi_3_sub: "Re-engage via ₹20 cashback",
+    kpi_4_title: "Store Credit Health",
+    kpi_4_tag: "Pre-Approved Loan",
+    kpi_4_sub: "₹25,000 instantly available",
+    tab_demand: "📈 Demand Forecast (What Will Sell?)",
+    tab_inventory: "📸 Shelf Scanner (Rack Vision)",
+    tab_retention: "👥 Customer Retention (Cashback)",
+    tab_cashflow: "💰 Cashflow & Instant Credit",
+    tab_score: "🏅 Credit Health Score (MerchantMind)",
+    tab_competitor: "📡 Competitor Radar (Local Trends)",
+    tab_actions: "⚡ 1-Tap Autonomous Actions",
+    t1_lead_title: "Saathi's Advice: Festive demand up by ~25% across categories",
+    t1_lead_desc: "Sales are projected to surge over the next 7 days. Maintain adequate safety stock of staple groceries and cooking oil so no customer walks away empty-handed.",
+    t1_c1_title: "📈 7-Day Sales & Footfall Forecast",
+    t1_c2_title: "⚡ Market & External Factors",
+    t1_live_badge: "Live Alerts",
+    t1_tip_title: "💡 Saathi's Pro Tip",
+    t1_tip_desc: "Peak footfall expected Friday between 3 PM and 8 PM. Keep extra store helper ready.",
+    t1_c3_title: "📦 Top Selling Items This Week",
+    t1_stock_badge: "Stock Health",
+    th_prod_name: "Item Name",
+    th_est_demand: "Forecast Demand",
+    th_est_rev: "Expected Revenue",
+    th_stock_status: "Stock Status",
+    t2_lead_title: "Take a shelf photo — empty racks & depleted items detected instantly",
+    t2_lead_desc: "Snap a photo of your shop's shelves. AI detects missing biscuits, snacks, or cooking oils and prepares a WhatsApp reorder for your distributor.",
+    t2_c1_title: '📷 "Photo Stock Check" — Shelf Scanner',
+    t2_dropzone_title: "Upload shelf photo or open camera",
+    t2_dropzone_sub: "AI highlights empty slots & low-stock rows with red bounding boxes",
+    t2_btn_demo: "⚡ Run Demo Shelf Scan",
+    t2_fullness_lbl: "Shelf Fullness Ratio",
+    t2_detected_lbl: "Packets Detected",
+    t2_stockout_heading: "⚠️ Stocked Out Items (Order Now)",
+    t2_c2_title: "📦 Smart Inventory Reorder Recommendations",
+    th_item: "Product Item",
+    th_current_stock: "Current Stock",
+    th_min_threshold: "Min Threshold",
+    th_reorder_qty: "Suggested Reorder",
+    th_co_purchased: "Co-Purchased Items",
+    th_action: "1-Click Action",
+    t3_lead_title: "Win Back Inactive Regulars — ₹20 Paytm Cashback Offer",
+    t3_lead_desc: "Valued customers who haven't visited in 15–30 days may be switching to quick commerce dark stores. Send them a personalized ₹20 cashback voucher.",
+    t3_c1_title: "👥 At-Risk Inactive Customers (High Churn Probability)",
+    t3_badge: "Re-engage Now",
+    th_cust_name: "Customer Name & Phone",
+    th_last_visit: "Last Purchase",
+    th_churn_risk: "Churn Risk",
+    th_offer: "Targeted Voucher",
+    th_action_offer: "1-Click Dispatch",
+    t4_alert_heading: "Predictive Cash Crunch Alert",
+    t4_alert_sub: "Shop rent and distributor invoice are due within 48 hours.",
+    t4_shortfall_lbl: "Projected Shortfall",
+    t4_loan_title: "No worries! Pre-approved Paytm Merchant Credit is ready",
+    t4_loan_sub: "Underwritten by Soundbox UPI transaction flows • Zero paperwork • 1.2% monthly interest",
+    t4_loan_btn: "1-Click Disburse to Wallet",
+    t4_c1_title: "💰 30-Day Cashflow Projection (Inflows vs Outflows)",
+    t5_lead_title: "Your Store Credit Score: 742 / 900 (Excellent Reputation)",
+    t5_lead_desc: "Similar to CIBIL for consumers, this is your store's proprietary financial trust score. A higher score unlocks larger credit lines at lower interest.",
+    t5_c1_title: "🏅 Store Credit Health Meter",
+    t5_score_sub: "Out of 900 total points",
+    t5_c2_title: "🔬 Score Attribution (TreeSHAP Explainability)",
+    t5_checklist_title: "🎯 Steps to boost score above 780 (+38 pts):",
+    t6_c1_title: "📡 Neighborhood Cluster: ",
+    t6_c1_sub: "Fastest-selling trending items across Paytm merchant network within 1km radius:",
+    t6_c2_title: "⚠️ Local Competition & Dark Store Discount Alerts",
+    t6_c2_badge: "Local Radar",
+    t7_c1_title: "⚡ Dukaan Saathi Autonomous Action Queue (1-Tap Approve)",
+    t7_c1_badge: "Full Merchant Control",
+    t7_c1_desc: "Dukaan Saathi analyzed your daily velocity and prepared distributor replenishment, customer cashback, and working capital credit actions. Tap to approve or dismiss."
+  }
+};
+
+const PROMPT_CHIPS = {
+  hi: [
+    { id: "chipPrompt1", text: "💡 भैया, आज क्या बिकेगा?", query: "Bhaiya, aaj kya bikega?" },
+    { id: "chipPrompt2", text: "💰 कल का खर्च और रोकड़ा कैसा है?", query: "Kal ka cashflow kaisa hai?" },
+    { id: "chipPrompt3", text: "📦 मैगी का स्टॉक खत्म हो गया", query: "Maggi ka stock khatam ho gaya" },
+    { id: "chipPrompt4", text: "🏅 मेरा दुकान साख स्कोर कितना है?", query: "Mera credit score kitna hai?" },
+    { id: "chipPrompt5", text: "🪔 दीवाली पर कौन सा सामान मंगाऊं?", query: "Diwali ke liye kya stock mangaun?" }
+  ],
+  en: [
+    { id: "chipPrompt1", text: "💡 Bhaiya, what will sell today?", query: "What products will have high demand today?" },
+    { id: "chipPrompt2", text: "💰 How is tomorrow's cashflow?", query: "How is my cashflow for tomorrow?" },
+    { id: "chipPrompt3", text: "📦 Maggi noodles stock finished", query: "Maggi stock is empty, reorder needed" },
+    { id: "chipPrompt4", text: "🏅 What is my store credit score?", query: "What is my MerchantMind credit score?" },
+    { id: "chipPrompt5", text: "🪔 What stock to order for Diwali?", query: "What items should I stock up for Diwali festival?" }
+  ]
+};
+
 // DOM Elements
 const merchantSelect = document.getElementById("merchantSelect");
 const btnLangToggle = document.getElementById("btnLangToggle");
@@ -29,6 +240,62 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadAllDashboardData(currentMerchantId);
 });
 
+function applyLanguage(lang) {
+  currentLanguage = lang;
+
+  // 1. Update text of all data-i18n elements
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+      el.textContent = TRANSLATIONS[lang][key];
+    }
+  });
+
+  // 2. Update quick prompt chips
+  const chips = PROMPT_CHIPS[lang] || PROMPT_CHIPS.hi;
+  chips.forEach(c => {
+    const btn = document.getElementById(c.id);
+    if (btn) {
+      btn.textContent = c.text;
+      btn.onclick = () => submitVoiceQuery(c.query);
+    }
+  });
+
+  // 3. Update copilot input placeholder
+  if (copilotTextInput) {
+    copilotTextInput.placeholder = lang === "hi"
+      ? "बोलिए या टाइप करें: 'भैया, आज क्या बिकेगा?' या 'कल का कैशफ्लो कैसा है?'..."
+      : "Speak or type: 'Bhaiya, what will sell today?' or 'How is tomorrow\'s cashflow?'...";
+  }
+
+  // 4. Update language toggle button text
+  if (btnLangToggle) {
+    btnLangToggle.textContent = lang === "hi" ? "🌐 हिंदी / English" : "🌐 English / हिंदी";
+  }
+
+  // 5. Update mode toggle button text
+  if (txtModeToggle) {
+    txtModeToggle.textContent = isMerchantMode 
+      ? (lang === "hi" ? "जज / AI मोड" : "Judge / AI View")
+      : (lang === "hi" ? "दुकानदार मोड" : "Merchant View");
+  }
+
+  // 6. Update Soundbox status text
+  const soundboxStatus = document.getElementById("txtSoundboxStatus");
+  if (soundboxStatus) {
+    soundboxStatus.textContent = lang === "hi" ? "साउंडबॉक्स 4G कनेक्टेड" : "Soundbox 4G Active";
+  }
+
+  // 7. Refresh current merchant hero profile & tables for bilingual labels
+  loadMerchantProfile(currentMerchantId);
+  loadMerchantScore(currentMerchantId);
+  loadDemandForecast(currentMerchantId);
+  loadInventoryRecommendations(currentMerchantId);
+  loadCustomerRetention(currentMerchantId);
+  loadCompetitorRadar(currentMerchantId);
+  loadPendingActions(currentMerchantId);
+}
+
 function setupModeToggle() {
   if (btnModeToggle) {
     btnModeToggle.addEventListener("click", () => {
@@ -36,12 +303,12 @@ function setupModeToggle() {
       isMerchantMode = document.body.classList.contains("merchant-mode");
       if (isMerchantMode) {
         btnModeToggle.classList.remove("active");
-        txtModeToggle.textContent = "जज / AI मोड";
-        showToast("🏪 दुकानदार मोड सक्रिय: सरल व आसान दृश्य");
+        txtModeToggle.textContent = currentLanguage === "hi" ? "जज / AI मोड" : "Judge / AI View";
+        showToast(currentLanguage === "hi" ? "🏪 दुकानदार मोड सक्रिय: सरल व आसान दृश्य" : "🏪 Merchant Mode Active: Simplified shopkeeper UX");
       } else {
         btnModeToggle.classList.add("active");
-        txtModeToggle.textContent = "दुकानदार मोड";
-        showToast("👨‍💻 जज / AI मोड सक्रिय: तकनीकी मॉडल विवरण ऑन");
+        txtModeToggle.textContent = currentLanguage === "hi" ? "दुकानदार मोड" : "Merchant View";
+        showToast(currentLanguage === "hi" ? "👨‍💻 जज / AI मोड सक्रिय: तकनीकी मॉडल विवरण ऑन" : "👨‍💻 Judge Mode Active: Machine Learning architecture exposed");
       }
     });
   }
@@ -51,15 +318,17 @@ function setupEventListeners() {
   // Merchant switcher
   merchantSelect.addEventListener("change", (e) => {
     currentMerchantId = e.target.value;
-    showToast(`दुकान बदली गई: ${currentMerchantId}`);
+    const selectedOpt = merchantSelect.options[merchantSelect.selectedIndex];
+    const storeShortName = selectedOpt ? selectedOpt.text.split(' — ')[0] : currentMerchantId;
+    showToast(currentLanguage === "hi" ? `दुकान बदली गई: ${storeShortName}` : `Switched to store: ${storeShortName}`);
     loadAllDashboardData(currentMerchantId);
   });
 
   // Language toggle
   btnLangToggle.addEventListener("click", () => {
-    currentLanguage = currentLanguage === "hi" ? "en" : "hi";
-    btnLangToggle.textContent = currentLanguage === "hi" ? "🌐 हिंदी / English" : "🌐 English / हिंदी";
-    showToast(currentLanguage === "hi" ? "भाषा हिंदी में बदली गई" : "Language switched to English");
+    const newLang = currentLanguage === "hi" ? "en" : "hi";
+    applyLanguage(newLang);
+    showToast(newLang === "hi" ? "भाषा हिंदी में बदली गई" : "Language switched to English");
   });
 
   // Copilot text submit
@@ -79,12 +348,12 @@ function setupEventListeners() {
   if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    recognition.lang = 'hi-IN';
+    recognition.lang = currentLanguage === "hi" ? 'hi-IN' : 'en-IN';
     recognition.interimResults = false;
 
     btnVoiceRecord.addEventListener("click", () => {
       btnVoiceRecord.classList.add("listening");
-      showToast("माइक चालू है... बोलिए तुषार जी");
+      showToast(currentLanguage === "hi" ? "माइक चालू है... बोलिए" : "Listening... Please speak now");
       recognition.start();
     });
 
@@ -97,7 +366,7 @@ function setupEventListeners() {
 
     recognition.onerror = () => {
       btnVoiceRecord.classList.remove("listening");
-      showToast("माइक में आवाज़ नहीं सुनी गई, कृपया टाइप करें या प्रॉम्प्ट चुनें।");
+      showToast(currentLanguage === "hi" ? "माइक में आवाज़ नहीं सुनी गई, कृपया टाइप करें।" : "Could not hear audio. Please type or use quick chips.");
     };
 
     recognition.onend = () => {
@@ -105,7 +374,7 @@ function setupEventListeners() {
     };
   } else {
     btnVoiceRecord.addEventListener("click", () => {
-      submitVoiceQuery("Bhaiya, aaj kya bikega?");
+      submitVoiceQuery(currentLanguage === "hi" ? "Bhaiya, aaj kya bikega?" : "What products will have high demand today?");
     });
   }
 
@@ -137,7 +406,9 @@ async function loadMerchants() {
     merchants.forEach(m => {
       const opt = document.createElement("option");
       opt.value = m.merchant_id;
-      opt.textContent = `${m.name} (${m.city})`;
+      const cityShort = (m.city || "").split(',')[0].trim();
+      const salesK = Math.round((m.avg_daily_sales_inr || 14850)).toLocaleString('en-IN');
+      opt.textContent = `${m.business_name} — ${cityShort} (₹${salesK}/दिन)`;
       if (m.merchant_id === currentMerchantId) opt.selected = true;
       merchantSelect.appendChild(opt);
     });
@@ -165,12 +436,38 @@ async function loadMerchantProfile(merchantId) {
   try {
     const res = await fetch(`/api/merchants/${merchantId}`);
     const m = await res.json();
-    document.getElementById("heroMerchantName").textContent = m.name;
+    
+    // Merchant name & business
+    const storeDisplayName = m.business_name ? `${m.business_name} (${m.name})` : m.name;
+    document.getElementById("heroMerchantName").textContent = storeDisplayName;
     document.getElementById("heroMerchantCategory").textContent = `${m.category} • ${m.city}`;
     document.getElementById("heroMerchantId").textContent = m.merchant_id;
-    document.getElementById("heroSoundboxSerial").textContent = `साउंडबॉक्स: ${m.soundbox_serial_id}`;
-    document.getElementById("heroDailyGmv").textContent = `₹${m.avg_daily_sales_inr.toLocaleString('en-IN')}`;
-    document.getElementById("kpiGmvVal").textContent = `₹${(m.avg_daily_sales_inr * 1.18).toFixed(0).toLocaleString('en-IN')}`;
+    
+    const sbxLabel = currentLanguage === "hi" ? "साउंडबॉक्स" : "Soundbox";
+    document.getElementById("heroSoundboxSerial").textContent = `${sbxLabel}: ${m.soundbox_serial_id || "SBX-4G-99201"}`;
+
+    // Average daily sales
+    const dailySales = m.avg_daily_sales_inr || 14850.0;
+    document.getElementById("heroDailyGmv").textContent = `₹${dailySales.toLocaleString('en-IN')}`;
+
+    // Store credit score
+    const scoreVal = m.merchantmind_score || 742;
+    const heroScoreElem = document.getElementById("heroScoreSummary");
+    if (heroScoreElem) {
+      heroScoreElem.textContent = `${scoreVal} / 900`;
+    }
+
+    // Business status tier badge
+    const heroStatusElem = document.getElementById("heroBusinessStatus");
+    if (heroStatusElem) {
+      heroStatusElem.textContent = m.tier_badge || "गोल्ड व्यापारी 🥇";
+    }
+
+    // Update KPI card 1
+    const kpiGmv = document.getElementById("kpiGmvVal");
+    if (kpiGmv) {
+      kpiGmv.textContent = `₹${Math.round(dailySales * 1.12).toLocaleString('en-IN')}`;
+    }
   } catch (err) {
     console.error("Profile error:", err);
   }
@@ -192,9 +489,9 @@ async function loadDemandForecast(merchantId) {
       topProdTable.innerHTML = data.top_products_forecast.map(p => `
         <tr>
           <td><strong>${p.product_name}</strong></td>
-          <td><span class="card-header-badge badge-blue">${p.predicted_units_7d} पैकेट/यूनिट</span></td>
+          <td><span class="card-header-badge badge-blue">${p.predicted_units_7d} ${currentLanguage === 'hi' ? 'पैकेट/यूनिट' : 'units'}</span></td>
           <td>₹${p.expected_revenue_inr.toLocaleString('en-IN')}</td>
-          <td><span class="card-header-badge badge-green">✓ पर्याप्त स्टॉक</span></td>
+          <td><span class="card-header-badge badge-green">✓ ${currentLanguage === 'hi' ? 'पर्याप्त स्टॉक' : 'In Stock'}</span></td>
         </tr>
       `).join("");
     }
@@ -219,7 +516,7 @@ function renderDemandChart(forecastPoints) {
       labels: labels,
       datasets: [
         {
-          label: 'अनुमानित गल्ला (₹)',
+          label: currentLanguage === 'hi' ? 'अनुमानित गल्ला (₹)' : 'Forecast Sales (₹)',
           data: predicted,
           borderColor: '#00b9f1',
           backgroundColor: 'rgba(0, 185, 241, 0.15)',
@@ -231,7 +528,7 @@ function renderDemandChart(forecastPoints) {
           yAxisID: 'y'
         },
         {
-          label: 'दुकान पर आने वाले ग्राहक (Footfall)',
+          label: currentLanguage === 'hi' ? 'दुकान पर आने वाले ग्राहक (Footfall)' : 'Expected Footfall',
           data: footfall,
           borderColor: '#10b981',
           backgroundColor: 'transparent',
@@ -252,8 +549,8 @@ function renderDemandChart(forecastPoints) {
         tooltip: {
           callbacks: {
             label: function(context) {
-              if (context.datasetIndex === 0) return `बिक्री: ₹${context.raw.toLocaleString('en-IN')}`;
-              return `ग्राहक: ${context.raw} लोग`;
+              if (context.datasetIndex === 0) return `${currentLanguage === 'hi' ? 'बिक्री' : 'Sales'}: ₹${context.raw.toLocaleString('en-IN')}`;
+              return `${currentLanguage === 'hi' ? 'ग्राहक' : 'Footfall'}: ${context.raw}`;
             }
           }
         }
@@ -296,7 +593,7 @@ async function loadInventoryRecommendations(merchantId) {
           </td>
           <td>
             <button class="btn-whatsapp-action" onclick="triggerQuickReorder('${item.product_id}', '${item.product_name}', ${item.suggested_reorder_qty})">
-              📲 WhatsApp आर्डर
+              📲 ${currentLanguage === 'hi' ? 'WhatsApp आर्डर' : 'WhatsApp Order'}
             </button>
           </td>
         </tr>
@@ -312,7 +609,7 @@ async function handleShelfUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
 
-  showToast("दुकान की अलमारी की फोटो जांची जा रही है...");
+  showToast(currentLanguage === 'hi' ? "दुकान की अलमारी की फोटो जांची जा रही है..." : "Analyzing shelf image via YOLOv8...");
   const formData = new FormData();
   formData.append("file", file);
 
@@ -323,22 +620,22 @@ async function handleShelfUpload(event) {
     });
     const scanData = await res.json();
     displayShelfScanResults(scanData);
-    showToast(`शेल्फ स्कैन पूरा! भराव: ${scanData.shelf_fullness_pct}%`);
+    showToast(currentLanguage === 'hi' ? `शेल्फ स्कैन पूरा! भराव: ${scanData.shelf_fullness_pct}%` : `Shelf scan complete! Fullness: ${scanData.shelf_fullness_pct}%`);
   } catch (err) {
     console.error("Shelf scan failed:", err);
-    showToast("स्कैन में समस्या आई, कृपया दोबारा कोशिश करें।");
+    showToast(currentLanguage === 'hi' ? "स्कैन में समस्या आई, कृपया दोबारा कोशिश करें।" : "Shelf scan failed, please retry.");
   }
 }
 
 function triggerDemoShelfScan() {
-  showToast("डेमो अलमारी स्कैन की जा रही है...");
+  showToast(currentLanguage === 'hi' ? "डेमो अलमारी स्कैन की जा रही है..." : "Running demo shelf scan...");
   fetch(`/api/inventory/scan-shelf?merchant_id=${currentMerchantId}`, {
     method: "POST"
   })
   .then(res => res.json())
   .then(scanData => {
     displayShelfScanResults(scanData);
-    showToast(`✓ कुल ${scanData.total_items_detected || 18} पैकेट मिले, खाली जगह चिन्हित!`);
+    showToast(currentLanguage === 'hi' ? `✓ कुल ${scanData.total_items_detected || 18} पैकेट मिले, खाली जगह चिन्हित!` : `✓ Detected ${scanData.total_items_detected || 18} items, stockout bounding boxes rendered!`);
   })
   .catch(err => console.error(err));
 }
@@ -361,11 +658,11 @@ function displayShelfScanResults(scanData) {
     stockoutListElem.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; padding:0.6rem 0; border-bottom:1px solid rgba(255,255,255,0.05)">
         <div>
-          <span style="color:#ef4444; font-weight:700">⚠️ कुरकुरे मसाला मंच (खाली शेल्फ)</span>
-          <div style="font-size:0.75rem; color:#94a3b8">रैक नंबर 2 पूरा खाली पाया गया</div>
+          <span style="color:#ef4444; font-weight:700">⚠️ ${currentLanguage === 'hi' ? 'कुरकुरे मसाला मंच (खाली शेल्फ)' : 'Kurkure Masala Munch (Empty)'}</span>
+          <div style="font-size:0.75rem; color:#94a3b8">${currentLanguage === 'hi' ? 'रैक नंबर 2 पूरा खाली पाया गया' : 'Rack #2 completely out of stock'}</div>
         </div>
         <button class="btn-whatsapp-action" onclick="triggerQuickReorder('PROD_007', 'Kurkure Masala Munch', 24)">
-          📲 2 पेटी मंगाएं
+          📲 ${currentLanguage === 'hi' ? '2 पेटी मंगाएं' : 'Order 2 Crates'}
         </button>
       </div>
     `;
@@ -380,14 +677,14 @@ async function loadCustomerRetention(merchantId) {
 
     document.getElementById("kpiAtRiskVal").textContent = data.at_risk_customers_count || 4;
 
-    // Segment summary pills with Hindi labels
+    // Segment summary pills with Hindi / English labels
     const segContainer = document.getElementById("customerSegmentsContainer");
     if (segContainer) {
       segContainer.innerHTML = (data.segments || []).map(s => `
         <div class="glass-panel" style="padding:1rem; text-align:center;">
           <div style="font-size:0.8rem; color:#94a3b8; font-weight:600">${s.segment_name}</div>
-          <div style="font-size:1.4rem; font-weight:800; color:#fff; margin:0.3rem 0">${s.count} ग्राहक</div>
-          <div style="font-size:0.75rem; color:#00b9f1">${s.percentage}% हिस्सा</div>
+          <div style="font-size:1.4rem; font-weight:800; color:#fff; margin:0.3rem 0">${s.count} ${currentLanguage === 'hi' ? 'ग्राहक' : 'customers'}</div>
+          <div style="font-size:0.75rem; color:#00b9f1">${s.percentage}% ${currentLanguage === 'hi' ? 'हिस्सा' : 'share'}</div>
         </div>
       `).join("");
     }
@@ -399,12 +696,12 @@ async function loadCustomerRetention(merchantId) {
       tbody.innerHTML = customers.map(c => `
         <tr>
           <td><strong>${c.customer_name || c.name}</strong><br><small style="color:#64748b">${c.phone || c.phone_masked}</small></td>
-          <td>${c.days_since_last_visit} दिन पहले आए थे</td>
-          <td><span class="card-header-badge ${c.churn_probability > 0.7 ? 'badge-red' : 'badge-amber'}">${Math.round(c.churn_probability * 100)}% जोखिम</span></td>
-          <td><strong style="color:#10b981">₹${c.recommended_offer_inr || 20} कैशबैक</strong></td>
+          <td>${c.days_since_last_visit} ${currentLanguage === 'hi' ? 'दिन पहले आए थे' : 'days ago'}</td>
+          <td><span class="card-header-badge ${c.churn_probability > 0.7 ? 'badge-red' : 'badge-amber'}">${Math.round(c.churn_probability * 100)}% ${currentLanguage === 'hi' ? 'जोखिम' : 'risk'}</span></td>
+          <td><strong style="color:#10b981">₹${c.recommended_offer_inr || 20} ${currentLanguage === 'hi' ? 'कैशबैक' : 'Cashback'}</strong></td>
           <td>
             <button class="btn-action-success" onclick="dispatchCashbackOffer('${c.customer_name || c.name}', '${c.phone || c.phone_masked}', ${c.recommended_offer_inr || 20})">
-              🎁 ऑफर भेजें
+              🎁 ${currentLanguage === 'hi' ? 'ऑफर भेजें' : 'Send Offer'}
             </button>
           </td>
         </tr>
@@ -425,12 +722,29 @@ async function loadCashflowProjection(merchantId) {
     const alertCard = document.getElementById("cashCrunchAlertCard");
     if (data.crunch_alert) {
       alertCard.style.display = "block";
-      document.getElementById("crunchDateVal").textContent = `${data.crunch_alert.days_until_crunch} दिन में (${data.crunch_alert.shortfall_date})`;
-      document.getElementById("crunchShortfallVal").textContent = `₹${Math.round(data.crunch_alert.shortfall_amount_inr).toLocaleString('en-IN')}`;
-      document.getElementById("loanAmountVal").textContent = `₹${data.crunch_alert.preapproved_loan_amount_inr.toLocaleString('en-IN')}`;
+      const crunchDaysElem = document.getElementById("crunchDaysVal");
+      if (crunchDaysElem) {
+        crunchDaysElem.textContent = currentLanguage === 'hi' 
+          ? `${data.crunch_alert.days_until_crunch} दिन में` 
+          : `In ${data.crunch_alert.days_until_crunch} days`;
+      }
+      const shortfallElem = document.getElementById("crunchShortfallVal");
+      if (shortfallElem) {
+        shortfallElem.textContent = `₹${Math.round(data.crunch_alert.shortfall_amount_inr).toLocaleString('en-IN')}`;
+      }
+      const loanElem = document.getElementById("loanAmountVal");
+      if (loanElem) {
+        loanElem.textContent = `₹${data.crunch_alert.preapproved_loan_amount_inr.toLocaleString('en-IN')}`;
+      }
     } else {
       alertCard.style.display = "none";
     }
+
+    renderCashflowChart(data.projected_days, data.current_cash_reserve_inr);
+  } catch (err) {
+    console.error("Cashflow error:", err);
+  }
+}
 
     renderCashflowChart(data.projected_days, data.current_cash_reserve_inr);
   } catch (err) {
@@ -507,7 +821,29 @@ async function loadMerchantScore(merchantId) {
 
     document.getElementById("kpiScoreVal").textContent = `${data.total_score} / 900`;
     document.getElementById("mainScoreNumber").textContent = data.total_score;
-    document.getElementById("scoreTierBadge").textContent = "गोल्ड श्रेणी (Tier 1 Gold)";
+    document.getElementById("scoreTierBadge").textContent = data.tier_badge || "गोल्ड श्रेणी 🥇";
+
+    // Update hero stat pills dynamically
+    const heroScoreElem = document.getElementById("heroScoreSummary");
+    if (heroScoreElem) {
+      heroScoreElem.textContent = `${data.total_score} / 900`;
+    }
+    const heroStatusElem = document.getElementById("heroBusinessStatus");
+    if (heroStatusElem) {
+      heroStatusElem.textContent = data.tier_badge || "गोल्ड व्यापारी 🥇";
+    }
+
+    // Update Tab 5 explanation heading
+    const explainHeading = document.getElementById("scoreExplainHeading");
+    if (explainHeading) {
+      const ratingWord = data.total_score >= 800 ? (currentLanguage === "hi" ? "उत्कृष्ट प्रतिष्ठा" : "Outstanding Tier")
+                       : data.total_score >= 700 ? (currentLanguage === "hi" ? "शानदार प्रतिष्ठा" : "Excellent Tier")
+                       : data.total_score >= 600 ? (currentLanguage === "hi" ? "संतोषजनक प्रतिष्ठा" : "Good Tier")
+                       : (currentLanguage === "hi" ? "सुधार योग्य" : "Emerging Tier");
+      explainHeading.textContent = currentLanguage === "hi"
+        ? `आपकी दुकान का साख स्कोर: ${data.total_score} / 900 (${ratingWord})`
+        : `Your Store Credit Score: ${data.total_score} / 900 (${ratingWord})`;
+    }
 
     // Render 5 dimensions
     const dimsContainer = document.getElementById("scoreDimensionsList");
@@ -515,7 +851,7 @@ async function loadMerchantScore(merchantId) {
       dimsContainer.innerHTML = data.dimensions.map(d => `
         <div class="dim-item">
           <div class="dim-top">
-            <span><strong>${d.name}</strong> <small style="color:#64748b">(${d.weight_pct}% महत्व)</small></span>
+            <span><strong>${d.name}</strong> <small style="color:#64748b">(${d.weight_pct}% ${currentLanguage === "hi" ? "महत्व" : "weight"})</small></span>
             <span style="color:#00b9f1; font-weight:700">${d.score} / ${d.max_score}</span>
           </div>
           <div class="dim-bar-track">
@@ -582,7 +918,7 @@ async function loadCompetitorRadar(merchantId) {
     const data = await res.json();
 
     document.getElementById("radarClusterName").textContent = data.neighborhood_cluster;
-    document.getElementById("radarPeerCount").textContent = `${data.total_peer_merchants_in_radius} पड़ौसी दुकानें`;
+    document.getElementById("radarPeerCount").textContent = `${data.total_peer_merchants_in_radius} ${currentLanguage === 'hi' ? 'पड़ौसी दुकानें' : 'peer merchants'}`;
 
     // Trending products
     const trendContainer = document.getElementById("radarTrendingProductsList");
@@ -594,8 +930,8 @@ async function loadCompetitorRadar(merchantId) {
             <div style="font-size:0.75rem; color:#64748b">${p.category}</div>
           </div>
           <div style="text-align:right">
-            <span class="card-header-badge badge-green">+${p.local_growth_pct}% मांग बढ़ी</span>
-            <div style="font-size:0.75rem; color:#00b9f1; margin-top:0.2rem">स्टॉक रखने की सलाह: ${p.suggested_stock_units} पैकेट</div>
+            <span class="card-header-badge badge-green">+${p.local_growth_pct}% ${currentLanguage === 'hi' ? 'मांग बढ़ी' : 'growth'}</span>
+            <div style="font-size:0.75rem; color:#00b9f1; margin-top:0.2rem">${currentLanguage === 'hi' ? 'स्टॉक रखने की सलाह' : 'Suggested stock'}: ${p.suggested_stock_units} ${currentLanguage === 'hi' ? 'पैकेट' : 'units'}</div>
           </div>
         </div>
       `).join("");
@@ -608,7 +944,7 @@ async function loadCompetitorRadar(merchantId) {
         <div class="glass-panel" style="padding:0.85rem; margin-bottom:0.6rem; border-left:3px solid #f59e0b">
           <div style="font-size:0.85rem; font-weight:700; color:#f59e0b">${t.threat_type}</div>
           <div style="font-size:0.8rem; color:#cbd5e1; margin:0.3rem 0">${t.description}</div>
-          <div style="font-size:0.75rem; color:#10b981">💡 साथी का उपाय: ${t.suggested_countermeasure}</div>
+          <div style="font-size:0.75rem; color:#10b981">💡 ${currentLanguage === 'hi' ? 'साथी का उपाय' : 'Countermeasure'}: ${t.suggested_countermeasure}</div>
         </div>
       `).join("");
     }
@@ -628,7 +964,7 @@ async function loadPendingActions(merchantId) {
 
     if (container) {
       if (actions.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:2rem; color:#64748b">शाबाश! सभी जरूरी काम पूरे हो चुके हैं।</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:2rem; color:#64748b">${currentLanguage === 'hi' ? 'शाबाश! सभी जरूरी काम पूरे हो चुके हैं।' : 'All pending actions resolved!'}</div>`;
         return;
       }
 
@@ -638,17 +974,17 @@ async function loadPendingActions(merchantId) {
             <div class="action-title">
               <span>⚡</span> ${act.title}
             </div>
-            <span class="card-header-badge ${act.priority === 'HIGH' ? 'badge-amber' : 'badge-blue'}">${act.priority === 'HIGH' ? 'अति आवश्यक' : 'सुझाव'}</span>
+            <span class="card-header-badge ${act.priority === 'HIGH' ? 'badge-amber' : 'badge-blue'}">${act.priority === 'HIGH' ? (currentLanguage === 'hi' ? 'अति आवश्यक' : 'URGENT') : (currentLanguage === 'hi' ? 'सुझाव' : 'SUGGESTION')}</span>
           </div>
           <div class="action-body">${act.description}</div>
           <div class="action-footer">
-            <span class="action-roi">📈 संभावित लाभ: ${act.expected_roi}</span>
+            <span class="action-roi">📈 ${currentLanguage === 'hi' ? 'संभावित लाभ' : 'Est. ROI'}: ${act.expected_roi}</span>
             <div class="action-btns">
               <button class="btn-action-success" onclick="resolveAction('${act.action_id}', true)">
-                ✅ 1-क्लिक में मंज़ूर करें
+                ✅ ${currentLanguage === 'hi' ? '1-क्लिक में मंज़ूर करें' : '1-Click Approve'}
               </button>
               <button class="btn-lang-toggle" onclick="resolveAction('${act.action_id}', false)">
-                खारिज करें
+                ${currentLanguage === 'hi' ? 'खारिज करें' : 'Dismiss'}
               </button>
             </div>
           </div>

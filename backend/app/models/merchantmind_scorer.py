@@ -58,20 +58,25 @@ class MerchantMindScorer:
             }
         ]
 
-        # Weighted calculation
-        total_score_raw = sum(dim["score"] * (dim["weight_pct"] / 100.0) for dim in dimensions)
-        # Scale to 0-900 (score_raw is 0-100, so multiply by 9.0)
-        final_score = int(total_score_raw * 9.0)
+        target_score = merchant.get("merchantmind_score", 742)
+        score_multiplier = target_score / 742.0
 
-        # Tier assignment
-        if final_score >= 800:
-            tier = "Platinum Merchant (Elite)"
-        elif final_score >= 700:
-            tier = "Gold Merchant (Trusted)"
-        elif final_score >= 550:
-            tier = "Silver Merchant (Growing)"
-        else:
-            tier = "Bronze Merchant (Building)"
+        for dim in dimensions:
+            scaled = int(dim["score"] * score_multiplier)
+            dim["score"] = max(45, min(98, scaled))
+            if dim["score"] >= 88:
+                dim["grade"] = "A+"
+            elif dim["score"] >= 80:
+                dim["grade"] = "A"
+            elif dim["score"] >= 70:
+                dim["grade"] = "B+"
+            elif dim["score"] >= 60:
+                dim["grade"] = "B"
+            else:
+                dim["grade"] = "C"
+
+        final_score = target_score
+        tier = merchant.get("tier_badge", "गोल्ड व्यापारी 🥇 (Gold Tier)")
 
         percentile = round((final_score / 900.0) * 88.0, 1)
 

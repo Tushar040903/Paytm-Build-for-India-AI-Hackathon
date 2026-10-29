@@ -6,17 +6,207 @@ from typing import Dict, List, Any
 # Fix seed for reproducible high quality synthetic data
 random.seed(42)
 
-MERCHANT_NAMES = [
-    ("Sharma Kirana & General Store", "Tushar Sharma", "Kirana & Grocery", "Sector 62, Noida", "201301", 28.6280, 77.3649),
-    ("Laxmi Provision Store", "Ramesh Gupta", "Kirana & Grocery", "Sector 62, Noida", "201301", 28.6295, 77.3621),
-    ("Balaji Super Daily", "Suresh Patel", "Kirana & Grocery", "Sector 62, Noida", "201301", 28.6261, 77.3670),
-    ("Gupta Brothers Retail", "Amit Gupta", "Kirana & Grocery", "Sector 62, Noida", "201301", 28.6310, 77.3695),
-    ("Aggarwal Sweets & Namkeen", "Pawan Aggarwal", "Fast Food & Snacks", "Sector 62, Noida", "201301", 28.6275, 77.3655),
-    ("Chai Point Corner", "Mukesh Yadav", "Fast Food & Snacks", "Sector 62, Noida", "201301", 28.6288, 77.3638),
-    ("Sanjeevani Medicos", "Dr. Alok Verma", "Pharmacy & Health", "Sector 62, Noida", "201301", 28.6290, 77.3660),
-    ("Sai Mobile & Electronics", "Vikas Singh", "Electronics & Mobile", "Sector 62, Noida", "201301", 28.6270, 77.3680),
-    ("Shringar Vastralaya", "Sunita Devi", "Apparel & Garments", "Sector 62, Noida", "201301", 28.6265, 77.3640),
-    ("Bhardwaj Mega Mart", "Tushar Bhardwaj", "Kirana & Grocery", "Sector 62, Noida", "201301", 28.6282, 77.3650),
+MERCHANT_PROFILES = [
+    {
+        "merchant_id": "PAYTM_M_1001",
+        "name": "तुषार शर्मा (Tushar Sharma)",
+        "business_name": "तुषार किराना स्टोर & सुपरमार्ट",
+        "category": "किराना व दैनिक उपभोग (Kirana & Grocery)",
+        "city": "सेक्टर 18, नोएडा (Noida)",
+        "pincode": "201301",
+        "latitude": 28.5708,
+        "longitude": 77.3260,
+        "joined_date": "2023-04-15",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-99201",
+        "paytm_postpaid_enabled": True,
+        "tier": "Gold",
+        "tier_badge": "गोल्ड व्यापारी 🥇 (Gold Tier)",
+        "merchantmind_score": 742,
+        "avg_daily_sales_inr": 14850.0,
+        "monthly_gmv": 445500.0,
+        "total_transactions_30d": 2180
+    },
+    {
+        "merchant_id": "PAYTM_M_1002",
+        "name": "रमेश गुप्ता (Ramesh Gupta)",
+        "business_name": "लक्ष्मी प्रोविजन स्टोर",
+        "category": "राशन व डेयरी (Grocery & Dairy)",
+        "city": "चांदनी चौक, पुरानी दिल्ली (Delhi)",
+        "pincode": "110006",
+        "latitude": 28.6505,
+        "longitude": 77.2303,
+        "joined_date": "2022-11-10",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-88142",
+        "paytm_postpaid_enabled": True,
+        "tier": "Platinum",
+        "tier_badge": "प्लैटिनम व्यापारी 💎 (Platinum Tier)",
+        "merchantmind_score": 815,
+        "avg_daily_sales_inr": 21400.0,
+        "monthly_gmv": 642000.0,
+        "total_transactions_30d": 3420
+    },
+    {
+        "merchant_id": "PAYTM_M_1003",
+        "name": "सुरेश पटेल (Suresh Patel)",
+        "business_name": "बालाजी सुपर डेली मार्ट",
+        "category": "सुपरमार्केट व एफएमसीजी (Supermarket)",
+        "city": "इंदिरानगर, बेंगलुरु (Bengaluru)",
+        "pincode": "560038",
+        "latitude": 12.9784,
+        "longitude": 77.6408,
+        "joined_date": "2021-08-20",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-77319",
+        "paytm_postpaid_enabled": True,
+        "tier": "Platinum",
+        "tier_badge": "प्लैटिनम व्यापारी 💎 (Platinum Tier)",
+        "merchantmind_score": 860,
+        "avg_daily_sales_inr": 34200.0,
+        "monthly_gmv": 1026000.0,
+        "total_transactions_30d": 4890
+    },
+    {
+        "merchant_id": "PAYTM_M_1004",
+        "name": "अमित गुप्ता (Amit Gupta)",
+        "business_name": "गुप्ता ब्रदर्स जनरल स्टोर",
+        "category": "जनरल स्टोर (General Store)",
+        "city": "हज़रतगंज, लखनऊ (Lucknow)",
+        "pincode": "226001",
+        "latitude": 26.8467,
+        "longitude": 80.9462,
+        "joined_date": "2023-09-01",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-66405",
+        "paytm_postpaid_enabled": True,
+        "tier": "Silver",
+        "tier_badge": "सिल्वर व्यापारी 🥈 (Silver Tier)",
+        "merchantmind_score": 680,
+        "avg_daily_sales_inr": 11300.0,
+        "monthly_gmv": 339000.0,
+        "total_transactions_30d": 1640
+    },
+    {
+        "merchant_id": "PAYTM_M_1005",
+        "name": "पवन अग्रवाल (Pawan Aggarwal)",
+        "business_name": "अग्रवाल स्वीट्स & नमकीन",
+        "category": "मिठाई व नमकीन (Sweets & Snacks)",
+        "city": "राजा पार्क, जयपुर (Jaipur)",
+        "pincode": "302004",
+        "latitude": 26.8929,
+        "longitude": 75.8267,
+        "joined_date": "2022-03-14",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-55210",
+        "paytm_postpaid_enabled": True,
+        "tier": "Gold",
+        "tier_badge": "गोल्ड व्यापारी 🥇 (Gold Tier)",
+        "merchantmind_score": 790,
+        "avg_daily_sales_inr": 28600.0,
+        "monthly_gmv": 858000.0,
+        "total_transactions_30d": 4120
+    },
+    {
+        "merchant_id": "PAYTM_M_1006",
+        "name": "मुकेश यादव (Mukesh Yadav)",
+        "business_name": "चाय पॉइंट & कैफे कॉर्नर",
+        "category": "चाय व स्नैक्स (Tea & Quick Bites)",
+        "city": "साइबर सिटी, गुरुग्राम (Gurugram)",
+        "pincode": "122002",
+        "latitude": 28.4950,
+        "longitude": 77.0895,
+        "joined_date": "2024-01-10",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-44119",
+        "paytm_postpaid_enabled": True,
+        "tier": "Silver",
+        "tier_badge": "सिल्वर व्यापारी 🥈 (Silver Tier)",
+        "merchantmind_score": 620,
+        "avg_daily_sales_inr": 8750.0,
+        "monthly_gmv": 262500.0,
+        "total_transactions_30d": 2450
+    },
+    {
+        "merchant_id": "PAYTM_M_1007",
+        "name": "डॉ. आलोक वर्मा (Dr. Alok Verma)",
+        "business_name": "संजीवनी मेडिकोज & फार्मा",
+        "category": "दवा व स्वास्थ्य (Pharmacy & Healthcare)",
+        "city": "गोदौलिया, वाराणसी (Varanasi)",
+        "pincode": "221001",
+        "latitude": 25.3109,
+        "longitude": 83.0104,
+        "joined_date": "2022-06-18",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-33982",
+        "paytm_postpaid_enabled": True,
+        "tier": "Gold",
+        "tier_badge": "गोल्ड व्यापारी 🥇 (Gold Tier)",
+        "merchantmind_score": 765,
+        "avg_daily_sales_inr": 17900.0,
+        "monthly_gmv": 537000.0,
+        "total_transactions_30d": 1980
+    },
+    {
+        "merchant_id": "PAYTM_M_1008",
+        "name": "विकास सिंह (Vikas Singh)",
+        "business_name": "साईं मोबाइल & एक्सेसरीज",
+        "category": "इलेक्ट्रॉनिक्स व मोबाइल (Electronics & Mobile)",
+        "city": "कंकड़बाग, पटना (Patna)",
+        "pincode": "800020",
+        "latitude": 25.5941,
+        "longitude": 85.1376,
+        "joined_date": "2023-02-28",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-22871",
+        "paytm_postpaid_enabled": True,
+        "tier": "Gold",
+        "tier_badge": "गोल्ड व्यापारी 🥇 (Gold Tier)",
+        "merchantmind_score": 710,
+        "avg_daily_sales_inr": 13400.0,
+        "monthly_gmv": 402000.0,
+        "total_transactions_30d": 1150
+    },
+    {
+        "merchant_id": "PAYTM_M_1009",
+        "name": "सुनीता देवी (Sunita Devi)",
+        "business_name": "श्रृंगार वस्त्रालय & साड़ी सदन",
+        "category": "कपड़े व वस्त्र (Apparel & Garments)",
+        "city": "अमीनाबाद, लखनऊ (Aminabad, Lucknow)",
+        "pincode": "226018",
+        "latitude": 26.8480,
+        "longitude": 80.9270,
+        "joined_date": "2024-03-01",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-11760",
+        "paytm_postpaid_enabled": True,
+        "tier": "Bronze",
+        "tier_badge": "ब्रॉन्ज व्यापारी 🥉 (Bronze Tier)",
+        "merchantmind_score": 580,
+        "avg_daily_sales_inr": 9200.0,
+        "monthly_gmv": 276000.0,
+        "total_transactions_30d": 780
+    },
+    {
+        "merchant_id": "PAYTM_M_1010",
+        "name": "तुषार भारद्वाज (Tushar Bhardwaj)",
+        "business_name": "भारद्वाज मेगा सुपरमार्ट",
+        "category": "हाइपर किराना व सुपरस्टोर (Hypermarket & FMCG)",
+        "city": "साउथ एक्स, नई दिल्ली (New Delhi)",
+        "pincode": "110049",
+        "latitude": 28.5700,
+        "longitude": 77.2200,
+        "joined_date": "2021-01-15",
+        "paytm_soundbox": True,
+        "soundbox_serial_id": "SBX-4G-99888",
+        "paytm_postpaid_enabled": True,
+        "tier": "Platinum",
+        "tier_badge": "प्लैटिनम व्यापारी 💎 (Platinum Tier)",
+        "merchantmind_score": 885,
+        "avg_daily_sales_inr": 42500.0,
+        "monthly_gmv": 1275000.0,
+        "total_transactions_30d": 5600
+    }
 ]
 
 KIRANA_CATALOG = [
@@ -46,27 +236,7 @@ FIRST_NAMES = ["Amit", "Rahul", "Pooja", "Sunil", "Anjali", "Deepak", "Sneha", "
                "Neeraj", "Rohit", "Kavita", "Sanjay", "Ritu", "Mohit", "Aakash", "Geeta", "Vikram", "Shweta"]
 
 def generate_merchants() -> List[Dict[str, Any]]:
-    merchants = []
-    for idx, (b_name, owner, cat, city, pin, lat, lon) in enumerate(MERCHANT_NAMES):
-        m_id = f"PAYTM_M_{1001 + idx}"
-        # Set primary demo merchant as M_1001 or M_1010
-        merchants.append({
-            "merchant_id": m_id,
-            "name": owner,
-            "business_name": b_name,
-            "category": cat,
-            "city": city,
-            "pincode": pin,
-            "latitude": lat,
-            "longitude": lon,
-            "joined_date": "2023-04-15",
-            "paytm_soundbox": True,
-            "paytm_postpaid_enabled": True,
-            "tier": "Silver" if idx != 9 else "Gold",
-            "monthly_gmv": round(random.uniform(95000, 240000), 2),
-            "total_transactions_30d": random.randint(1400, 3100)
-        })
-    return merchants
+    return [dict(m) for m in MERCHANT_PROFILES]
 
 def generate_inventory(merchant_id: str) -> List[Dict[str, Any]]:
     items = []
@@ -118,8 +288,9 @@ def generate_historical_sales(merchant_id: str, days: int = 180) -> List[Dict[st
         dow = current_date.weekday() # 0 = Mon, 6 = Sun
         day_of_month = current_date.day
         
-        # Base daily revenue ~ 4,500 INR
-        base_revenue = 4800.0
+        # Base daily revenue scaled to the specific merchant's real business profile
+        merch_profile = next((m for m in MERCHANT_PROFILES if m["merchant_id"] == merchant_id), MERCHANT_PROFILES[0])
+        base_revenue = merch_profile.get("avg_daily_sales_inr", 14850.0)
         
         # Day of week factor (Fri, Sat, Sun are higher)
         dow_factor = 1.0

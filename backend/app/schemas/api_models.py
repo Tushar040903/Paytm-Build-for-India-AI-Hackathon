@@ -16,7 +16,11 @@ class MerchantProfile(BaseModel):
     paytm_soundbox: bool = True
     paytm_postpaid_enabled: bool = True
     tier: str = "Silver"
+    tier_badge: str = "गोल्ड व्यापारी 🥇"
     monthly_gmv: float
+    avg_daily_sales_inr: float = 14850.0
+    soundbox_serial_id: str = "SBX-4G-99201"
+    merchantmind_score: int = 742
     total_transactions_30d: int
 
 class MerchantKPIs(BaseModel):

@@ -14,14 +14,17 @@ class CashFlowPredictor:
 
     def project_cashflow(self, merchant_id: str, days: int = 30) -> Dict[str, Any]:
         expenses = db.get_expenses()
-        starting_cash = 6500.0  # Current cash balance in drawer + Paytm wallet
-        safety_reserve = 10000.0 # Working capital reserve needed for kirana supplier credit
         
         # Get base demand forecast for 7 days, extrapolate for 30 days
         demand_res = demand_engine.predict_demand(merchant_id, horizon_days=7)
         points_7d = demand_res["forecast_points"]
         avg_daily_inflow = float(np.mean([p["predicted_sales_inr"] for p in points_7d]))
         std_daily_inflow = 850.0
+
+        # Scale starting cash and safety reserve proportionally to store size
+        scale = avg_daily_inflow / 14850.0
+        starting_cash = round(22000.0 * scale, 2)
+        safety_reserve = round(18000.0 * scale, 2)
 
         projected_days = []
         cumulative_balance = starting_cash
@@ -42,12 +45,13 @@ class CashFlowPredictor:
                 mult = 1.25 if dow in [4, 5, 6] else 1.0
                 base_inflow = avg_daily_inflow * mult
 
-            # Scheduled outflows for this calendar day
+            # Scheduled outflows for this calendar day scaled to store size
             day_expenses = [exp for exp in expenses if exp["day_of_month"] == dom]
-            scheduled_names = [f"{exp['name']} (INR {int(exp['amount_inr'])})" for exp in day_expenses]
-            # Kirana daily COGS & inventory replenishment (~78% of daily sales)
-            daily_cogs = base_inflow * 0.78
-            total_outflow = sum(exp["amount_inr"] for exp in day_expenses) + daily_cogs
+            scheduled_names = [f"{exp['name']} (INR {int(exp['amount_inr'] * scale)})" for exp in day_expenses]
+            
+            # Kirana daily COGS & inventory replenishment (~88% of daily sales)
+            daily_cogs = base_inflow * 0.88
+            total_outflow = sum(exp["amount_inr"] * scale for exp in day_expenses) + daily_cogs
             
             # Monte Carlo bounds (P10 conservative, P90 optimistic)
             p10_inflow = max(1200.0, base_inflow - 1.28 * std_daily_inflow)
@@ -59,13 +63,14 @@ class CashFlowPredictor:
             # Check for cash crunch (if cumulative balance dips below safety reserve)
             if cumulative_balance < safety_reserve and crunch_alert is None:
                 shortfall = round(safety_reserve - cumulative_balance, 2)
+                loan_amt = max(20000.0, round((shortfall + 10000.0) / 1000) * 1000)
                 crunch_alert = {
                     "shortfall_date": date_str,
-                    "shortfall_amount_inr": max(6000.0, shortfall + 4000.0),
+                    "shortfall_amount_inr": shortfall,
                     "days_until_crunch": d + 1,
                     "risk_level": "HIGH",
                     "suggested_action": "Rent and Distributor payments coincide within 48 hours. Activate pre-approved Paytm Instant Loan or delay inventory restock by 3 days.",
-                    "preapproved_loan_amount_inr": 25000.0,
+                    "preapproved_loan_amount_inr": float(loan_amt),
                     "preapproved_loan_interest_pct": 1.2
                 }
 
