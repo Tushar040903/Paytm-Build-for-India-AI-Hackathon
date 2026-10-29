@@ -1,42 +1,62 @@
+/* ==========================================================================
+   Paytm for Business — DukaanSaathi AI Design System
+   Color Theme: Official Paytm Blue & White (Navy #002E6E, Cyan #00BAF2, White #FFFFFF)
+   Typography: Inter / Plus Jakarta Sans, High-Contrast Financial Readability
+   ========================================================================== */
+
 :root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #121829;
-  --bg-card: rgba(18, 24, 41, 0.75);
-  --bg-card-hover: rgba(26, 35, 60, 0.85);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 185, 241, 0.3);
+  /* Paytm Official Brand Colors */
+  --paytm-navy: #002E6E;         /* Official Dark Blue / Aztec Blue ("Pay" in logo) */
+  --paytm-navy-dark: #001f4d;    /* Deep navy shadow & header contrast */
+  --paytm-navy-light: #003d8f;   /* Medium navy blue */
+  --paytm-blue: #0056b3;         /* Interactive brand blue */
+  --paytm-cyan: #00BAF2;         /* Official Process Cyan / Electric Blue ("tm" in logo) */
+  --paytm-cyan-light: #e8f7fd;   /* Soft cyan background tint */
+  --paytm-cyan-glow: rgba(0, 186, 242, 0.3);
+
+  /* Paytm App Canvas & Surfaces (Clean White & Slate-Blue) */
+  --bg-primary: #F4F7FB;         /* Clean Paytm canvas background */
+  --bg-secondary: #EDF3F9;       /* Secondary neutral container */
+  --bg-card: #FFFFFF;            /* Pure Crisp White Card */
+  --bg-card-hover: #F8FAFD;      /* Hover state on white card */
+  --border-color: #E2E8F0;       /* Crisp light border */
+  --border-subtle: #EBF1F8;      /* Soft separator line */
+  --border-glow: rgba(0, 186, 242, 0.4);
+
+  /* Paytm Semantic Accents */
+  --accent-success: #00AC4F;     /* Official Paytm UPI Success Green */
+  --accent-success-bg: #E8F8F0;  /* Soft green pill background */
+  --accent-success-border: #A7F3D0;
   
-  /* Paytm Brand Tokens */
-  --paytm-navy: #002970;
-  --paytm-blue: #004b9e;
-  --paytm-cyan: #00b9f1;
-  --paytm-cyan-glow: rgba(0, 185, 241, 0.4);
-  --paytm-light-blue: #e8f7fd;
+  --accent-warning: #FF7A00;     /* Official Paytm Alert Orange */
+  --accent-warning-bg: #FFF4E5;  /* Soft orange pill background */
+  --accent-warning-border: #FED7AA;
   
-  /* Semantic Accent Colors */
-  --accent-success: #10b981;
-  --accent-success-bg: rgba(16, 185, 129, 0.12);
-  --accent-warning: #f59e0b;
-  --accent-warning-bg: rgba(245, 158, 11, 0.12);
-  --accent-danger: #ef4444;
-  --accent-danger-bg: rgba(239, 68, 68, 0.12);
-  --accent-purple: #8b5cf6;
-  --accent-purple-bg: rgba(139, 92, 246, 0.12);
+  --accent-danger: #EF4444;      /* High alert / Critical stockout red */
+  --accent-danger-bg: #FEE2E2;   /* Soft red pill background */
+  --accent-danger-border: #FECACA;
   
-  /* Text */
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  
-  /* Radii & Shadows */
+  --accent-purple: #7C3AED;      /* AI / Intelligence Accent */
+  --accent-purple-bg: #F3E8FF;
+  --accent-purple-border: #DDD6FE;
+
+  /* Paytm Typography Colors */
+  --text-primary: #002E6E;       /* Deep Paytm Navy for Headings */
+  --text-body: #1E293B;          /* Dark Slate for High Legibility Body */
+  --text-secondary: #475569;     /* Secondary Slate */
+  --text-muted: #64748B;         /* Subtle Muted Slate */
+  --text-white: #FFFFFF;         /* White text on dark elements */
+
+  /* Radii & Polished Elevation Shadows */
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 25px rgba(0, 185, 241, 0.25);
-  --glass-blur: blur(16px);
+  --shadow-sm: 0 2px 6px rgba(0, 46, 110, 0.05);
+  --shadow-md: 0 4px 16px rgba(0, 46, 110, 0.08), 0 1px 3px rgba(0, 46, 110, 0.04);
+  --shadow-lg: 0 10px 30px rgba(0, 46, 110, 0.12);
+  --shadow-glow: 0 0 16px rgba(0, 186, 242, 0.35);
+  --glass-blur: blur(8px);
 }
 
 * {
@@ -49,16 +69,15 @@ body {
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-primary);
   background-image: 
-    radial-gradient(circle at 15% 10%, rgba(0, 185, 241, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(0, 41, 112, 0.18) 0%, transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
-  color: var(--text-primary);
+    radial-gradient(circle at 10% 5%, rgba(0, 186, 242, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 15%, rgba(0, 46, 110, 0.04) 0%, transparent 50%);
+  color: var(--text-body);
   min-height: 100vh;
   line-height: 1.5;
   overflow-x: hidden;
 }
 
-/* Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -67,18 +86,16 @@ body {
   background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: #CBD5E1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 185, 241, 0.4);
+  background: var(--paytm-cyan);
 }
 
-/* Glass Panels */
+/* Glass Panels / Clean White Cards */
 .glass-panel {
   background: var(--bg-card);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -86,21 +103,23 @@ body {
 }
 
 .glass-panel:hover {
-  border-color: rgba(0, 185, 241, 0.25);
+  border-color: rgba(0, 186, 242, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
-/* Top App Header */
+/* Top App Header — Signature Paytm Deep Navy */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 14, 26, 0.85);
-  backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--paytm-navy);
+  border-bottom: 3px solid var(--paytm-cyan);
+  box-shadow: 0 4px 16px rgba(0, 46, 110, 0.2);
   padding: 0.85rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #fff;
 }
 
 .brand-section {
@@ -113,11 +132,11 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, var(--paytm-navy), #001740);
-  border: 1px solid rgba(0, 185, 241, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(0, 186, 242, 0.5);
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-sm);
-  box-shadow: 0 0 15px rgba(0, 185, 241, 0.2);
+  box-shadow: 0 0 12px rgba(0, 186, 242, 0.25);
 }
 
 .paytm-badge-logo .logo-icon {
@@ -126,9 +145,9 @@ body {
 
 .paytm-badge-logo .logo-title {
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   letter-spacing: -0.5px;
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .paytm-badge-logo .logo-title span {
@@ -137,34 +156,35 @@ body {
 
 .brand-tagline {
   font-size: 0.82rem;
-  color: var(--text-secondary);
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
   padding-left: 0.85rem;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .soundbox-indicator {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 0.35rem 0.75rem;
+  background: rgba(0, 172, 79, 0.2);
+  border: 1px solid #00AC4F;
+  padding: 0.35rem 0.85rem;
   border-radius: var(--radius-full);
   font-size: 0.8rem;
-  color: #34d399;
+  font-weight: 700;
+  color: #4ade80;
 }
 
 /* Judge / Merchant Mode Switcher */
 .btn-mode-toggle {
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.4);
-  color: #c4b5fd;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
@@ -177,21 +197,20 @@ body {
 }
 
 .btn-mode-toggle:hover {
-  background: rgba(139, 92, 246, 0.3);
-  border-color: #8b5cf6;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #FFFFFF;
 }
 
 .btn-mode-toggle.active {
-  background: #8b5cf6;
-  color: #fff;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+  background: #FFFFFF;
+  color: var(--paytm-navy);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 3-Step Merchant Guide Banner */
+/* 3-Step Merchant Guide Banner — Paytm Blue Hero */
 .merchant-guide-banner {
-  background: linear-gradient(135deg, rgba(0, 41, 112, 0.35), rgba(18, 24, 41, 0.9));
-  border: 1px solid rgba(0, 185, 241, 0.25);
+  background: linear-gradient(135deg, var(--paytm-navy) 0%, #004b9e 100%);
+  border: 1px solid var(--paytm-cyan);
   border-radius: var(--radius-md);
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
@@ -199,6 +218,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
+  box-shadow: 0 4px 18px rgba(0, 46, 110, 0.15);
 }
 
 .guide-step-item {
@@ -212,34 +232,34 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--paytm-cyan), var(--paytm-navy));
-  color: #fff;
+  background: var(--paytm-cyan);
+  color: var(--paytm-navy);
   font-weight: 800;
   font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 10px rgba(0, 185, 241, 0.3);
+  box-shadow: 0 0 10px rgba(0, 186, 242, 0.5);
 }
 
 .guide-step-text h4 {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #fff;
+  color: #FFFFFF;
   margin-bottom: 0.15rem;
 }
 
 .guide-step-text p {
   font-size: 0.76rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.35;
 }
 
 /* Friendly Bharat Callout Box */
 .bharat-explain-box {
-  background: rgba(0, 185, 241, 0.08);
-  border: 1px solid rgba(0, 185, 241, 0.25);
+  background: var(--paytm-cyan-light);
+  border: 1px solid #BEE3F8;
   border-radius: var(--radius-sm);
   padding: 0.9rem 1.2rem;
   margin-bottom: 1.25rem;
@@ -247,6 +267,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 186, 242, 0.08);
 }
 
 .bharat-explain-box .lead-icon {
@@ -255,22 +276,22 @@ body {
 }
 
 .bharat-explain-box .lead-content h4 {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--paytm-navy);
   margin-bottom: 0.25rem;
 }
 
 .bharat-explain-box .lead-content p {
   font-size: 0.82rem;
-  color: #cbd5e1;
-  line-height: 1.4;
+  color: #334155;
+  line-height: 1.45;
 }
 
 /* WhatsApp Styled Action Button */
 .btn-whatsapp-action {
   background: #25D366;
-  color: #000;
+  color: #FFFFFF;
   font-weight: 700;
   font-size: 0.82rem;
   padding: 0.45rem 0.9rem;
@@ -281,19 +302,19 @@ body {
   align-items: center;
   gap: 0.4rem;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);
 }
 
 .btn-whatsapp-action:hover {
-  background: #20bd5a;
+  background: #1eb854;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.5);
 }
 
 /* Instant Loan Gold Button */
 .btn-gold-claim {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000;
+  background: linear-gradient(135deg, #FF7A00, #E65100);
+  color: #FFFFFF;
   font-weight: 800;
   font-size: 0.88rem;
   padding: 0.6rem 1.25rem;
@@ -303,13 +324,13 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 122, 0, 0.35);
   transition: all 0.2s ease;
 }
 
 .btn-gold-claim:hover {
   transform: scale(1.03);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.5);
 }
 
 .pulse-dot {
@@ -321,7 +342,7 @@ body {
   animation: pulse-ring 2s infinite ease-in-out;
 }
 
-/* Visibility toggling between Merchant Mode and Judge/AI Mode */
+/* Visibility toggling */
 body.merchant-mode .tech-badge {
   display: none !important;
 }
@@ -342,16 +363,17 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius-sm);
+  color: #fff;
 }
 
 .merchant-select-wrapper select {
   background: transparent;
   border: none;
-  color: var(--text-primary);
+  color: #FFFFFF;
   font-size: 0.85rem;
   font-weight: 600;
   outline: none;
@@ -359,24 +381,25 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .merchant-select-wrapper select option {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  background: var(--paytm-navy);
+  color: #FFFFFF;
 }
 
 .btn-lang-toggle {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .btn-lang-toggle:hover {
-  background: rgba(0, 185, 241, 0.15);
-  border-color: var(--paytm-cyan);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #FFFFFF;
 }
 
 /* Main Layout */
@@ -393,8 +416,10 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(0, 41, 112, 0.4) 0%, rgba(18, 24, 41, 0.8) 100%);
-  border: 1px solid rgba(0, 185, 241, 0.25);
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .merchant-meta {
@@ -412,26 +437,28 @@ body:not(.merchant-mode) .merchant-only {
   align-items: center;
   justify-content: center;
   font-size: 1.7rem;
-  box-shadow: 0 4px 12px rgba(0, 185, 241, 0.3);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 186, 242, 0.35);
 }
 
 .merchant-details h2 {
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.3px;
+  color: var(--paytm-navy);
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
 .verified-badge {
-  background: rgba(0, 185, 241, 0.15);
-  color: var(--paytm-cyan);
+  background: var(--paytm-cyan-light);
+  color: var(--paytm-navy);
   border: 1px solid var(--paytm-cyan);
   font-size: 0.72rem;
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.55rem;
   border-radius: var(--radius-full);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .merchant-subinfo {
@@ -455,7 +482,7 @@ body:not(.merchant-mode) .merchant-only {
 
 .hero-stat-pill {
   text-align: right;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid var(--border-color);
   padding-left: 1.2rem;
 }
 
@@ -464,12 +491,13 @@ body:not(.merchant-mode) .merchant-only {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .hero-stat-value {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 800;
+  color: var(--paytm-navy);
 }
 
 .hero-stat-value.highlight-cyan {
@@ -485,12 +513,23 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .kpi-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 186, 242, 0.4);
 }
 
 .kpi-card::before {
@@ -515,9 +554,9 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .kpi-title {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
@@ -531,7 +570,7 @@ body:not(.merchant-mode) .merchant-only {
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #fff;
+  color: var(--paytm-navy);
   margin-bottom: 0.3rem;
 }
 
@@ -540,19 +579,20 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  font-weight: 600;
 }
 
 .kpi-sub.positive { color: var(--accent-success); }
 .kpi-sub.warning { color: var(--accent-warning); }
-.kpi-sub.info { color: var(--paytm-cyan); }
+.kpi-sub.info { color: #0284c7; }
 
 /* Store Profile Card (Home Page Top) */
 .store-profile-card {
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, rgba(18, 24, 41, 0.95), rgba(0, 41, 112, 0.25));
-  border: 1px solid rgba(0, 185, 241, 0.35);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 185, 241, 0.1);
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
   border-radius: var(--radius-lg);
 }
 
@@ -563,7 +603,7 @@ body:not(.merchant-mode) .merchant-only {
   flex-wrap: wrap;
   gap: 1.25rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .store-avatar-box {
@@ -575,7 +615,8 @@ body:not(.merchant-mode) .merchant-only {
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
-  box-shadow: 0 4px 14px rgba(0, 185, 241, 0.35);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 186, 242, 0.3);
   flex-shrink: 0;
 }
 
@@ -595,23 +636,23 @@ body:not(.merchant-mode) .merchant-only {
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.3px;
-  color: #fff;
+  color: var(--paytm-navy);
   margin: 0;
 }
 
 .store-category-row {
   font-size: 0.9rem;
-  color: var(--paytm-cyan);
+  color: #0284c7;
   font-weight: 600;
   margin-top: 0.25rem;
 }
 
 .tier-badge-pill {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.3));
-  border: 1px solid #f59e0b;
-  color: #fbbf24;
+  background: var(--accent-warning-bg);
+  border: 1px solid var(--accent-warning-border);
+  color: #B45309;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
 }
@@ -628,9 +669,9 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid #10b981;
-  color: #10b981;
+  background: var(--accent-success-bg);
+  border: 1px solid var(--accent-success);
+  color: #008744;
   font-size: 0.78rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
@@ -653,23 +694,24 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-secondary);
   padding: 0.6rem 0.85rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .store-info-item .info-label {
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.4px;
+  font-weight: 700;
 }
 
 .store-info-item .info-val {
   font-size: 0.95rem;
-  color: #fff;
-  font-weight: 600;
+  color: var(--paytm-navy);
+  font-weight: 700;
 }
 
 /* Real Store Metrics Section */
@@ -693,15 +735,15 @@ body:not(.merchant-mode) .merchant-only {
 
 .section-title-wrap h3 {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 800;
+  color: var(--paytm-navy);
   margin: 0;
 }
 
 .badge-live-tag {
-  background: rgba(16, 185, 129, 0.15);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: var(--accent-success-bg);
+  color: #008744;
+  border: 1px solid var(--accent-success-border);
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
@@ -723,13 +765,15 @@ body:not(.merchant-mode) .merchant-only {
   overflow: hidden;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  background: var(--bg-card);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .real-metric-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 186, 242, 0.4);
 }
 
 .real-metric-card::before {
@@ -754,9 +798,9 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .rm-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
@@ -769,25 +813,27 @@ body:not(.merchant-mode) .merchant-only {
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #fff;
+  color: var(--paytm-navy);
   margin-bottom: 0.35rem;
 }
 
 .rm-sub {
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   gap: 0.35rem;
 }
 
-/* Voice & Indic Copilot Bar */
+/* Voice & Indic Copilot Bar — Paytm Soundbox Identity */
 .voice-copilot-section {
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.75rem;
-  background: linear-gradient(135deg, rgba(18, 24, 41, 0.95), rgba(0, 41, 112, 0.3));
-  border: 1px solid rgba(0, 185, 241, 0.35);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 185, 241, 0.15);
+  background: linear-gradient(135deg, var(--paytm-navy) 0%, #001f4d 100%);
+  border: 1px solid var(--paytm-cyan);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 46, 110, 0.25);
+  color: #fff;
 }
 
 .copilot-header {
@@ -803,16 +849,18 @@ body:not(.merchant-mode) .merchant-only {
   gap: 0.6rem;
   font-size: 1.1rem;
   font-weight: 700;
+  color: #fff;
 }
 
 .soundbox-tag {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000;
+  background: var(--accent-warning);
+  color: #FFFFFF;
   font-weight: 800;
   font-size: 0.7rem;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .copilot-input-row {
@@ -826,25 +874,26 @@ body:not(.merchant-mode) .merchant-only {
   height: 48px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, var(--paytm-cyan), var(--paytm-navy));
-  color: #fff;
+  background: var(--paytm-cyan);
+  color: var(--paytm-navy);
   font-size: 1.3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 15px rgba(0, 185, 241, 0.4);
+  box-shadow: 0 0 15px rgba(0, 186, 242, 0.5);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   flex-shrink: 0;
 }
 
 .voice-record-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 25px rgba(0, 185, 241, 0.7);
+  box-shadow: 0 0 25px rgba(0, 186, 242, 0.8);
 }
 
 .voice-record-btn.listening {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  background: #ef4444;
+  color: #fff;
   animation: pulse-mic 1s infinite alternate;
 }
 
@@ -855,35 +904,41 @@ body:not(.merchant-mode) .merchant-only {
 
 .copilot-text-input {
   flex: 1;
-  background: rgba(10, 14, 26, 0.7);
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 0.8rem 1.2rem;
   border-radius: var(--radius-full);
-  color: #fff;
+  color: #FFFFFF;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
+.copilot-text-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
 .copilot-text-input:focus {
   border-color: var(--paytm-cyan);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .copilot-submit-btn {
-  background: var(--paytm-navy);
-  border: 1px solid var(--paytm-cyan);
-  color: #fff;
-  font-weight: 700;
+  background: var(--paytm-cyan);
+  border: none;
+  color: var(--paytm-navy);
+  font-weight: 800;
   padding: 0.8rem 1.5rem;
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .copilot-submit-btn:hover {
-  background: var(--paytm-cyan);
-  color: #002970;
+  background: #FFFFFF;
+  color: var(--paytm-navy);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
 }
 
 .quick-prompts-container {
@@ -894,27 +949,27 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .quick-prompt-chip {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 0.3rem 0.85rem;
   border-radius: var(--radius-full);
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .quick-prompt-chip:hover {
-  background: rgba(0, 185, 241, 0.15);
+  background: rgba(0, 186, 242, 0.25);
   border-color: var(--paytm-cyan);
-  color: #fff;
+  color: #FFFFFF;
 }
 
 /* Copilot Response Live Card */
 .copilot-live-response {
   margin-top: 1rem;
-  background: rgba(0, 41, 112, 0.25);
-  border: 1px solid rgba(0, 185, 241, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--paytm-cyan);
   border-radius: var(--radius-sm);
   padding: 1rem 1.25rem;
   display: none;
@@ -930,16 +985,16 @@ body:not(.merchant-mode) .merchant-only {
 
 .copilot-intent-badge {
   font-size: 0.75rem;
-  background: rgba(0, 185, 241, 0.2);
-  color: var(--paytm-cyan);
+  background: var(--paytm-cyan);
+  color: var(--paytm-navy);
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .copilot-audio-btn {
-  background: var(--paytm-cyan);
-  color: #002970;
+  background: #FFFFFF;
+  color: var(--paytm-navy);
   border: none;
   font-size: 0.8rem;
   font-weight: 700;
@@ -951,9 +1006,13 @@ body:not(.merchant-mode) .merchant-only {
   gap: 0.35rem;
 }
 
+.copilot-audio-btn:hover {
+  background: var(--paytm-cyan);
+}
+
 .copilot-hindi-text {
   font-size: 1.05rem;
-  color: #fff;
+  color: #FFFFFF;
   font-weight: 600;
   margin-bottom: 0.4rem;
   line-height: 1.6;
@@ -961,10 +1020,10 @@ body:not(.merchant-mode) .merchant-only {
 
 .copilot-english-text {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Main Navigation Tabs */
+/* Main Navigation Tabs — Paytm Blue & White */
 .tabs-navigation {
   display: flex;
   gap: 0.5rem;
@@ -974,7 +1033,7 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .nav-tab-btn {
-  background: var(--bg-card);
+  background: #FFFFFF;
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
   padding: 0.75rem 1.2rem;
@@ -986,33 +1045,35 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 46, 110, 0.04);
   transition: all 0.2s ease;
 }
 
 .nav-tab-btn:hover {
-  background: var(--bg-card-hover);
-  color: #fff;
+  background: #F0F9FF;
+  border-color: var(--paytm-cyan);
+  color: var(--paytm-navy);
 }
 
 .nav-tab-btn.active {
-  background: linear-gradient(135deg, rgba(0, 41, 112, 0.6), rgba(0, 185, 241, 0.2));
-  border-color: var(--paytm-cyan);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(0, 185, 241, 0.2);
+  background: var(--paytm-navy);
+  border-color: var(--paytm-navy);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 46, 110, 0.25);
 }
 
 .tab-badge {
   font-size: 0.72rem;
   padding: 0.15rem 0.45rem;
   border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-secondary);
   color: var(--text-muted);
 }
 
 .nav-tab-btn.active .tab-badge {
   background: var(--paytm-cyan);
-  color: #002970;
-  font-weight: 700;
+  color: var(--paytm-navy);
+  font-weight: 800;
 }
 
 /* Tab Content Panes */
@@ -1045,7 +1106,10 @@ body:not(.merchant-mode) .merchant-only {
 
 .card-header {
   padding: 1.2rem 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-subtle);
+  background: #FAFCFF;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1053,7 +1117,8 @@ body:not(.merchant-mode) .merchant-only {
 
 .card-header h3 {
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--paytm-navy);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1061,21 +1126,21 @@ body:not(.merchant-mode) .merchant-only {
 
 .card-header-badge {
   font-size: 0.75rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.badge-blue { background: rgba(0, 185, 241, 0.15); color: var(--paytm-cyan); }
-.badge-green { background: var(--accent-success-bg); color: var(--accent-success); }
-.badge-amber { background: var(--accent-warning-bg); color: var(--accent-warning); }
-.badge-red { background: var(--accent-danger-bg); color: var(--accent-danger); }
+.badge-blue { background: var(--paytm-cyan-light); color: #0077B6; border: 1px solid #BEE3F8; }
+.badge-green { background: var(--accent-success-bg); color: #008744; border: 1px solid var(--accent-success-border); }
+.badge-amber { background: var(--accent-warning-bg); color: #C2410C; border: 1px solid var(--accent-warning-border); }
+.badge-red { background: var(--accent-danger-bg); color: #DC2626; border: 1px solid var(--accent-danger-border); }
 
 .card-body {
   padding: 1.5rem;
 }
 
-/* Tables */
+/* Tables — Clean Paytm Theme */
 .custom-table {
   width: 100%;
   border-collapse: collapse;
@@ -1084,30 +1149,33 @@ body:not(.merchant-mode) .merchant-only {
 
 .custom-table th {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--paytm-navy);
+  background: #EDF4FC;
   text-transform: uppercase;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border-color);
-  font-weight: 700;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid #CBD5E1;
+  font-weight: 800;
   letter-spacing: 0.5px;
 }
 
 .custom-table td {
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border-color);
   font-size: 0.85rem;
+  color: var(--text-body);
+  background: #FFFFFF;
 }
 
 .custom-table tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
+  background: #F0F7FF;
 }
 
 /* Button & Action Components */
 .btn-action-primary {
   background: linear-gradient(135deg, var(--paytm-navy), #004b9e);
   border: 1px solid var(--paytm-cyan);
-  color: #fff;
-  font-weight: 600;
+  color: #FFFFFF;
+  font-weight: 700;
   font-size: 0.82rem;
   padding: 0.45rem 1rem;
   border-radius: var(--radius-sm);
@@ -1116,19 +1184,34 @@ body:not(.merchant-mode) .merchant-only {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  box-shadow: 0 2px 6px rgba(0, 46, 110, 0.15);
 }
 
 .btn-action-primary:hover {
   background: var(--paytm-cyan);
-  color: #002970;
-  box-shadow: 0 0 12px rgba(0, 185, 241, 0.4);
+  color: var(--paytm-navy);
+  box-shadow: 0 4px 14px rgba(0, 186, 242, 0.4);
+}
+
+.btn-ghost {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  color: var(--paytm-navy);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--paytm-cyan-light);
+  border-color: var(--paytm-cyan);
 }
 
 .btn-action-success {
-  background: rgba(16, 185, 129, 0.15);
+  background: var(--accent-success-bg);
   border: 1px solid var(--accent-success);
-  color: var(--accent-success);
-  font-weight: 600;
+  color: #008744;
+  font-weight: 700;
   font-size: 0.8rem;
   padding: 0.35rem 0.8rem;
   border-radius: var(--radius-sm);
@@ -1138,7 +1221,7 @@ body:not(.merchant-mode) .merchant-only {
 
 .btn-action-success:hover {
   background: var(--accent-success);
-  color: #000;
+  color: #FFFFFF;
 }
 
 /* Camera Shelf Scanner Specifics */
@@ -1149,18 +1232,18 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .shelf-dropzone {
-  border: 2px dashed rgba(0, 185, 241, 0.4);
+  border: 2px dashed var(--paytm-cyan);
   border-radius: var(--radius-md);
   padding: 2.5rem 1.5rem;
   text-align: center;
-  background: rgba(0, 185, 241, 0.03);
+  background: #F0F8FF;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .shelf-dropzone:hover {
-  border-color: var(--paytm-cyan);
-  background: rgba(0, 185, 241, 0.08);
+  border-color: #0284c7;
+  background: #E0F2FE;
 }
 
 .shelf-scan-result-container {
@@ -1175,6 +1258,7 @@ body:not(.merchant-mode) .merchant-only {
   overflow: hidden;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
+  background: #000;
 }
 
 .shelf-image-preview img {
@@ -1207,51 +1291,52 @@ body:not(.merchant-mode) .merchant-only {
 .score-number-overlay .main-score {
   font-size: 3.5rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--paytm-navy);
   letter-spacing: -1.5px;
   line-height: 1;
 }
 
 .score-number-overlay .score-sub {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   margin-top: 0.2rem;
+  font-weight: 600;
 }
 
 .score-tier-badge {
   display: inline-block;
   margin-top: 0.4rem;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 800;
   padding: 0.2rem 0.8rem;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000;
+  background: linear-gradient(135deg, #FF7A00, #E65100);
+  color: #FFFFFF;
   transition: all 0.3s ease;
 }
 
 .score-tier-badge.badge-platinum {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, #7C3AED, #6366f1);
   color: #fff;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.35);
 }
 
 .score-tier-badge.badge-gold {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, #FF7A00, #D97706);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 122, 0, 0.3);
 }
 
 .score-tier-badge.badge-silver {
-  background: linear-gradient(135deg, #94a3b8, #64748b);
+  background: linear-gradient(135deg, #64748B, #475569);
   color: #fff;
-  box-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
+  box-shadow: 0 0 10px rgba(100, 116, 139, 0.25);
 }
 
 .score-tier-badge.badge-bronze {
-  background: linear-gradient(135deg, #b45309, #78350f);
+  background: linear-gradient(135deg, #B45309, #78350F);
   color: #fff;
-  box-shadow: 0 0 10px rgba(180, 83, 9, 0.3);
+  box-shadow: 0 0 10px rgba(180, 83, 9, 0.25);
 }
 
 /* Dimension Progress Bars */
@@ -1263,12 +1348,14 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-body);
   margin-bottom: 0.35rem;
 }
 
 .dim-bar-track {
   height: 8px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-secondary);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -1286,12 +1373,14 @@ body:not(.merchant-mode) .merchant-only {
   margin-bottom: 1rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  background: var(--bg-card);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
 .action-card:hover {
-  border-color: rgba(0, 185, 241, 0.4);
+  border-color: var(--paytm-cyan);
+  box-shadow: var(--shadow-md);
 }
 
 .action-card.high-impact {
@@ -1307,7 +1396,8 @@ body:not(.merchant-mode) .merchant-only {
 
 .action-title {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--paytm-navy);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1324,14 +1414,14 @@ body:not(.merchant-mode) .merchant-only {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 0.75rem;
 }
 
 .action-roi {
-  font-size: 0.8rem;
-  color: var(--accent-success);
-  font-weight: 600;
+  font-size: 0.82rem;
+  color: #008744;
+  font-weight: 700;
 }
 
 .action-btns {
@@ -1351,14 +1441,14 @@ body:not(.merchant-mode) .merchant-only {
 }
 
 .toast {
-  background: rgba(18, 24, 41, 0.95);
-  backdrop-filter: var(--glass-blur);
+  background: var(--paytm-navy);
   border: 1px solid var(--paytm-cyan);
   padding: 0.9rem 1.4rem;
   border-radius: var(--radius-sm);
-  color: #fff;
-  font-size: 0.85rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 185, 241, 0.25);
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 46, 110, 0.35);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -1398,7 +1488,7 @@ body:not(.merchant-mode) .merchant-only {
     text-align: center;
   }
   .hero-quick-stats {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color);
     padding-top: 0.8rem;
     width: 100%;
     justify-content: space-around;

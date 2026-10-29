@@ -440,7 +440,7 @@
             <div class="shelf-dropzone" onclick="document.getElementById('shelfImageInput').click()">
               <input type="file" id="shelfImageInput" accept="image/*" style="display:none;" />
               <div style="font-size:2.5rem; margin-bottom:0.5rem">📸</div>
-              <div style="font-size:1.15rem; font-weight:700; color:#fff" data-i18n="t2_dropzone_title">दुकान की अलमारी की फोटो चुनें या कैमरा खोलें</div>
+              <div style="font-size:1.15rem; font-weight:800; color:var(--paytm-navy)" data-i18n="t2_dropzone_title">दुकान की अलमारी की फोटो चुनें या कैमरा खोलें</div>
               <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:0.3rem" data-i18n="t2_dropzone_sub">
                 AI तुरंत खाली रैक और कम स्टॉक वाले सामान को लाल डिब्बे में दिखा देगा
               </div>
@@ -450,10 +450,10 @@
             </div>
 
             <!-- Pre-loaded Sample Shelves for Instant Testing -->
-            <div class="sample-shelves-selector" style="margin-top:1rem; padding:0.9rem; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.15); border-radius:10px;">
-              <div style="font-size:0.85rem; font-weight:600; color:#94a3b8; margin-bottom:0.6rem; display:flex; justify-content:space-between; align-items:center;">
+            <div class="sample-shelves-selector" style="margin-top:1rem; padding:0.9rem; background:#FFFFFF; border:1px dashed #CBD5E1; border-radius:10px; box-shadow:var(--shadow-sm);">
+              <div style="font-size:0.85rem; font-weight:700; color:var(--paytm-navy); margin-bottom:0.6rem; display:flex; justify-content:space-between; align-items:center;">
                 <span data-i18n="t2_samples_title">⚡ या इनमें से कोई भी असली अलमारी चुनकर टेस्ट करें:</span>
-                <span style="font-size:0.75rem; color:#00b9f1;">5 Real Shelf Photos</span>
+                <span style="font-size:0.75rem; color:var(--paytm-navy); font-weight:800; background:var(--paytm-cyan-light); padding:2px 8px; border-radius:var(--radius-full); border:1px solid #BEE3F8;">5 Real Shelf Photos</span>
               </div>
               <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
                 <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_1_snacks_biscuits.jpg')">
@@ -468,7 +468,7 @@
                 <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px;" onclick="loadSampleShelfScan('shelf_4_kirana_staples.jpg')">
                   🌾 <span data-i18n="t2_sample_4">किराना आटा और तेल रैक</span>
                 </button>
-                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px; border-color:rgba(239,68,68,0.4); color:#fca5a5;" onclick="loadSampleShelfScan('shelf_5_empty_depleted.jpg')">
+                <button type="button" class="btn-ghost" style="padding:6px 12px; font-size:0.82rem; border-radius:6px; border-color:#FECACA; color:#DC2626; background:#FEF2F2;" onclick="loadSampleShelfScan('shelf_5_empty_depleted.jpg')">
                   ⚠️ <span data-i18n="t2_sample_5">खाली अलमारी (संकट अलर्ट)</span>
                 </button>
               </div>
@@ -567,7 +567,7 @@
     <!-- Tab 4: तिजोरी और रोकड़ा (Cash Flow & Instant Loans) -->
     <section class="tab-content-pane" id="tabCashflow">
       <!-- Early Crunch Alert Banner -->
-      <div class="glass-panel" id="cashCrunchAlertCard" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--accent-danger); background:linear-gradient(135deg, rgba(239,68,68,0.1), rgba(18,24,41,0.8));">
+      <div class="glass-panel" id="cashCrunchAlertCard" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem; border-left:4px solid var(--accent-danger); background:#FFF5F5; border-color:#FECACA;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div>
             <div style="display:flex; align-items:center; gap:0.5rem; font-weight:800; font-size:1.15rem; color:#ef4444" id="crunchHeaderGroup">
@@ -575,20 +575,20 @@
               <span id="crunchCardHeading" data-i18n="t4_alert_heading">रोकड़े की संभावित तंगी का अलर्ट</span>
               <span class="card-header-badge badge-red" id="crunchDaysVal">4 दिन में</span>
             </div>
-            <div style="font-size:0.85rem; color:#cbd5e1; margin-top:0.4rem" id="crunchActionText" data-i18n="t4_alert_sub">
+            <div style="font-size:0.85rem; color:#475569; margin-top:0.4rem" id="crunchActionText" data-i18n="t4_alert_sub">
               थोक किराना आपूर्ति चालान (ITC व अडानी विल्मर) और दुकान का किराया 4 दिन में देय।
             </div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:0.75rem; color:#94a3b8" id="crunchShortfallLabel" data-i18n="t4_shortfall_lbl">संभावित कमी</div>
+            <div style="font-size:0.75rem; color:#64748B; font-weight:700;" id="crunchShortfallLabel" data-i18n="t4_shortfall_lbl">संभावित कमी</div>
             <div style="font-size:1.5rem; font-weight:800; color:#ef4444" id="crunchShortfallVal">₹11,400</div>
           </div>
         </div>
 
-        <div style="margin-top:1rem; padding:1.2rem; background:rgba(0,41,112,0.4); border-radius:var(--radius-sm); border:1px solid rgba(0,185,241,0.3); display:flex; justify-content:space-between; align-items:center;" id="crunchLoanBanner">
+        <div style="margin-top:1rem; padding:1.2rem; background:linear-gradient(135deg, var(--paytm-navy) 0%, #004b9e 100%); border-radius:var(--radius-sm); border:1px solid var(--paytm-cyan); display:flex; justify-content:space-between; align-items:center;" id="crunchLoanBanner">
           <div>
             <div style="font-weight:700; font-size:1.05rem; color:#fff" id="crunchLoanTitle" data-i18n="t4_loan_title">घबराएं नहीं! पेटीएम तुरंत व्यापारी क्रेडिट प्री-एप्रूव्ड है</div>
-            <div style="font-size:0.82rem; color:#94a3b8" id="crunchLoanSub" data-i18n="t4_loan_sub">आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.1% मासिक ब्याज</div>
+            <div style="font-size:0.82rem; color:rgba(255,255,255,0.85)" id="crunchLoanSub" data-i18n="t4_loan_sub">आपके साउंडबॉक्स UPI लेनदेन के आधार पर • बिना किसी कागज़ी झंझट के • 1.1% मासिक ब्याज</div>
           </div>
           <div style="display:flex; align-items:center; gap:1.2rem;">
             <div style="font-size:1.35rem; font-weight:800; color:var(--paytm-cyan)" id="loanAmountVal">₹25,000</div>
@@ -632,8 +632,8 @@
             <div class="score-radial-wrapper" style="min-height:160px; display:flex; align-items:center; justify-content:center; padding:0.8rem 0;">
               <div style="position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center;">
                 <svg width="150" height="150" viewBox="0 0 150 150" style="transform: rotate(-90deg);">
-                  <circle cx="75" cy="75" r="62" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="transparent"/>
-                  <circle id="scoreMeterCircle" cx="75" cy="75" r="62" stroke="#10b981" stroke-width="10" stroke-linecap="round" fill="transparent" stroke-dasharray="390" stroke-dashoffset="68" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;"/>
+                  <circle cx="75" cy="75" r="62" stroke="#EDF2F7" stroke-width="10" fill="transparent"/>
+                  <circle id="scoreMeterCircle" cx="75" cy="75" r="62" stroke="#00AC4F" stroke-width="10" stroke-linecap="round" fill="transparent" stroke-dasharray="390" stroke-dashoffset="68" style="transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;"/>
                 </svg>
                 <div class="score-number-overlay" style="position:absolute; text-align:center;">
                   <div class="main-score" id="mainScoreNumber">742</div>
@@ -656,7 +656,7 @@
               <canvas id="shapChartCanvas"></canvas>
             </div>
 
-            <div style="margin-top:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:var(--radius-sm);">
+            <div style="margin-top:1.5rem; padding:1rem; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius-sm);">
               <div style="font-weight:700; font-size:0.88rem; color:#10b981; margin-bottom:0.5rem" id="scoreChecklistTitle">
                 🎯 स्कोर 780 तक बढ़ाने के आसान उपाय (+38 अंक):
               </div>
@@ -791,11 +791,11 @@
       </div>
 
       <!-- Action Sub-Tab Bar -->
-      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">
-        <button id="btnTabPendingActions" class="tab-btn active" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('pending')">
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; border-bottom:2px solid var(--border-color); padding-bottom:0.6rem;">
+        <button id="btnTabPendingActions" class="tab-btn active" style="padding:0.45rem 1rem; font-size:0.85rem;" onclick="switchActionSubTab('pending')">
           <span data-i18n="act_tab_pending">⚡ लंबित फैसले</span> (<span id="pendingTabBadge">4</span>)
         </button>
-        <button id="btnTabHistoryActions" class="tab-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('history')">
+        <button id="btnTabHistoryActions" class="tab-btn" style="padding:0.45rem 1rem; font-size:0.85rem;" onclick="switchActionSubTab('history')">
           <span data-i18n="act_tab_history">📜 निष्पादित कार्य व ऑडिट ट्रेल</span> (<span id="historyTabBadge">0</span>)
         </button>
       </div>

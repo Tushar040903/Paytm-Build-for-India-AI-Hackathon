@@ -879,8 +879,11 @@ function renderDemandChart(forecastPoints) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#94a3b8' } },
+        legend: { labels: { color: '#002E6E', font: { weight: 'bold' } } },
         tooltip: {
+          backgroundColor: '#002E6E',
+          titleColor: '#FFFFFF',
+          bodyColor: '#E0F2FE',
           callbacks: {
             label: function(context) {
               if (context.datasetIndex === 0) return `${currentLanguage === 'hi' ? 'बिक्री' : 'Sales'}: ₹${context.raw.toLocaleString('en-IN')}`;
@@ -890,15 +893,15 @@ function renderDemandChart(forecastPoints) {
         }
       },
       scales: {
-        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+        x: { grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } },
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#00b9f1', callback: val => '₹' + val },
+          grid: { color: '#E2E8F0' },
+          ticks: { color: '#002E6E', callback: val => '₹' + val },
           position: 'left'
         },
         y1: {
           grid: { drawOnChartArea: false },
-          ticks: { color: '#10b981' },
+          ticks: { color: '#00AC4F' },
           position: 'right'
         }
       }
@@ -1078,9 +1081,9 @@ async function loadCustomerRetention(merchantId) {
     if (segContainer) {
       segContainer.innerHTML = (data.segments || []).map(s => `
         <div class="glass-panel" style="padding:1rem; text-align:center;">
-          <div style="font-size:0.8rem; color:#94a3b8; font-weight:600">${s.segment_name}</div>
-          <div style="font-size:1.4rem; font-weight:800; color:#fff; margin:0.3rem 0">${s.count} ${currentLanguage === 'hi' ? 'ग्राहक' : 'customers'}</div>
-          <div style="font-size:0.75rem; color:#00b9f1">${s.percentage}% ${currentLanguage === 'hi' ? 'हिस्सा' : 'share'}</div>
+          <div style="font-size:0.8rem; color:#64748B; font-weight:700">${s.segment_name}</div>
+          <div style="font-size:1.4rem; font-weight:800; color:var(--paytm-navy); margin:0.3rem 0">${s.count} ${currentLanguage === 'hi' ? 'ग्राहक' : 'customers'}</div>
+          <div style="font-size:0.75rem; color:#0284c7; font-weight:700">${s.percentage}% ${currentLanguage === 'hi' ? 'हिस्सा' : 'share'}</div>
         </div>
       `).join("");
     }
@@ -1286,8 +1289,11 @@ function renderCashflowChart(projectedDays, startingCash) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#94a3b8' } },
+        legend: { labels: { color: '#002E6E', font: { weight: 'bold' } } },
         tooltip: {
+          backgroundColor: '#002E6E',
+          titleColor: '#FFFFFF',
+          bodyColor: '#E0F2FE',
           callbacks: {
             label: function(context) {
               const val = Math.round(context.raw).toLocaleString('en-IN');
@@ -1305,20 +1311,20 @@ function renderCashflowChart(projectedDays, startingCash) {
         }
       },
       scales: {
-        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
+        x: { grid: { color: '#E2E8F0' }, ticks: { color: '#64748B' } },
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          grid: { color: '#E2E8F0' },
           ticks: { color: balanceColor, callback: val => '₹' + Math.round(val).toLocaleString('en-IN') },
           position: 'left',
           title: {
             display: true,
             text: currentLanguage === 'hi' ? 'कुल रोकड़ा (₹)' : 'Cash Balance (₹)',
-            color: balanceColor
+            color: '#002E6E'
           }
         },
         y1: {
           grid: { drawOnChartArea: false },
-          ticks: { color: '#00b9f1', callback: val => '₹' + Math.round(val).toLocaleString('en-IN') },
+          ticks: { color: '#0056b3', callback: val => '₹' + Math.round(val).toLocaleString('en-IN') },
           position: 'right',
           title: {
             display: true,
@@ -1445,15 +1451,15 @@ async function loadMerchantScore(merchantId) {
         <div class="dim-item" style="margin-bottom: 0.85rem;">
           <div class="dim-top" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
             <span>
-              <strong style="color:#f1f5f9; font-size:0.88rem">${dimName}</strong>
-              <small style="color:#64748b; margin-left:0.35rem">(${d.weight_pct}% ${currentLanguage === "hi" ? "महत्व" : "weight"})</small>
+              <strong style="color:var(--paytm-navy); font-size:0.88rem">${dimName}</strong>
+              <small style="color:#64748B; margin-left:0.35rem">(${d.weight_pct}% ${currentLanguage === "hi" ? "महत्व" : "weight"})</small>
             </span>
-            <span style="font-weight:700; font-size:0.88rem; color:#f8fafc">
+            <span style="font-weight:800; font-size:0.88rem; color:var(--paytm-navy)">
               ${scoreVal} / ${maxScore}
               <span class="card-header-badge ${gradeBadgeClass}" style="margin-left:0.35rem; font-size:0.7rem; padding:1px 6px;">${d.grade || 'A'}</span>
             </span>
           </div>
-          <div class="dim-bar-track" style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+          <div class="dim-bar-track" style="height:6px; background:#EDF2F7; border-radius:3px; overflow:hidden;">
             <div class="dim-bar-fill" style="width: ${pct}%; height:100%; background: ${barColor}; border-radius:3px; transition: width 0.6s ease;"></div>
           </div>
         </div>
@@ -1502,8 +1508,8 @@ async function loadMerchantScore(merchantId) {
 
       if (Array.isArray(actions) && actions.length > 0) {
         checklist.innerHTML = actions.map(a => `
-          <li style="padding:0.45rem 0.55rem; margin-bottom:0.35rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:6px; font-size:0.84rem; color:#cbd5e1; display:flex; align-items:flex-start; gap:0.55rem; line-height:1.4">
-            <span style="color:#10b981; font-weight:700; margin-top:1px">✓</span>
+          <li style="padding:0.45rem 0.55rem; margin-bottom:0.35rem; background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; font-size:0.84rem; color:#334155; display:flex; align-items:flex-start; gap:0.55rem; line-height:1.4">
+            <span style="color:#00AC4F; font-weight:700; margin-top:1px">✓</span>
             <span style="flex:1">${a}</span>
           </li>
         `).join("");
@@ -1567,10 +1573,10 @@ function renderShapChart(shapContributors) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
-          titleColor: '#f8fafc',
-          bodyColor: '#cbd5e1',
-          borderColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: '#002E6E',
+          titleColor: '#FFFFFF',
+          bodyColor: '#E0F2FE',
+          borderColor: '#00BAF2',
           borderWidth: 1,
           padding: 8,
           callbacks: {
@@ -1586,23 +1592,23 @@ function renderShapChart(shapContributors) {
       },
       scales: {
         x: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          grid: { color: '#E2E8F0' },
           ticks: {
-            color: '#94a3b8',
+            color: '#64748B',
             callback: val => (val > 0 ? `+${val}` : `${val}`)
           },
           title: {
             display: true,
             text: currentLanguage === 'hi' ? 'स्कोर में प्रभाव (अंक)' : 'Impact on Credit Score (Points)',
-            color: '#64748b',
-            font: { size: 10 }
+            color: '#002E6E',
+            font: { size: 11, weight: 'bold' }
           }
         },
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          grid: { color: '#E2E8F0' },
           ticks: {
-            color: '#cbd5e1',
-            font: { size: 10.5 }
+            color: '#1E293B',
+            font: { size: 11, weight: '600' }
           }
         }
       }
@@ -1719,15 +1725,15 @@ async function loadCompetitorRadar(merchantId) {
         const extraRev = p.estimated_extra_revenue_inr || 15000;
 
         return `
-        <div style="padding:0.9rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius-sm); transition:background 0.2s ease;">
+        <div style="padding:0.9rem; margin-bottom:0.75rem; background:#F8FAFD; border:1px solid #E2E8F0; border-radius:var(--radius-sm); transition:all 0.2s ease;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.4rem;">
             <div>
               <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
-                <strong style="color:#f8fafc; font-size:0.95rem;">${prodName}</strong>
+                <strong style="color:var(--paytm-navy); font-size:0.95rem;">${prodName}</strong>
                 <span class="card-header-badge ${urgencyClass}" style="font-size:0.7rem; padding:1px 6px;">${urgencyText}</span>
               </div>
-              <div style="font-size:0.76rem; color:#64748b; margin-top:0.15rem;">
-                ${catName} • <span style="color:#38bdf8;">${p.nearby_adoption_pct}% ${currentLanguage === 'hi' ? 'दुकानों में उपलब्ध' : 'peer adoption'}</span>
+              <div style="font-size:0.76rem; color:#64748B; margin-top:0.15rem;">
+                ${catName} • <span style="color:#0284c7; font-weight:600;">${p.nearby_adoption_pct}% ${currentLanguage === 'hi' ? 'दुकानों में उपलब्ध' : 'peer adoption'}</span>
               </div>
             </div>
             <div style="text-align:right; flex-shrink:0;">
@@ -1735,14 +1741,14 @@ async function loadCompetitorRadar(merchantId) {
             </div>
           </div>
           
-          <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.45; margin-bottom:0.6rem;">
+          <div style="font-size:0.82rem; color:#334155; line-height:1.45; margin-bottom:0.6rem;">
             ${detailText}
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; padding-top:0.5rem; border-top:1px solid rgba(255,255,255,0.04);">
-            <div style="font-size:0.78rem; color:#00b9f1; font-weight:600;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; padding-top:0.5rem; border-top:1px solid #EBF1F8;">
+            <div style="font-size:0.78rem; color:var(--paytm-navy); font-weight:700;">
               📦 ${currentLanguage === 'hi' ? 'सुझाया गया स्टॉक' : 'Suggested Stock'}: <strong>${stockUnits} ${currentLanguage === 'hi' ? 'यूनिट' : 'units'}</strong>
-              <span style="color:#64748b; margin-left:0.4rem;">(≈ +₹${extraRev.toLocaleString('en-IN')})</span>
+              <span style="color:#64748B; margin-left:0.4rem;">(≈ +₹${extraRev.toLocaleString('en-IN')})</span>
             </div>
             <button class="btn-action-success" style="padding:0.25rem 0.65rem; font-size:0.75rem;" onclick="showToast('${currentLanguage === 'hi' ? '✅ ' + prodName + ' का होलसेलर आर्डर तैयार किया गया!' : '✅ Order queued for ' + prodName + '!'}')">
               🛒 ${currentLanguage === 'hi' ? '+ स्टॉक ऑर्डर जोड़ें' : '+ Reorder Stock'}
@@ -1765,17 +1771,17 @@ async function loadCompetitorRadar(merchantId) {
         const isHigh = t.severity === "HIGH";
 
         return `
-        <div style="padding:0.85rem 1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02); border-left:4px solid ${isHigh ? '#ef4444' : '#f59e0b'}; border-radius:4px;">
+        <div style="padding:0.85rem 1rem; margin-bottom:0.75rem; background:#FFFBEB; border-left:4px solid ${isHigh ? '#EF4444' : '#FF7A00'}; border:1px solid #FED7AA; border-radius:4px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-            <div style="font-size:0.88rem; font-weight:700; color:${isHigh ? '#f87171' : '#fbbf24'};">${title}</div>
+            <div style="font-size:0.88rem; font-weight:800; color:${isHigh ? '#DC2626' : '#B45309'};">${title}</div>
             <span class="card-header-badge ${isHigh ? 'badge-amber' : 'badge-blue'}" style="font-size:0.68rem; padding:1px 6px;">
               ${isHigh ? (currentLanguage === 'hi' ? 'उच्च प्रभाव' : 'HIGH IMPACT') : (currentLanguage === 'hi' ? 'मध्यम' : 'MODERATE')}
             </span>
           </div>
-          <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.45; margin-bottom:0.5rem;">
+          <div style="font-size:0.82rem; color:#334155; line-height:1.45; margin-bottom:0.5rem;">
             ${desc}
           </div>
-          <div style="font-size:0.8rem; color:#34d399; background:rgba(16,185,129,0.08); padding:0.4rem 0.6rem; border-radius:4px; display:flex; align-items:flex-start; gap:0.4rem;">
+          <div style="font-size:0.8rem; color:#065F46; background:#E8F8F0; border:1px solid #A7F3D0; padding:0.4rem 0.6rem; border-radius:4px; display:flex; align-items:flex-start; gap:0.4rem;">
             <span>💡</span>
             <div><strong>${currentLanguage === 'hi' ? 'पेटीएम साथी रणनीति' : 'Paytm Strategy'}:</strong> ${countermeasure}</div>
           </div>
@@ -1793,15 +1799,17 @@ async function loadCompetitorRadar(merchantId) {
         const potential = o.potential_revenue_inr || 15000;
 
         return `
-        <div style="padding:0.75rem 0.9rem; margin-bottom:0.65rem; background:rgba(255,255,255,0.02); border:1px solid rgba(16,185,129,0.2); border-radius:var(--radius-sm);">
+        <div style="padding:0.75rem 0.9rem; margin-bottom:0.65rem; background:#F0FDF4; border:1px solid #BBF7D0; border-radius:var(--radius-sm);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-            <strong style="color:#f1f5f9; font-size:0.88rem;">${title}</strong>
-            <span style="font-size:0.8rem; font-weight:700; color:#10b981; background:rgba(16,185,129,0.12); padding:1px 6px; border-radius:4px;">
+            <strong style="color:#065F46; font-size:0.88rem;">${title}</strong>
+            <span style="font-size:0.8rem; font-weight:700; color:#008744; background:#DCFCE7; padding:1px 6px; border-radius:4px; border:1px solid #86EFAC;">
               +₹${potential.toLocaleString('en-IN')} ${currentLanguage === 'hi' ? 'अतिरिक्त' : 'revenue'}
             </span>
           </div>
-          <div style="font-size:0.81rem; color:#94a3b8; line-height:1.4;">
+          <div style="font-size:0.81rem; color:#374151; line-height:1.4;">
             ${plan}
+          </div>
+        </div>
           </div>
         </div>
       `;
@@ -1929,48 +1937,48 @@ async function loadPendingActions(merchantId) {
           const d = act.details || {};
           if (act.action_type === "REORDER_WHATSAPP") {
             detailsHtml = `
-              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
-                <div><span style="color:#64748b;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:#f1f5f9;">${d.supplier_name || 'Wholesale Distributor'}</strong></div>
-                <div><span style="color:#64748b;">📞 ${currentLanguage === 'hi' ? 'व्हाट्सएप' : 'WhatsApp'}:</span> <span style="color:#38bdf8;">${d.supplier_phone || '+91 9811223344'}</span></div>
-                <div><span style="color:#64748b;">📦 ${currentLanguage === 'hi' ? 'सामान' : 'Item'}:</span> <strong style="color:#10b981;">${d.item_name || 'Inventory'} (${d.quantity || '2 cartons'})</strong></div>
-                <div><span style="color:#64748b;">💰 ${currentLanguage === 'hi' ? 'लागत' : 'Cost'}:</span> <strong style="color:#f8fafc;">₹${(d.total_cost_inr || 0).toLocaleString('en-IN')}</strong></div>
-                <div><span style="color:#64748b;">🚚 ${currentLanguage === 'hi' ? 'आगमन' : 'Arrival'}:</span> <span style="color:#f59e0b;">${d.estimated_arrival || 'Tomorrow morning'}</span></div>
+              <div style="background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748B;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:var(--paytm-navy);">${d.supplier_name || 'Wholesale Distributor'}</strong></div>
+                <div><span style="color:#64748B;">📞 ${currentLanguage === 'hi' ? 'व्हाट्सएप' : 'WhatsApp'}:</span> <span style="color:#0284c7; font-weight:600;">${d.supplier_phone || '+91 9811223344'}</span></div>
+                <div><span style="color:#64748B;">📦 ${currentLanguage === 'hi' ? 'सामान' : 'Item'}:</span> <strong style="color:#00AC4F;">${d.item_name || 'Inventory'} (${d.quantity || '2 cartons'})</strong></div>
+                <div><span style="color:#64748B;">💰 ${currentLanguage === 'hi' ? 'लागत' : 'Cost'}:</span> <strong style="color:var(--paytm-navy);">₹${(d.total_cost_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748B;">🚚 ${currentLanguage === 'hi' ? 'आगमन' : 'Arrival'}:</span> <span style="color:#D97706; font-weight:600;">${d.estimated_arrival || 'Tomorrow morning'}</span></div>
               </div>
             `;
           } else if (act.action_type === "CUSTOMER_WINBACK_COUPON") {
             detailsHtml = `
-              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
-                <div><span style="color:#64748b;">👥 ${currentLanguage === 'hi' ? 'लक्षित ग्राहक' : 'Target'}:</span> <strong style="color:#f1f5f9;">${d.target_customers_count || 8} ${currentLanguage === 'hi' ? 'पुराने पक्के ग्राहक' : 'Lapsed Regulars'}</strong></div>
-                <div><span style="color:#64748b;">🎁 ${currentLanguage === 'hi' ? 'कैशबैक' : 'Voucher'}:</span> <strong style="color:#10b981;">₹${d.cashback_per_customer_inr || 20} ${currentLanguage === 'hi' ? 'प्रति ग्राहक' : 'per user'}</strong></div>
-                <div><span style="color:#64748b;">🛒 ${currentLanguage === 'hi' ? 'न्यूनतम खरीद' : 'Min Bill'}:</span> <strong style="color:#f8fafc;">₹${d.min_bill_inr || 150}</strong></div>
-                <div><span style="color:#64748b;">⏳ ${currentLanguage === 'hi' ? 'वैधता' : 'Validity'}:</span> <span style="color:#f59e0b;">${d.validity_days || 5} ${currentLanguage === 'hi' ? 'दिन' : 'days'}</span></div>
-                <div><span style="color:#64748b;">📈 ${currentLanguage === 'hi' ? 'संभावित बिक्री' : 'Lift'}:</span> <strong style="color:#38bdf8;">+₹${(d.estimated_spend_lift_inr || 0).toLocaleString('en-IN')}</strong></div>
+              <div style="background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748B;">👥 ${currentLanguage === 'hi' ? 'लक्षित ग्राहक' : 'Target'}:</span> <strong style="color:var(--paytm-navy);">${d.target_customers_count || 8} ${currentLanguage === 'hi' ? 'पुराने पक्के ग्राहक' : 'Lapsed Regulars'}</strong></div>
+                <div><span style="color:#64748B;">🎁 ${currentLanguage === 'hi' ? 'कैशबैक' : 'Voucher'}:</span> <strong style="color:#00AC4F;">₹${d.cashback_per_customer_inr || 20} ${currentLanguage === 'hi' ? 'प्रति ग्राहक' : 'per user'}</strong></div>
+                <div><span style="color:#64748B;">🛒 ${currentLanguage === 'hi' ? 'न्यूनतम खरीद' : 'Min Bill'}:</span> <strong style="color:var(--paytm-navy);">₹${d.min_bill_inr || 150}</strong></div>
+                <div><span style="color:#64748B;">⏳ ${currentLanguage === 'hi' ? 'वैधता' : 'Validity'}:</span> <span style="color:#D97706; font-weight:600;">${d.validity_days || 5} ${currentLanguage === 'hi' ? 'दिन' : 'days'}</span></div>
+                <div><span style="color:#64748B;">📈 ${currentLanguage === 'hi' ? 'संभावित बिक्री' : 'Lift'}:</span> <strong style="color:#0284c7;">+₹${(d.estimated_spend_lift_inr || 0).toLocaleString('en-IN')}</strong></div>
               </div>
             `;
           } else if (act.action_type === "LOAN_APPLY") {
             detailsHtml = `
-              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
-                <div><span style="color:#64748b;">🏦 ${currentLanguage === 'hi' ? 'पार्टनर' : 'Partner'}:</span> <strong style="color:#f1f5f9;">${d.lending_partner || 'Paytm Lending'}</strong></div>
-                <div><span style="color:#64748b;">💵 ${currentLanguage === 'hi' ? 'प्री-एप्रूव्ड लोन' : 'Pre-Approved'}:</span> <strong style="color:#10b981;">₹${(d.preapproved_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
-                <div><span style="color:#64748b;">📅 ${currentLanguage === 'hi' ? 'अवधि' : 'Tenure'}:</span> <strong style="color:#f8fafc;">${d.tenure_months || 3} ${currentLanguage === 'hi' ? 'महीने' : 'Months'}</strong></div>
-                <div><span style="color:#64748b;">💳 ${currentLanguage === 'hi' ? 'मासिक EMI' : 'EMI'}:</span> <span style="color:#f59e0b;">₹${(d.monthly_emi_inr || 0).toLocaleString('en-IN')}/mo</span></div>
-                <div><span style="color:#64748b;">⚡ ${currentLanguage === 'hi' ? 'डिस्बर्सल' : 'Disbursal'}:</span> <span style="color:#38bdf8;">${d.processing_time || 'Instant'}</span></div>
+              <div style="background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748B;">🏦 ${currentLanguage === 'hi' ? 'पार्टनर' : 'Partner'}:</span> <strong style="color:var(--paytm-navy);">${d.lending_partner || 'Paytm Lending'}</strong></div>
+                <div><span style="color:#64748B;">💵 ${currentLanguage === 'hi' ? 'प्री-एप्रूव्ड लोन' : 'Pre-Approved'}:</span> <strong style="color:#00AC4F;">₹${(d.preapproved_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748B;">📅 ${currentLanguage === 'hi' ? 'अवधि' : 'Tenure'}:</span> <strong style="color:var(--paytm-navy);">${d.tenure_months || 3} ${currentLanguage === 'hi' ? 'महीने' : 'Months'}</strong></div>
+                <div><span style="color:#64748B;">💳 ${currentLanguage === 'hi' ? 'मासिक EMI' : 'EMI'}:</span> <span style="color:#D97706; font-weight:600;">₹${(d.monthly_emi_inr || 0).toLocaleString('en-IN')}/mo</span></div>
+                <div><span style="color:#64748B;">⚡ ${currentLanguage === 'hi' ? 'डिस्बर्सल' : 'Disbursal'}:</span> <span style="color:#0284c7; font-weight:600;">${d.processing_time || 'Instant'}</span></div>
               </div>
             `;
           } else if (act.action_type === "SUPPLIER_DISCOUNT") {
             detailsHtml = `
-              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
-                <div><span style="color:#64748b;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:#f1f5f9;">${d.supplier_name || 'Wholesaler'}</strong></div>
-                <div><span style="color:#64748b;">🧾 ${currentLanguage === 'hi' ? 'चालान राशि' : 'Invoice'}:</span> <strong style="color:#f8fafc;">₹${(d.invoice_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
-                <div><span style="color:#64748b;">💵 ${currentLanguage === 'hi' ? 'सीधी नकद बचत' : 'Cash Discount'}:</span> <strong style="color:#10b981;">₹${(d.cash_discount_inr || 0).toLocaleString('en-IN')}</strong></div>
-                <div><span style="color:#64748b;">⏳ ${currentLanguage === 'hi' ? 'समय पूर्व' : 'Early By'}:</span> <span style="color:#38bdf8;">${d.days_ahead || 5} ${currentLanguage === 'hi' ? 'दिन पहले' : 'days ahead'}</span></div>
+              <div style="background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748B;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:var(--paytm-navy);">${d.supplier_name || 'Wholesaler'}</strong></div>
+                <div><span style="color:#64748B;">🧾 ${currentLanguage === 'hi' ? 'चालान राशि' : 'Invoice'}:</span> <strong style="color:var(--paytm-navy);">₹${(d.invoice_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748B;">💵 ${currentLanguage === 'hi' ? 'सीधी नकद बचत' : 'Cash Discount'}:</span> <strong style="color:#00AC4F;">₹${(d.cash_discount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748B;">⏳ ${currentLanguage === 'hi' ? 'समय पूर्व' : 'Early By'}:</span> <span style="color:#0284c7; font-weight:600;">${d.days_ahead || 5} ${currentLanguage === 'hi' ? 'दिन पहले' : 'days ahead'}</span></div>
               </div>
             `;
           } else if (act.action_type === "FESTIVE_PROMOTION") {
             detailsHtml = `
-              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
-                <div><span style="color:#64748b;">📢 ${currentLanguage === 'hi' ? 'चैनल' : 'Channel'}:</span> <strong style="color:#f1f5f9;">${d.channel || 'Paytm App & Soundbox'}</strong></div>
-                <div><span style="color:#64748b;">📍 ${currentLanguage === 'hi' ? 'दायरा' : 'Radius'}:</span> <strong style="color:#38bdf8;">${d.radius_km || 2} km</strong></div>
+              <div style="background:#F8FAFD; border:1px solid #E2E8F0; border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748B;">📢 ${currentLanguage === 'hi' ? 'चैनल' : 'Channel'}:</span> <strong style="color:var(--paytm-navy);">${d.channel || 'Paytm App & Soundbox'}</strong></div>
+                <div><span style="color:#64748B;">📍 ${currentLanguage === 'hi' ? 'दायरा' : 'Radius'}:</span> <strong style="color:#0284c7;">${d.radius_km || 2} km</strong></div>
               </div>
             `;
           }
@@ -1980,23 +1988,23 @@ async function loadPendingActions(merchantId) {
               <div class="action-header">
                 <div class="action-title">
                   <span style="font-size:1.15rem;">⚡</span>
-                  <span style="font-size:0.95rem; font-weight:700; color:#f8fafc;">${title}</span>
+                  <span style="font-size:0.95rem; font-weight:800; color:var(--paytm-navy);">${title}</span>
                 </div>
                 <span class="card-header-badge ${isHigh ? 'badge-amber' : 'badge-blue'}">${priorityText}</span>
               </div>
-              <div class="action-body" style="font-size:0.83rem; color:#cbd5e1; line-height:1.5;">${desc}</div>
+              <div class="action-body" style="font-size:0.83rem; color:var(--text-secondary); line-height:1.5;">${desc}</div>
               
               ${detailsHtml}
 
               <div class="action-footer">
-                <span class="action-roi" style="font-size:0.82rem; font-weight:700; color:#10b981;">
+                <span class="action-roi" style="font-size:0.82rem; font-weight:700; color:#008744;">
                   📈 ${currentLanguage === 'hi' ? 'संभावित लाभ' : 'Est. ROI'}: ${roiText}
                 </span>
                 <div class="action-btns">
                   <button class="btn-action-success" onclick="resolveAction('${act.action_id}', true)">
                     ✅ ${currentLanguage === 'hi' ? '1-क्लिक में मंज़ूर करें' : '1-Click Approve'}
                   </button>
-                  <button class="btn-lang-toggle" onclick="resolveAction('${act.action_id}', false)">
+                  <button class="btn-ghost" style="padding:0.35rem 0.75rem; font-size:0.8rem; border-radius:var(--radius-sm);" onclick="resolveAction('${act.action_id}', false)">
                     ${currentLanguage === 'hi' ? 'खारिज करें' : 'Dismiss'}
                   </button>
                 </div>
@@ -2012,12 +2020,12 @@ async function loadPendingActions(merchantId) {
     if (historyContainer) {
       if (executedActions.length === 0) {
         historyContainer.innerHTML = `
-          <div style="text-align:center; padding:2.5rem 1rem; color:#64748b;">
+          <div style="text-align:center; padding:2.5rem 1rem; color:#64748B;">
             <div style="font-size:2rem; margin-bottom:0.5rem;">📜</div>
-            <div style="font-size:0.95rem; font-weight:600; color:#94a3b8;">
+            <div style="font-size:0.95rem; font-weight:700; color:var(--paytm-navy);">
               ${currentLanguage === 'hi' ? 'अभी तक कोई फैसला निष्पादित नहीं हुआ है।' : 'No executed actions recorded yet.'}
             </div>
-            <div style="font-size:0.8rem; color:#64748b; margin-top:0.2rem;">
+            <div style="font-size:0.8rem; color:#64748B; margin-top:0.2rem;">
               ${currentLanguage === 'hi' ? 'जैसे ही आप किसी फैसले को 1-क्लिक में मंज़ूर करेंगे, उसका लाइव रिकॉर्ड यहाँ दर्ज होगा।' : 'Actions approved via 1-Click will be logged here with complete execution telemetry.'}
             </div>
           </div>
@@ -2033,18 +2041,18 @@ async function loadPendingActions(merchantId) {
             : (currentLanguage === 'hi' ? '✕ खारिज किया गया' : '✕ DECLINED');
 
           return `
-            <div class="action-card" style="border-left:4px solid ${isApproved ? '#10b981' : '#64748b'}; padding:1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02);">
+            <div class="action-card" style="border-left:4px solid ${isApproved ? '#00AC4F' : '#64748B'}; padding:1rem; margin-bottom:0.75rem; background:#FFFFFF;">
               <div class="action-header" style="margin-bottom:0.35rem;">
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                   <span>${isApproved ? '✅' : '❌'}</span>
-                  <strong style="color:#f1f5f9; font-size:0.9rem;">${title}</strong>
+                  <strong style="color:var(--paytm-navy); font-size:0.9rem;">${title}</strong>
                 </div>
                 <span class="card-header-badge ${badgeClass}" style="font-size:0.72rem; padding:1px 6px;">${badgeText}</span>
               </div>
-              <div style="font-size:0.8rem; color:#94a3b8; margin:0.3rem 0 0.5rem; line-height:1.45;">
+              <div style="font-size:0.8rem; color:var(--text-secondary); margin:0.3rem 0 0.5rem; line-height:1.45;">
                 ${logText || (isApproved ? 'Executed successfully via Paytm API.' : 'Declined by merchant.')}
               </div>
-              <div style="font-size:0.74rem; color:#64748b; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.35rem; display:flex; justify-content:space-between;">
+              <div style="font-size:0.74rem; color:#64748B; border-top:1px solid #EBF1F8; padding-top:0.35rem; display:flex; justify-content:space-between;">
                 <span>ID: ${act.action_id}</span>
                 <span>📅 ${act.created_at || 'Just now'}</span>
               </div>
