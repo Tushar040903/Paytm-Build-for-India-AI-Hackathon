@@ -78,6 +78,46 @@ class MerchantMindScorer:
         final_score = target_score
         tier = merchant.get("tier_badge", "गोल्ड व्यापारी 🥇 (Gold Tier)")
 
+        monthly_gmv = merchant.get("monthly_gmv", merchant.get("avg_daily_sales_inr", 15000.0) * 30.0)
+        
+        # Real MSME Underwriting Logic for Paytm Merchant Lending
+        if final_score < 600:
+            is_preapproved = False
+            preapproved_loan = 0
+            interest_rate = None
+            status_en = "Building Credit Trail"
+            status_hi = "साख निर्माणधीन"
+            subtext_en = "Requires 30 days active Soundbox volume to unlock credit"
+            subtext_hi = "30 दिन लगातार साउंडबॉक्स लेनदेन से क्रेडिट अनलॉक होगा"
+            loan_benefit_str = "Complete 30 consecutive days of Soundbox volume to unlock ₹15,000 starter credit"
+        elif final_score < 700:
+            is_preapproved = True
+            preapproved_loan = max(15000, min(35000, int(round((monthly_gmv * 0.12) / 5000.0) * 5000)))
+            interest_rate = 1.35
+            status_en = "Pre-Approved Starter Credit"
+            status_hi = "प्री-एप्रूव्ड स्टार्टर लोन"
+            subtext_en = f"₹{preapproved_loan:,} ready in wallet @ 1.35%/mo"
+            subtext_hi = f"₹{preapproved_loan:,} तुरंत उपलब्ध @ 1.35% ब्याज"
+            loan_benefit_str = f"Pre-approved Paytm Business Starter Loan up to ₹{preapproved_loan:,} at 1.35% monthly interest"
+        elif final_score < 800:
+            is_preapproved = True
+            preapproved_loan = max(40000, min(100000, int(round((monthly_gmv * 0.22) / 5000.0) * 5000)))
+            interest_rate = 1.10
+            status_en = "Pre-Approved Working Capital"
+            status_hi = "गोल्ड प्री-एप्रूव्ड लोन"
+            subtext_en = f"₹{preapproved_loan:,} instantly available @ 1.10%/mo"
+            subtext_hi = f"₹{preapproved_loan:,} तुरंत उपलब्ध @ 1.10% ब्याज"
+            loan_benefit_str = f"Pre-approved Paytm Working Capital Loan up to ₹{preapproved_loan:,} at preferential 1.10% monthly interest"
+        else: # 800+
+            is_preapproved = True
+            preapproved_loan = max(150000, min(350000, int(round((monthly_gmv * 0.32) / 10000.0) * 10000)))
+            interest_rate = 0.85
+            status_en = "Platinum Prime Credit Line"
+            status_hi = "प्लैटिनम प्राइम क्रेडिट लाइन"
+            subtext_en = f"₹{preapproved_loan:,} pre-approved @ 0.85%/mo prime rate"
+            subtext_hi = f"₹{preapproved_loan:,} प्राइम दर 0.85% पर तुरंत स्वीकृत"
+            loan_benefit_str = f"Pre-approved Paytm Platinum Prime Credit Line up to ₹{preapproved_loan:,} at prime 0.85% monthly interest"
+
         percentile = round((final_score / 900.0) * 88.0, 1)
 
         # SHAP-style attribution
@@ -90,7 +130,7 @@ class MerchantMindScorer:
         ]
 
         preapproved_benefits = [
-            f"Pre-approved Paytm Business Loan up to ₹1,50,000 at preferential 1.15% monthly interest",
+            loan_benefit_str,
             f"'Trusted Merchant' badge on Paytm consumer app in your 2 km radius",
             f"Priority 24/7 Merchant Support and instant settlement waiver",
             f"Zero MDR fees on first ₹50,000 monthly transactions"
@@ -114,7 +154,14 @@ class MerchantMindScorer:
             "dimensions": dimensions,
             "shap_top_contributors": shap_contributors,
             "preapproved_benefits": preapproved_benefits,
-            "immediate_actions_to_boost_score": boost_actions
+            "immediate_actions_to_boost_score": boost_actions,
+            "preapproved_loan_inr": preapproved_loan,
+            "loan_interest_rate_monthly_pct": interest_rate,
+            "loan_status_en": status_en,
+            "loan_status_hi": status_hi,
+            "loan_subtext_en": subtext_en,
+            "loan_subtext_hi": subtext_hi,
+            "is_preapproved": is_preapproved
         }
 
 scorer_engine = MerchantMindScorer()

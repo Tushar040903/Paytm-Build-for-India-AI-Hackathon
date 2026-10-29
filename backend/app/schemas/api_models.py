@@ -41,6 +41,7 @@ class DemandForecastPoint(BaseModel):
     date: str
     predicted_sales_inr: float
     predicted_transactions: int
+    predicted_footfall: Optional[int] = None
     confidence_lower: float
     confidence_upper: float
     demand_factors: List[str]
@@ -53,6 +54,8 @@ class ProductDemandForecast(BaseModel):
     category: str
     current_daily_avg: float
     predicted_7d_total: float
+    predicted_units_7d: Optional[int] = None
+    expected_revenue_inr: Optional[float] = None
     growth_rate_pct: float
     recommendation: str
 
@@ -60,8 +63,13 @@ class DemandForecastResponse(BaseModel):
     merchant_id: str
     forecast_horizon_days: int
     historical_sales_mape: float
+    today_estimated_sales_inr: Optional[float] = None
+    growth_vs_normal_pct: Optional[float] = None
     forecast_points: List[DemandForecastPoint]
     top_products_forecast: List[ProductDemandForecast]
+    external_factors: Optional[List[Dict[str, Any]]] = None
+    pro_tip_hi: Optional[str] = None
+    pro_tip_en: Optional[str] = None
     actionable_insight: str
     hindi_audio_summary: Optional[str] = None
 
@@ -179,6 +187,13 @@ class MerchantMindScoreResponse(BaseModel):
     shap_top_contributors: List[Dict[str, Any]]
     preapproved_benefits: List[str]
     immediate_actions_to_boost_score: List[str]
+    preapproved_loan_inr: int = 0
+    loan_interest_rate_monthly_pct: Optional[float] = None
+    loan_status_en: str = "Pre-Approved Loan"
+    loan_status_hi: str = "प्री-एप्रूव्ड लोन"
+    loan_subtext_en: str = "₹25,000 available"
+    loan_subtext_hi: str = "₹25,000 तुरंत उपलब्ध"
+    is_preapproved: bool = True
 
 # --- Hyperlocal Competitor Radar Schemas ---
 class CompetitorTrend(BaseModel):
