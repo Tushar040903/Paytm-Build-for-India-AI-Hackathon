@@ -7,6 +7,7 @@ class MerchantProfile(BaseModel):
     merchant_id: str
     name: str
     business_name: str
+    business_name_en: Optional[str] = None
     category: str
     city: str
     pincode: str

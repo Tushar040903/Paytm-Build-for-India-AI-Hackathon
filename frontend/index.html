@@ -55,205 +55,303 @@
   <!-- Main Container -->
   <main class="app-container">
 
-    <!-- Hero Merchant Profile Banner -->
-    <section class="glass-panel merchant-hero-card">
-      <div class="merchant-meta">
-        <div class="merchant-avatar">🏬</div>
-        <div class="merchant-details">
-          <h2>
-            <span id="heroMerchantName">तुषार किराना स्टोर & सुपरमार्ट</span>
-            <span class="verified-badge" data-i18n="hero_verified">✓ पेटीएम सत्यापित व्यापारी</span>
-          </h2>
-          <div class="merchant-subinfo">
-            <span id="heroMerchantCategory">किराना / जनरल स्टोर • नोएडा सेक्टर 18</span>
-            <span>•</span>
-            <span id="heroMerchantId">PAYTM_M_1001</span>
-            <span>•</span>
-            <span id="heroSoundboxSerial">साउंडबॉक्स: SBX-4G-99201</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-quick-stats">
-        <div class="hero-stat-pill">
-          <div class="hero-stat-label" data-i18n="hero_daily_sales">रोज़ की औसत बिक्री</div>
-          <div class="hero-stat-value" id="heroDailyGmv">₹14,850</div>
-        </div>
-        <div class="hero-stat-pill">
-          <div class="hero-stat-label" data-i18n="hero_credit_score">दुकान साख स्कोर</div>
-          <div class="hero-stat-value highlight-cyan" id="heroScoreSummary">742 / 900</div>
-        </div>
-        <div class="hero-stat-pill">
-          <div class="hero-stat-label" data-i18n="hero_business_tier">व्यापार दर्जा</div>
-          <div class="hero-stat-value" id="heroBusinessStatus" style="color:var(--accent-success)">गोल्ड व्यापारी 🥇</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3-Step Simple Guide for Indian Shopkeeper -->
-    <section class="merchant-guide-banner">
-      <div class="guide-step-item">
-        <div class="guide-step-num">1</div>
-        <div class="guide-step-text">
-          <h4 data-i18n="guide_s1_title">माइक दबाकर बोलें</h4>
-          <p data-i18n="guide_s1_desc">"आज शाम क्या बिकेगा?" — साथी तुरंत साउंडबॉक्स आवाज़ में बताएगा</p>
-        </div>
-      </div>
-      <div class="guide-step-item">
-        <div class="guide-step-num">2</div>
-        <div class="guide-step-text">
-          <h4 data-i18n="guide_s2_title">शेल्फ़ की फोटो खींचें</h4>
-          <p data-i18n="guide_s2_desc">खाली सामान लाल डिब्बे में दिखेगा और व्हाट्सएप आर्डर तैयार होगा</p>
-        </div>
-      </div>
-      <div class="guide-step-item">
-        <div class="guide-step-num">3</div>
-        <div class="guide-step-text">
-          <h4 data-i18n="guide_s3_title">1-टैप में रोकड़ा संभालें</h4>
-          <p data-i18n="guide_s3_desc">महीने के खर्चे का अलर्ट पाएं और ₹25,000 तुरंत लोन खाते में लें</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Indic Voice-First Copilot Bar (Central Hero Feature) -->
-    <section class="glass-panel voice-copilot-section">
-      <div class="copilot-header">
-        <div class="copilot-title">
-          <span>🎙️</span>
-          <span data-i18n="copilot_title">दुकान साथी वॉयस असिस्टेंट</span>
-          <span class="soundbox-tag">Paytm Soundbox + Sarvam AI</span>
-        </div>
-        <div style="font-size:0.82rem; color:var(--text-secondary)" data-i18n="copilot_subtitle">
-          सीधे हिंदी या हिंग्लिश में बोलें, टाइप करने की ज़रूरत नहीं
-        </div>
-      </div>
-
-      <div class="copilot-input-row">
-        <button class="voice-record-btn" id="btnVoiceRecord" title="माइक पर क्लिक करें और बोलें">
-          🎤
-        </button>
-        <input 
-          type="text" 
-          class="copilot-text-input" 
-          id="copilotTextInput" 
-          placeholder="बोलिए या टाइप करें: 'भैया, आज क्या बिकेगा?' या 'कल का कैशफ्लो कैसा है?'..."
-        />
-        <button class="copilot-submit-btn" id="btnSubmitCopilot" data-i18n="copilot_btn">पूछें साथी से ➔</button>
-      </div>
-
-      <!-- Quick Everyday Kirana Prompt Chips -->
-      <div class="quick-prompts-container">
-        <button class="quick-prompt-chip" id="chipPrompt1" onclick="submitVoiceQuery('Bhaiya, aaj kya bikega?')">
-          💡 भैया, आज क्या बिकेगा?
-        </button>
-        <button class="quick-prompt-chip" id="chipPrompt2" onclick="submitVoiceQuery('Kal ka cashflow kaisa hai?')">
-          💰 कल का खर्च और रोकड़ा कैसा है?
-        </button>
-        <button class="quick-prompt-chip" id="chipPrompt3" onclick="submitVoiceQuery('Maggi ka stock khatam ho gaya')">
-          📦 मैगी का स्टॉक खत्म हो गया
-        </button>
-        <button class="quick-prompt-chip" id="chipPrompt4" onclick="submitVoiceQuery('Mera credit score kitna hai?')">
-          🏅 मेरा दुकान साख स्कोर कितना है?
-        </button>
-        <button class="quick-prompt-chip" id="chipPrompt5" onclick="submitVoiceQuery('Diwali ke liye kya stock mangaun?')">
-          🪔 दीवाली पर कौन सा सामान मंगाऊं?
-        </button>
-      </div>
-
-      <!-- Live Copilot Audio & Text Response Container -->
-      <div class="copilot-live-response" id="copilotLiveResponse">
-        <div class="copilot-response-header">
-          <span class="copilot-intent-badge" id="copilotIntentBadge" data-i18n="copilot_intent_init">सवाल का विषय: बिक्री अनुमान</span>
-          <button class="copilot-audio-btn" id="btnPlaySoundboxAudio" onclick="playLastVoiceResponse()">
-            <span>🔊</span> <span data-i18n="copilot_audio_replay">साउंडबॉक्स आवाज़ में दोबारा सुनें</span>
-          </button>
-        </div>
-        <div class="copilot-hindi-text" id="copilotHindiText"></div>
-        <div class="copilot-english-text" id="copilotEnglishText"></div>
-      </div>
-    </section>
-
-    <!-- Top KPI Row (Dukaan Dashboard Numbers) -->
-    <section class="kpi-grid">
-      <div class="glass-panel kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-title" data-i18n="kpi_1_title">आज का अनुमानित गल्ला</span>
-          <span class="kpi-icon">💰</span>
-        </div>
-        <div class="kpi-val" id="kpiGmvVal">₹16,420</div>
-        <div class="kpi-sub positive">
-          <span>▲ 18.2%</span> <span data-i18n="kpi_1_sub">पड़ोस की दुकानों से ज्यादा</span>
-        </div>
-      </div>
-
-      <div class="glass-panel kpi-card success">
-        <div class="kpi-top">
-          <span class="kpi-title" data-i18n="kpi_2_title">7-दिन की कुल बिक्री अनुमान</span>
-          <span class="kpi-icon">📈</span>
-        </div>
-        <div class="kpi-val" id="kpi7dDemandVal">₹98,400</div>
-        <div class="kpi-sub info">
-          <span>⚡ <span data-i18n="kpi_2_tag">त्योहार का असर</span></span> <span data-i18n="kpi_2_sub">ज्यादा ग्राहक आने वाले हैं</span>
-        </div>
-      </div>
-
-      <div class="glass-panel kpi-card warning">
-        <div class="kpi-top">
-          <span class="kpi-title" data-i18n="kpi_3_title">पुराने ग्राहक जो नहीं आए</span>
-          <span class="kpi-icon">👥</span>
-        </div>
-        <div class="kpi-val" id="kpiAtRiskVal">4</div>
-        <div class="kpi-sub warning">
-          <span>⚠️ <span data-i18n="kpi_3_tag">30+ दिनों से नहीं आए</span></span> <span data-i18n="kpi_3_sub">₹20 कैशबैक से वापस बुलाएं</span>
-        </div>
-      </div>
-
-      <div class="glass-panel kpi-card purple">
-        <div class="kpi-top">
-          <span class="kpi-title" data-i18n="kpi_4_title">दुकान साख (क्रेडिट हेल्थ)</span>
-          <span class="kpi-icon">🏅</span>
-        </div>
-        <div class="kpi-val" id="kpiScoreVal">742 / 900</div>
-        <div class="kpi-sub positive">
-          <span>✓ <span data-i18n="kpi_4_tag">प्री-एप्रूव्ड लोन</span></span> <span data-i18n="kpi_4_sub">₹25,000 तुरंत उपलब्ध</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Navigation Tabs with Catchy Bharat Names -->
-    <nav class="tabs-navigation" aria-label="Dashboard Modules">
-      <button class="nav-tab-btn active" data-tab="tabDemand" onclick="switchTab('tabDemand')">
-        <span data-i18n="tab_demand">📈 बिक्री अनुमान (आज क्या बिकेगा?)</span>
-        <span class="tab-badge tech-badge">XGBoost Hybrid</span>
+    <!-- Top Navigation Pages / Tabs -->
+    <nav class="tabs-navigation" aria-label="Dashboard Pages">
+      <button class="nav-tab-btn active" data-tab="tabHome" onclick="switchTab('tabHome')">
+        <span data-i18n="tab_home">🏪 मुख्य पृष्ठ (Store Home)</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="tabDemand" onclick="switchTab('tabDemand')">
+        <span data-i18n="tab_demand">📈 बिक्री अनुमान (Demand Forecast)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabInventory" onclick="switchTab('tabInventory')">
-        <span data-i18n="tab_inventory">📸 दुकान शेल्फ़ स्कैनर (अलमारी जांच)</span>
-        <span class="tab-badge tech-badge">YOLOv8 + Graph</span>
+        <span data-i18n="tab_inventory">📸 शेल्फ़ स्कैनर (Shelf Scanner)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabRetention" onclick="switchTab('tabRetention')">
-        <span data-i18n="tab_retention">👥 पुराने ग्राहक वापस लाओ (कैशबैक)</span>
-        <span class="tab-badge tech-badge">RFM + Churn</span>
+        <span data-i18n="tab_retention">👥 ग्राहक वापसी (Customer Retention)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabCashflow" onclick="switchTab('tabCashflow')">
-        <span data-i18n="tab_cashflow">💰 तिजोरी और रोकड़ा (तुरंत लोन)</span>
-        <span class="tab-badge tech-badge">Monte Carlo</span>
+        <span data-i18n="tab_cashflow">💰 रोकड़ा व लोन (Cashflow & Credit)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabScore" onclick="switchTab('tabScore')">
-        <span data-i18n="tab_score">🏅 दुकान साख स्कोर (MerchantMind)</span>
-        <span class="tab-badge tech-badge">TreeSHAP</span>
+        <span data-i18n="tab_score">🏅 साख स्कोर (Merchant Score)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabCompetitor" onclick="switchTab('tabCompetitor')">
-        <span data-i18n="tab_competitor">📡 आस-पास का बाज़ार (पड़ोस ट्रेंड्स)</span>
-        <span class="tab-badge tech-badge">H3 Cluster</span>
+        <span data-i18n="tab_competitor">📡 पड़ोस बाज़ार (Competitor Radar)</span>
       </button>
       <button class="nav-tab-btn" data-tab="tabActions" onclick="switchTab('tabActions')">
-        <span data-i18n="tab_actions">⚡ 1-टैप दुकान साथी काम</span>
+        <span data-i18n="tab_actions">⚡ 1-टैप काम (Action Hub)</span>
         <span class="tab-badge" id="pendingActionsBadge">3</span>
       </button>
     </nav>
 
-    <!-- Tab 1: बिक्री अनुमान (Demand Forecast) -->
-    <section class="tab-content-pane active" id="tabDemand">
+    <!-- Page 1: दुकान मुख्य पृष्ठ (Store Home Page) -->
+    <section class="tab-content-pane active" id="tabHome">
+      <!-- 1. Store Basic Info Card -->
+      <div class="glass-panel store-profile-card">
+        <div class="store-profile-header">
+          <div class="store-avatar-box">🏬</div>
+          <div class="store-title-group">
+            <div class="store-name-row">
+              <h2 id="homeStoreName">तुषार किराना स्टोर & सुपरमार्ट</h2>
+              <span class="verified-badge" id="homeVerifiedBadge" data-i18n="home_verified_badge">✓ पेटीएम सत्यापित व्यापारी</span>
+              <span class="tier-badge-pill" id="homeStoreTier">गोल्ड व्यापारी 🥇</span>
+            </div>
+            <div class="store-category-row" id="homeStoreCategory">
+              किराना व दैनिक उपभोग (Kirana & Grocery) • नोएडा सेक्टर 18
+            </div>
+          </div>
+          <div class="store-soundbox-status">
+            <div class="soundbox-live-pill">
+              <span class="pulse-dot"></span>
+              <span id="homeSoundboxSerial">SBX-4G-99201</span>
+            </div>
+            <span class="soundbox-subtext">Paytm 4G Voice Soundbox • Active</span>
+          </div>
+        </div>
+
+        <div class="store-details-grid">
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_owner">👤 दुकानदार / मालिक:</span>
+            <strong class="info-val" id="homeStoreOwner">तुषार शर्मा (Tushar Sharma)</strong>
+          </div>
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_location">📍 दुकान का पता:</span>
+            <strong class="info-val" id="homeStoreLocation">सेक्टर 18, नोएडा (पिनकोड: 201301)</strong>
+          </div>
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_today_date">📅 आज की तारीख:</span>
+            <strong class="info-val" id="homeTodayDate">29 अक्टूबर 2026 (गुरुवार)</strong>
+          </div>
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_partner_since">🗓️ पेटीएम पार्टनर:</span>
+            <strong class="info-val" id="homeJoinedDate">15 अप्रैल 2023 से (सत्यापित)</strong>
+          </div>
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_merchant_id">🆔 मर्चेंट आईडी:</span>
+            <strong class="info-val" id="homeMerchantId">PAYTM_M_1001</strong>
+          </div>
+          <div class="store-info-item">
+            <span class="info-label" data-i18n="home_qr_status">💳 QR व भुगतान:</span>
+            <strong class="info-val" id="homePaymentStatus">Paytm All-In-One QR • 0% MDR</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. DukaanSaathi AI Chatbot / Voice Assistant -->
+      <div class="glass-panel voice-copilot-section" style="margin-top: 1.5rem;">
+        <div class="copilot-header">
+          <div class="copilot-title">
+            <span>🎙️</span>
+            <span data-i18n="copilot_title">दुकान साथी वॉयस असिस्टेंट</span>
+            <span class="soundbox-tag">Paytm Soundbox + AI Intelligence</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--text-secondary)" data-i18n="copilot_subtitle">
+            सीधे हिंदी या हिंग्लिश में बोलें, टाइप करने की ज़रूरत नहीं
+          </div>
+        </div>
+
+        <div class="copilot-input-row">
+          <button class="voice-record-btn" id="btnVoiceRecord" title="माइक पर क्लिक करें और बोलें">
+            🎤
+          </button>
+          <input 
+            type="text" 
+            class="copilot-text-input" 
+            id="copilotTextInput" 
+            placeholder="बोलिए या टाइप करें: 'भैया, आज क्या बिकेगा?' या '2 दिन पहले की बिक्री कितनी थी?'..."
+          />
+          <button class="copilot-submit-btn" id="btnSubmitCopilot" data-i18n="copilot_btn">पूछें साथी से ➔</button>
+        </div>
+
+        <!-- Quick Everyday Kirana Prompt Chips -->
+        <div class="quick-prompts-container">
+          <button class="quick-prompt-chip" id="chipPrompt1" onclick="submitVoiceQuery('Bhaiya, aaj kya bikega?')">
+            💡 भैया, आज क्या बिकेगा?
+          </button>
+          <button class="quick-prompt-chip" id="chipPrompt2" onclick="submitVoiceQuery('what was sales 2 days before ?')">
+            📅 2 दिन पहले की बिक्री कितनी थी?
+          </button>
+          <button class="quick-prompt-chip" id="chipPrompt3" onclick="submitVoiceQuery('which items are out of stock?')">
+            📦 कौन सा सामान खत्म है?
+          </button>
+          <button class="quick-prompt-chip" id="chipPrompt4" onclick="submitVoiceQuery('Mera credit score kitna hai?')">
+            🏅 मेरा दुकान साख स्कोर कितना है?
+          </button>
+          <button class="quick-prompt-chip" id="chipPrompt5" onclick="submitVoiceQuery('Kal ka cashflow kaisa hai?')">
+            💰 कल का रोकड़ा और लोन कैसा है?
+          </button>
+        </div>
+
+        <!-- Live Copilot Audio & Text Response Container -->
+        <div class="copilot-live-response" id="copilotLiveResponse">
+          <div class="copilot-response-header">
+            <span class="copilot-intent-badge" id="copilotIntentBadge" data-i18n="copilot_intent_init">सवाल का विषय: बिक्री अनुमान</span>
+            <button class="copilot-audio-btn" id="btnPlaySoundboxAudio" onclick="playLastVoiceResponse()">
+              <span>🔊</span> <span data-i18n="copilot_audio_replay">साउंडबॉक्स आवाज़ में दोबारा सुनें</span>
+            </button>
+          </div>
+          <div class="copilot-hindi-text" id="copilotHindiText"></div>
+          <div class="copilot-english-text" id="copilotEnglishText"></div>
+        </div>
+      </div>
+
+      <!-- 3. Store Real Metrics (NO FORECASTS - VERIFIED ACTUAL VALUES ONLY) -->
+      <div class="home-metrics-section">
+        <div class="section-header-row">
+          <div class="section-title-wrap">
+            <h3 data-i18n="home_metrics_title">📊 दुकान के वास्तविक आंकड़े (Real Store Metrics)</h3>
+            <span class="badge-live-tag" data-i18n="home_metrics_sub">✓ केवल सत्यापित वास्तविक डेटा • कोई अनुमान नहीं (Verified True Values Only)</span>
+          </div>
+        </div>
+
+        <div class="real-metrics-grid">
+          <!-- Card 1: Today's Actual Sales -->
+          <div class="glass-panel real-metric-card highlight-cyan">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_today_sales">आज की बिक्री (अब तक)</span>
+              <span class="rm-icon">💰</span>
+            </div>
+            <div class="rm-val" id="metricTodaySales">₹13,662</div>
+            <div class="rm-sub">
+              <span id="metricTodayTxns">109 सफल UPI लेनदेन (आज)</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Yesterday's Actual Sales -->
+          <div class="glass-panel real-metric-card">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_yesterday_sales">कल की बिक्री (Yesterday)</span>
+              <span class="rm-icon">🧾</span>
+            </div>
+            <div class="rm-val" id="metricYesterdaySales">₹11,650</div>
+            <div class="rm-sub">
+              <span id="metricYesterdaySub">104 ग्राहक लेनदेन (28 Oct 2026)</span>
+            </div>
+          </div>
+
+          <!-- Card 3: 2 Days Ago Sales -->
+          <div class="glass-panel real-metric-card">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_2d_sales">2 दिन पहले की बिक्री</span>
+              <span class="rm-icon">🗓️</span>
+            </div>
+            <div class="rm-val" id="metric2dSales">₹10,614</div>
+            <div class="rm-sub">
+              <span id="metric2dSub">80 ग्राहक लेनदेन (27 Oct 2026)</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Last 7 Days Total Sales -->
+          <div class="glass-panel real-metric-card">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_7d_gmv">पिछले 7 दिनों का कुल गल्ला</span>
+              <span class="rm-icon">📊</span>
+            </div>
+            <div class="rm-val" id="metric7dSales">₹1,03,950</div>
+            <div class="rm-sub">
+              <span id="metric7dAvg">दैनिक औसत: ₹14,850 / दिन</span>
+            </div>
+          </div>
+
+          <!-- Card 5: Monthly Recorded GMV -->
+          <div class="glass-panel real-metric-card highlight-green">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_monthly_gmv">30 दिनों का कुल व्यापार</span>
+              <span class="rm-icon">📈</span>
+            </div>
+            <div class="rm-val" id="metricMonthlyGmv">₹4,45,500</div>
+            <div class="rm-sub">
+              <span id="metricMonthlyTxns">2,180 कुल ग्राहक लेनदेन</span>
+            </div>
+          </div>
+
+          <!-- Card 6: Store Credit Score -->
+          <div class="glass-panel real-metric-card highlight-purple">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_credit_score">दुकान साख (Credit Score)</span>
+              <span class="rm-icon">🏅</span>
+            </div>
+            <div class="rm-val" id="metricCreditScore">742 / 900</div>
+            <div class="rm-sub">
+              <span>✓ उत्कृष्ट क्रेडिट रिकॉर्ड • प्री-एप्रूव्ड लोन</span>
+            </div>
+          </div>
+
+          <!-- Card 7: Merchant Tier Status -->
+          <div class="glass-panel real-metric-card highlight-amber">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_merchant_tier">व्यापार दर्जा (Merchant Tier)</span>
+              <span class="rm-icon">🎖️</span>
+            </div>
+            <div class="rm-val" id="metricTierBadge" style="font-size:1.35rem">गोल्ड व्यापारी 🥇</div>
+            <div class="rm-sub">
+              <span>सत्यापित पेटीएम पार्टनर क्लब</span>
+            </div>
+          </div>
+
+          <!-- Card 8: Active Regular Customers -->
+          <div class="glass-panel real-metric-card">
+            <div class="rm-top">
+              <span class="rm-label" data-i18n="metric_regular_customers">पक्के नियमित ग्राहक</span>
+              <span class="rm-icon">👥</span>
+            </div>
+            <div class="rm-val" id="metricRegularCustomers">60 ग्राहक</div>
+            <div class="rm-sub">
+              <span>दुकान से नियमित खरीदारी करने वाले</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page 2: बिक्री अनुमान (Demand Forecast) -->
+    <section class="tab-content-pane" id="tabDemand">
+      <!-- Forecast KPI Row -->
+      <section class="kpi-grid">
+        <div class="glass-panel kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-title" data-i18n="kpi_1_title">आज का अनुमानित गल्ला</span>
+            <span class="kpi-icon">💰</span>
+          </div>
+          <div class="kpi-val" id="kpiGmvVal">₹16,420</div>
+          <div class="kpi-sub positive">
+            <span>▲ 18.2%</span> <span data-i18n="kpi_1_sub">पड़ोस की दुकानों से ज्यादा</span>
+          </div>
+        </div>
+
+        <div class="glass-panel kpi-card success">
+          <div class="kpi-top">
+            <span class="kpi-title" data-i18n="kpi_2_title">7-दिन की कुल बिक्री अनुमान</span>
+            <span class="kpi-icon">📈</span>
+          </div>
+          <div class="kpi-val" id="kpi7dDemandVal">₹98,400</div>
+          <div class="kpi-sub info">
+            <span>⚡ <span data-i18n="kpi_2_tag">त्योहार का असर</span></span> <span data-i18n="kpi_2_sub">ज्यादा ग्राहक आने वाले हैं</span>
+          </div>
+        </div>
+
+        <div class="glass-panel kpi-card warning">
+          <div class="kpi-top">
+            <span class="kpi-title" data-i18n="kpi_3_title">पुराने ग्राहक जो नहीं आए</span>
+            <span class="kpi-icon">👥</span>
+          </div>
+          <div class="kpi-val" id="kpiAtRiskVal">4</div>
+          <div class="kpi-sub warning">
+            <span>⚠️ <span data-i18n="kpi_3_tag">30+ दिनों से नहीं आए</span></span> <span data-i18n="kpi_3_sub">₹20 कैशबैक से वापस बुलाएं</span>
+          </div>
+        </div>
+
+        <div class="glass-panel kpi-card purple">
+          <div class="kpi-top">
+            <span class="kpi-title" data-i18n="kpi_4_title">दुकान साख (क्रेडिट हेल्थ)</span>
+            <span class="kpi-icon">🏅</span>
+          </div>
+          <div class="kpi-val" id="kpiScoreVal">742 / 900</div>
+          <div class="kpi-sub positive">
+            <span>✓ <span data-i18n="kpi_4_tag">प्री-एप्रूव्ड लोन</span></span> <span data-i18n="kpi_4_sub">₹25,000 तुरंत उपलब्ध</span>
+          </div>
+        </div>
+      </section>
       <!-- Bharat Callout -->
       <div class="bharat-explain-box">
         <div class="lead-icon">💡</div>
