@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from backend.app.config import settings
 from backend.app.core.logger import logger
 
@@ -53,6 +53,10 @@ frontend_index = os.path.join(project_root, "frontend", "index.html")
 
 if os.path.exists(frontend_static):
     app.mount("/static", StaticFiles(directory=frontend_static), name="static")
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
 
 @app.get("/health", tags=["System"])
 def health_check():

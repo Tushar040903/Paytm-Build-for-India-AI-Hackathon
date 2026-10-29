@@ -746,12 +746,6 @@ async function loadCashflowProjection(merchantId) {
   }
 }
 
-    renderCashflowChart(data.projected_days, data.current_cash_reserve_inr);
-  } catch (err) {
-    console.error("Cashflow error:", err);
-  }
-}
-
 function renderCashflowChart(projectedDays, startingCash) {
   const ctx = document.getElementById("cashflowChartCanvas").getContext("2d");
   const labels = projectedDays.map(d => d.date.slice(5));
