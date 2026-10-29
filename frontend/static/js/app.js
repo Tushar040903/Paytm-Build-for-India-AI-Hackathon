@@ -1660,43 +1660,237 @@ async function loadCompetitorRadar(merchantId) {
 }
 
 // 8. 1-टैप दुकान साथी काम (Agentic Actions)
+let activeActionSubTab = 'pending';
+
+function switchActionSubTab(tab) {
+  activeActionSubTab = tab;
+  const btnPending = document.getElementById("btnTabPendingActions");
+  const btnHistory = document.getElementById("btnTabHistoryActions");
+  const pendingCont = document.getElementById("pendingActionsContainer");
+  const historyCont = document.getElementById("historyActionsContainer");
+  const panelHeading = document.getElementById("actionPanelHeading");
+
+  if (tab === 'pending') {
+    if (btnPending) btnPending.classList.add("active");
+    if (btnHistory) btnHistory.classList.remove("active");
+    if (pendingCont) pendingCont.style.display = "block";
+    if (historyCont) historyCont.style.display = "none";
+    if (panelHeading) {
+      panelHeading.textContent = currentLanguage === 'hi' 
+        ? "⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)" 
+        : "⚡ Dukaan Saathi Autonomous Action Queue (1-Tap Approve)";
+    }
+  } else {
+    if (btnPending) btnPending.classList.remove("active");
+    if (btnHistory) btnHistory.classList.add("active");
+    if (pendingCont) pendingCont.style.display = "none";
+    if (historyCont) historyCont.style.display = "block";
+    if (panelHeading) {
+      panelHeading.textContent = currentLanguage === 'hi' 
+        ? "📜 निष्पादित कार्य व ऑडिट ट्रेल (Execution History)" 
+        : "📜 Execution History & Action Audit Trail";
+    }
+  }
+}
+
 async function loadPendingActions(merchantId) {
   try {
-    const res = await fetch(`/api/actions/pending/${merchantId}`);
-    const actions = await res.json();
+    const [pendingRes, allRes] = await Promise.all([
+      fetch(`/api/actions/pending/${merchantId}`),
+      fetch(`/api/actions/history/${merchantId}`)
+    ]);
 
-    const container = document.getElementById("pendingActionsContainer");
-    document.getElementById("pendingActionsBadge").textContent = actions.length;
+    const pendingActions = pendingRes.ok ? await pendingRes.json() : [];
+    const allActions = allRes.ok ? await allRes.json() : [];
+    const executedActions = allActions.filter(a => a.status === "EXECUTED" || a.status === "REJECTED");
 
-    if (container) {
-      if (actions.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:2rem; color:#64748b">${currentLanguage === 'hi' ? 'शाबाश! सभी जरूरी काम पूरे हो चुके हैं।' : 'All pending actions resolved!'}</div>`;
-        return;
-      }
+    // 1. Update Badges & Counters
+    const pendingBadge = document.getElementById("pendingActionsBadge");
+    if (pendingBadge) pendingBadge.textContent = pendingActions.length;
 
-      container.innerHTML = actions.map(act => `
-        <div class="action-card ${act.priority === 'HIGH' ? 'high-impact' : ''}" id="actionCard_${act.action_id}">
-          <div class="action-header">
-            <div class="action-title">
-              <span>⚡</span> ${act.title}
-            </div>
-            <span class="card-header-badge ${act.priority === 'HIGH' ? 'badge-amber' : 'badge-blue'}">${act.priority === 'HIGH' ? (currentLanguage === 'hi' ? 'अति आवश्यक' : 'URGENT') : (currentLanguage === 'hi' ? 'सुझाव' : 'SUGGESTION')}</span>
-          </div>
-          <div class="action-body">${act.description}</div>
-          <div class="action-footer">
-            <span class="action-roi">📈 ${currentLanguage === 'hi' ? 'संभावित लाभ' : 'Est. ROI'}: ${act.expected_roi}</span>
-            <div class="action-btns">
-              <button class="btn-action-success" onclick="resolveAction('${act.action_id}', true)">
-                ✅ ${currentLanguage === 'hi' ? '1-क्लिक में मंज़ूर करें' : '1-Click Approve'}
-              </button>
-              <button class="btn-lang-toggle" onclick="resolveAction('${act.action_id}', false)">
-                ${currentLanguage === 'hi' ? 'खारिज करें' : 'Dismiss'}
-              </button>
-            </div>
-          </div>
-        </div>
-      `).join("");
+    const pendingTabBadge = document.getElementById("pendingTabBadge");
+    if (pendingTabBadge) pendingTabBadge.textContent = pendingActions.length;
+
+    const historyTabBadge = document.getElementById("historyTabBadge");
+    if (historyTabBadge) historyTabBadge.textContent = executedActions.length;
+
+    const countValEl = document.getElementById("actionsPendingCountVal");
+    if (countValEl) {
+      countValEl.textContent = currentLanguage === 'hi' 
+        ? `${pendingActions.length} कार्य` 
+        : `${pendingActions.length} Actions`;
     }
+
+    const execValEl = document.getElementById("actionsExecutedCountVal");
+    if (execValEl) {
+      execValEl.textContent = currentLanguage === 'hi' 
+        ? `${executedActions.length} पूर्ण` 
+        : `${executedActions.length} Completed`;
+    }
+
+    // Calculate Total Estimated ROI
+    const totalRoi = pendingActions.reduce((sum, a) => sum + (a.estimated_roi_inr || 0), 0);
+    const totalRoiEl = document.getElementById("actionsTotalRoiVal");
+    if (totalRoiEl) {
+      totalRoiEl.textContent = `₹${Math.round(totalRoi).toLocaleString('en-IN')}`;
+    }
+
+    // 2. Render Pending Actions Container
+    const container = document.getElementById("pendingActionsContainer");
+    if (container) {
+      if (pendingActions.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:3rem 1rem; color:#94a3b8;">
+            <div style="font-size:2.5rem; margin-bottom:0.6rem;">🎉</div>
+            <div style="font-size:1.1rem; font-weight:700; color:#f8fafc; margin-bottom:0.3rem;">
+              ${currentLanguage === 'hi' ? 'शाबाश! सभी जरूरी व्यापार फैसले पूरे हो चुके हैं।' : 'All pending actions resolved!'}
+            </div>
+            <div style="font-size:0.85rem; color:#64748b;">
+              ${currentLanguage === 'hi' ? 'दुकान साथी आपकी बिक्री और स्टॉक की लगातार निगरानी कर रहा है।' : 'Dukaan Saathi is continuously monitoring your inventory velocity and sales.'}
+            </div>
+          </div>
+        `;
+      } else {
+        container.innerHTML = pendingActions.map(act => {
+          const title = currentLanguage === 'hi' ? (act.title_hi || act.title) : (act.title_en || act.title);
+          const desc = currentLanguage === 'hi' ? (act.description_hi || act.description) : (act.description_en || act.description);
+          const roiText = currentLanguage === 'hi' ? (act.expected_roi_hi || act.expected_roi) : (act.expected_roi_en || act.expected_roi);
+          const isHigh = act.priority === 'HIGH';
+          const priorityText = isHigh 
+            ? (currentLanguage === 'hi' ? 'अति आवश्यक (HIGH)' : 'HIGH URGENT')
+            : (currentLanguage === 'hi' ? 'सुझाव (MEDIUM)' : 'SUGGESTION');
+          const borderStyle = isHigh ? 'border-left: 4px solid #f59e0b;' : 'border-left: 4px solid #00b9f1;';
+
+          // Render contextual details grid
+          let detailsHtml = "";
+          const d = act.details || {};
+          if (act.action_type === "REORDER_WHATSAPP") {
+            detailsHtml = `
+              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748b;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:#f1f5f9;">${d.supplier_name || 'Wholesale Distributor'}</strong></div>
+                <div><span style="color:#64748b;">📞 ${currentLanguage === 'hi' ? 'व्हाट्सएप' : 'WhatsApp'}:</span> <span style="color:#38bdf8;">${d.supplier_phone || '+91 9811223344'}</span></div>
+                <div><span style="color:#64748b;">📦 ${currentLanguage === 'hi' ? 'सामान' : 'Item'}:</span> <strong style="color:#10b981;">${d.item_name || 'Inventory'} (${d.quantity || '2 cartons'})</strong></div>
+                <div><span style="color:#64748b;">💰 ${currentLanguage === 'hi' ? 'लागत' : 'Cost'}:</span> <strong style="color:#f8fafc;">₹${(d.total_cost_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748b;">🚚 ${currentLanguage === 'hi' ? 'आगमन' : 'Arrival'}:</span> <span style="color:#f59e0b;">${d.estimated_arrival || 'Tomorrow morning'}</span></div>
+              </div>
+            `;
+          } else if (act.action_type === "CUSTOMER_WINBACK_COUPON") {
+            detailsHtml = `
+              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748b;">👥 ${currentLanguage === 'hi' ? 'लक्षित ग्राहक' : 'Target'}:</span> <strong style="color:#f1f5f9;">${d.target_customers_count || 8} ${currentLanguage === 'hi' ? 'पुराने पक्के ग्राहक' : 'Lapsed Regulars'}</strong></div>
+                <div><span style="color:#64748b;">🎁 ${currentLanguage === 'hi' ? 'कैशबैक' : 'Voucher'}:</span> <strong style="color:#10b981;">₹${d.cashback_per_customer_inr || 20} ${currentLanguage === 'hi' ? 'प्रति ग्राहक' : 'per user'}</strong></div>
+                <div><span style="color:#64748b;">🛒 ${currentLanguage === 'hi' ? 'न्यूनतम खरीद' : 'Min Bill'}:</span> <strong style="color:#f8fafc;">₹${d.min_bill_inr || 150}</strong></div>
+                <div><span style="color:#64748b;">⏳ ${currentLanguage === 'hi' ? 'वैधता' : 'Validity'}:</span> <span style="color:#f59e0b;">${d.validity_days || 5} ${currentLanguage === 'hi' ? 'दिन' : 'days'}</span></div>
+                <div><span style="color:#64748b;">📈 ${currentLanguage === 'hi' ? 'संभावित बिक्री' : 'Lift'}:</span> <strong style="color:#38bdf8;">+₹${(d.estimated_spend_lift_inr || 0).toLocaleString('en-IN')}</strong></div>
+              </div>
+            `;
+          } else if (act.action_type === "LOAN_APPLY") {
+            detailsHtml = `
+              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748b;">🏦 ${currentLanguage === 'hi' ? 'पार्टनर' : 'Partner'}:</span> <strong style="color:#f1f5f9;">${d.lending_partner || 'Paytm Lending'}</strong></div>
+                <div><span style="color:#64748b;">💵 ${currentLanguage === 'hi' ? 'प्री-एप्रूव्ड लोन' : 'Pre-Approved'}:</span> <strong style="color:#10b981;">₹${(d.preapproved_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748b;">📅 ${currentLanguage === 'hi' ? 'अवधि' : 'Tenure'}:</span> <strong style="color:#f8fafc;">${d.tenure_months || 3} ${currentLanguage === 'hi' ? 'महीने' : 'Months'}</strong></div>
+                <div><span style="color:#64748b;">💳 ${currentLanguage === 'hi' ? 'मासिक EMI' : 'EMI'}:</span> <span style="color:#f59e0b;">₹${(d.monthly_emi_inr || 0).toLocaleString('en-IN')}/mo</span></div>
+                <div><span style="color:#64748b;">⚡ ${currentLanguage === 'hi' ? 'डिस्बर्सल' : 'Disbursal'}:</span> <span style="color:#38bdf8;">${d.processing_time || 'Instant'}</span></div>
+              </div>
+            `;
+          } else if (act.action_type === "SUPPLIER_DISCOUNT") {
+            detailsHtml = `
+              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748b;">🏢 ${currentLanguage === 'hi' ? 'सप्लायर' : 'Supplier'}:</span> <strong style="color:#f1f5f9;">${d.supplier_name || 'Wholesaler'}</strong></div>
+                <div><span style="color:#64748b;">🧾 ${currentLanguage === 'hi' ? 'चालान राशि' : 'Invoice'}:</span> <strong style="color:#f8fafc;">₹${(d.invoice_amount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748b;">💵 ${currentLanguage === 'hi' ? 'सीधी नकद बचत' : 'Cash Discount'}:</span> <strong style="color:#10b981;">₹${(d.cash_discount_inr || 0).toLocaleString('en-IN')}</strong></div>
+                <div><span style="color:#64748b;">⏳ ${currentLanguage === 'hi' ? 'समय पूर्व' : 'Early By'}:</span> <span style="color:#38bdf8;">${d.days_ahead || 5} ${currentLanguage === 'hi' ? 'दिन पहले' : 'days ahead'}</span></div>
+              </div>
+            `;
+          } else if (act.action_type === "FESTIVE_PROMOTION") {
+            detailsHtml = `
+              <div style="background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:0.6rem 0.8rem; margin:0.6rem 0 0.8rem; font-size:0.78rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.4rem;">
+                <div><span style="color:#64748b;">📢 ${currentLanguage === 'hi' ? 'चैनल' : 'Channel'}:</span> <strong style="color:#f1f5f9;">${d.channel || 'Paytm App & Soundbox'}</strong></div>
+                <div><span style="color:#64748b;">📍 ${currentLanguage === 'hi' ? 'दायरा' : 'Radius'}:</span> <strong style="color:#38bdf8;">${d.radius_km || 2} km</strong></div>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="action-card ${isHigh ? 'high-impact' : ''}" style="${borderStyle}" id="actionCard_${act.action_id}">
+              <div class="action-header">
+                <div class="action-title">
+                  <span style="font-size:1.15rem;">⚡</span>
+                  <span style="font-size:0.95rem; font-weight:700; color:#f8fafc;">${title}</span>
+                </div>
+                <span class="card-header-badge ${isHigh ? 'badge-amber' : 'badge-blue'}">${priorityText}</span>
+              </div>
+              <div class="action-body" style="font-size:0.83rem; color:#cbd5e1; line-height:1.5;">${desc}</div>
+              
+              ${detailsHtml}
+
+              <div class="action-footer">
+                <span class="action-roi" style="font-size:0.82rem; font-weight:700; color:#10b981;">
+                  📈 ${currentLanguage === 'hi' ? 'संभावित लाभ' : 'Est. ROI'}: ${roiText}
+                </span>
+                <div class="action-btns">
+                  <button class="btn-action-success" onclick="resolveAction('${act.action_id}', true)">
+                    ✅ ${currentLanguage === 'hi' ? '1-क्लिक में मंज़ूर करें' : '1-Click Approve'}
+                  </button>
+                  <button class="btn-lang-toggle" onclick="resolveAction('${act.action_id}', false)">
+                    ${currentLanguage === 'hi' ? 'खारिज करें' : 'Dismiss'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    // 3. Render Execution History / Audit Trail Container
+    const historyContainer = document.getElementById("historyActionsContainer");
+    if (historyContainer) {
+      if (executedActions.length === 0) {
+        historyContainer.innerHTML = `
+          <div style="text-align:center; padding:2.5rem 1rem; color:#64748b;">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">📜</div>
+            <div style="font-size:0.95rem; font-weight:600; color:#94a3b8;">
+              ${currentLanguage === 'hi' ? 'अभी तक कोई फैसला निष्पादित नहीं हुआ है।' : 'No executed actions recorded yet.'}
+            </div>
+            <div style="font-size:0.8rem; color:#64748b; margin-top:0.2rem;">
+              ${currentLanguage === 'hi' ? 'जैसे ही आप किसी फैसले को 1-क्लिक में मंज़ूर करेंगे, उसका लाइव रिकॉर्ड यहाँ दर्ज होगा।' : 'Actions approved via 1-Click will be logged here with complete execution telemetry.'}
+            </div>
+          </div>
+        `;
+      } else {
+        historyContainer.innerHTML = executedActions.map(act => {
+          const isApproved = act.status === "EXECUTED";
+          const title = currentLanguage === 'hi' ? (act.title_hi || act.title) : (act.title_en || act.title);
+          const logText = currentLanguage === 'hi' ? (act.execution_log_hi || act.execution_log) : (act.execution_log_en || act.execution_log);
+          const badgeClass = isApproved ? "badge-green" : "badge-blue";
+          const badgeText = isApproved 
+            ? (currentLanguage === 'hi' ? '✓ निष्पादित व प्रेषित' : '✓ EXECUTED')
+            : (currentLanguage === 'hi' ? '✕ खारिज किया गया' : '✕ DECLINED');
+
+          return `
+            <div class="action-card" style="border-left:4px solid ${isApproved ? '#10b981' : '#64748b'}; padding:1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.02);">
+              <div class="action-header" style="margin-bottom:0.35rem;">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <span>${isApproved ? '✅' : '❌'}</span>
+                  <strong style="color:#f1f5f9; font-size:0.9rem;">${title}</strong>
+                </div>
+                <span class="card-header-badge ${badgeClass}" style="font-size:0.72rem; padding:1px 6px;">${badgeText}</span>
+              </div>
+              <div style="font-size:0.8rem; color:#94a3b8; margin:0.3rem 0 0.5rem; line-height:1.45;">
+                ${logText || (isApproved ? 'Executed successfully via Paytm API.' : 'Declined by merchant.')}
+              </div>
+              <div style="font-size:0.74rem; color:#64748b; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.35rem; display:flex; justify-content:space-between;">
+                <span>ID: ${act.action_id}</span>
+                <span>📅 ${act.created_at || 'Just now'}</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
   } catch (err) {
     console.error("Actions error:", err);
   }
@@ -1708,7 +1902,10 @@ async function resolveAction(actionId, approved) {
       method: "POST"
     });
     const result = await res.json();
-    showToast(result.execution_log);
+    const log = currentLanguage === 'hi' 
+      ? (result.execution_log_hi || result.execution_log)
+      : (result.execution_log_en || result.execution_log);
+    showToast(log);
     loadPendingActions(currentMerchantId);
   } catch (err) {
     console.error("Action resolution failed:", err);

@@ -10,6 +10,11 @@ router = APIRouter(prefix="/api/actions", tags=["Agentic Actions"])
 def get_actions(merchant_id: str):
     return agentic_engine.get_pending_actions(merchant_id)
 
+@router.get("/all/{merchant_id}", response_model=List[AgenticAction])
+@router.get("/history/{merchant_id}", response_model=List[AgenticAction])
+def get_action_history(merchant_id: str):
+    return agentic_engine.get_all_actions(merchant_id)
+
 @router.post("/approve")
 def approve_action_query(
     merchant_id: str = Query(default="PAYTM_M_1001"),

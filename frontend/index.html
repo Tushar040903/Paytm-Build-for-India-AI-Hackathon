@@ -727,16 +727,67 @@
 
     <!-- Tab 7: 1-टैप दुकान साथी काम (Agentic Actions) -->
     <section class="tab-content-pane" id="tabActions">
+      <!-- Bharat Explanatory Header Box -->
+      <div class="bharat-explain-box" style="margin-bottom: 1.25rem;">
+        <div class="lead-icon">⚡</div>
+        <div class="lead-content">
+          <h4 id="actionsLeadTitle">1-टैप स्वायत्त दुकान साथी (Human-in-the-Loop Agentic Operations)</h4>
+          <p id="actionsLeadDesc">
+            दुकान साथी AI बिक्री, स्टॉक और ग्राहकों की निगरानी करके तैयार फैसले बनाता है। कोई भी आर्डर या प्रमोशन आपकी 1-क्लिक मंज़ूरी के बिना नहीं भेजा जाता — हर फैसले पर आपका 100% पूरा नियंत्रण है।
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Quick Action Metric Cards -->
+      <div class="real-metrics-grid" style="margin-bottom: 1.25rem;">
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">⚡ लंबित फैसले (Pending Approval)</div>
+          <div style="font-size:1.35rem; font-weight:800; color:#f59e0b;" id="actionsPendingCountVal">4 कार्य</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsPendingSub">1-क्लिक मंज़ूरी हेतु तैयार</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📈 अनुमानित अतिरिक्त लाभ (Est. ROI Unlocked)</div>
+          <div style="font-size:1.35rem; font-weight:800; color:#10b981;" id="actionsTotalRoiVal">₹34,800</div>
+          <div style="font-size:0.72rem; color:#10b981; margin-top:0.25rem;" id="actionsRoiSub">मंज़ूरी से मिलने वाला लाभ</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">🛡️ व्यापारी नियंत्रण (Human Control)</div>
+          <div style="font-size:1.15rem; font-weight:800; color:#38bdf8;" id="actionsControlVal">100% सुरक्षित</div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:0.25rem;" id="actionsControlSub">बिना मंज़ूरी कोई ऑटो-खर्च नहीं</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 0.9rem 1.1rem;">
+          <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.25rem;">📜 निष्पादित कार्य (Audit Trail)</div>
+          <div style="font-size:1.35rem; font-weight:800; color:#8b5cf6;" id="actionsExecutedCountVal">0 पूर्ण</div>
+          <div style="font-size:0.72rem; color:#94a3b8; margin-top:0.25rem;" id="actionsExecutedSub">सफलतापूर्वक भेजे गए संदेश</div>
+        </div>
+      </div>
+
+      <!-- Action Sub-Tab Bar -->
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:0.5rem;">
+        <button id="btnTabPendingActions" class="tab-btn active" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('pending')">
+          ⚡ लंबित फैसले (<span id="pendingTabBadge">4</span>)
+        </button>
+        <button id="btnTabHistoryActions" class="tab-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="switchActionSubTab('history')">
+          📜 निष्पादित कार्य व ऑडिट ट्रेल (<span id="historyTabBadge">0</span>)
+        </button>
+      </div>
+
+      <!-- Action Containers -->
       <div class="glass-panel" style="margin-bottom:1rem;">
         <div class="card-header">
-          <h3 data-i18n="t7_c1_title">⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)</h3>
+          <h3 data-i18n="t7_c1_title" id="actionPanelHeading">⚡ दुकान साथी के तैयार फैसले (बस 1-क्लिक में मंज़ूर करें)</h3>
           <span class="card-header-badge badge-green" data-i18n="t7_c1_badge">व्यापारी का पूरा नियंत्रण</span>
         </div>
         <div class="card-body">
-          <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:1.2rem" data-i18n="t7_c1_desc">
+          <div style="font-size:0.85rem; color:#94a3b8; margin-bottom:1.2rem" data-i18n="t7_c1_desc" id="actionPanelSub">
             दुकान साथी ने आपकी बिक्री और स्टॉक देखकर होलसेलर आर्डर, ग्राहक कैशबैक और लोन के जरूरी फैसले तैयार किए हैं। आप 1-टैप में मंज़ूर या रद्द कर सकते हैं।
           </div>
+          
           <div id="pendingActionsContainer"></div>
+          <div id="historyActionsContainer" style="display:none;"></div>
         </div>
       </div>
     </section>

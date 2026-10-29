@@ -278,14 +278,29 @@ class CompetitorRadarResponse(BaseModel):
 # --- Agentic Actions Schemas ---
 class AgenticAction(BaseModel):
     action_id: str
-    action_type: str # "REORDER_WHATSAPP", "CUSTOMER_WINBACK_COUPON", "PRICE_UPDATE", "LOAN_APPLY"
+    action_type: str # "REORDER_WHATSAPP", "CUSTOMER_WINBACK_COUPON", "PRICE_UPDATE", "LOAN_APPLY", "SUPPLIER_DISCOUNT", "FESTIVE_PROMOTION"
+    action_type_hi: str = ""
+    action_type_en: str = ""
     title: str
+    title_hi: str = ""
+    title_en: str = ""
     description: str
+    description_hi: str = ""
+    description_en: str = ""
+    priority: str = "HIGH" # "HIGH", "MEDIUM", "LOW"
+    priority_hi: str = "अति आवश्यक"
+    priority_en: str = "HIGH"
     details: Dict[str, Any]
     status: str # "PENDING_APPROVAL", "EXECUTED", "REJECTED"
     created_at: str
     requires_confirmation: bool = True
-    estimated_roi_inr: float
+    estimated_roi_inr: float = 0.0
+    expected_roi: str = ""
+    expected_roi_hi: str = ""
+    expected_roi_en: str = ""
+    execution_log: Optional[str] = None
+    execution_log_hi: Optional[str] = None
+    execution_log_en: Optional[str] = None
 
 class ActionApprovalRequest(BaseModel):
     action_id: str
