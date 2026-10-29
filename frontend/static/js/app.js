@@ -62,7 +62,7 @@ const TRANSLATIONS = {
     th_est_rev: "संभावित कमाई",
     th_stock_status: "दुकान में स्थिति",
     t2_lead_title: "अलमारी की फोटो खींचिए — खाली जगह और खत्म सामान तुरंत दिखेगा",
-    t2_lead_desc: "दुकान की अलमारी (शेल्फ़) की फोटो खींचने पर AI तुरंत बता देता है कि कौन सा बिस्कुट, नमकीन या तेल खत्म हो चुका है। आप 1-क्लिक में होलसेलर को व्हाट्सएप आर्डर भेज सकते हैं।",
+    t2_lead_desc: "दुकान की अलमारी (शेल्फ़) की फोटो खींचने पर AI तुरंत बता देता है कि कौन सा सामान या स्टॉक खत्म हो चुका है। आप 1-क्लिक में होलसेलर को व्हाट्सएप आर्डर भेज सकते हैं।",
     t2_c1_title: '📷 "फोटो से स्टॉक जांचें" — अलमारी स्कैनर',
     t2_dropzone_title: "दुकान की अलमारी की फोटो चुनें या कैमरा खोलें",
     t2_dropzone_sub: "AI तुरंत खाली रैक और कम स्टॉक वाले सामान को लाल डिब्बे में दिखा देगा",
@@ -479,6 +479,12 @@ async function loadDemandForecast(merchantId) {
     const res = await fetch(`/api/demand/forecast/${merchantId}?horizon_days=7`);
     const data = await res.json();
 
+    // Dynamically update category-tailored Saathi Advice banner
+    const leadDescElem = document.querySelector('[data-i18n="t1_lead_desc"]');
+    if (leadDescElem) {
+      leadDescElem.textContent = currentLanguage === 'hi' ? data.hindi_audio_summary : data.actionable_insight;
+    }
+
     // Update KPI
     const total7d = data.forecast_points.reduce((sum, p) => sum + p.predicted_sales_inr, 0);
     document.getElementById("kpi7dDemandVal").textContent = `₹${Math.round(total7d).toLocaleString('en-IN')}`;
@@ -486,14 +492,23 @@ async function loadDemandForecast(merchantId) {
     // Top predicted products table
     const topProdTable = document.getElementById("topForecastProductsTbody");
     if (topProdTable) {
-      topProdTable.innerHTML = data.top_products_forecast.map(p => `
-        <tr>
-          <td><strong>${p.product_name}</strong></td>
-          <td><span class="card-header-badge badge-blue">${p.predicted_units_7d} ${currentLanguage === 'hi' ? 'पैकेट/यूनिट' : 'units'}</span></td>
-          <td>₹${p.expected_revenue_inr.toLocaleString('en-IN')}</td>
-          <td><span class="card-header-badge badge-green">✓ ${currentLanguage === 'hi' ? 'पर्याप्त स्टॉक' : 'In Stock'}</span></td>
-        </tr>
-      `).join("");
+      topProdTable.innerHTML = data.top_products_forecast.map(p => {
+        const isCrit = p.recommendation && p.recommendation.includes('CRITICAL');
+        const badgeClass = isCrit ? 'badge-red' : 'badge-green';
+        const badgeText = isCrit 
+          ? (currentLanguage === 'hi' ? '⚠️ तुरंत मंगाएं' : '⚠️ Critical Stockout')
+          : (currentLanguage === 'hi' ? '✓ पर्याप्त स्टॉक' : '✓ In Stock');
+        const units = p.predicted_units_7d || p.predicted_7d_total || 20;
+        const rev = Math.round(p.expected_revenue_inr || 0).toLocaleString('en-IN');
+        return `
+          <tr>
+            <td><strong>${p.product_name}</strong><br><small style="color:#64748b">${p.category || ''}</small></td>
+            <td><span class="card-header-badge badge-blue">${units} ${currentLanguage === 'hi' ? 'यूनिट' : 'units'}</span></td>
+            <td>₹${rev}</td>
+            <td><span class="card-header-badge ${badgeClass}">${badgeText}</span></td>
+          </tr>
+        `;
+      }).join("");
     }
 
     renderDemandChart(data.forecast_points);

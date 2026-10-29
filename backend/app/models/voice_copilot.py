@@ -47,7 +47,8 @@ class VoiceCopilot:
 
         owner_title_hi = f"{first_name_hi} जी"
         owner_title_en = f"{first_name_en} ji"
-        store_name = m.get("business_name", "आपकी दुकान")
+        store_name_hi = m.get("business_name", "आपकी दुकान")
+        store_name_en = m.get("business_name_en", store_name_hi)
 
         # Sales history
         sales_hist = db.get_sales_history(merchant_id)
@@ -81,7 +82,9 @@ class VoiceCopilot:
             "owner_name": m.get("name"),
             "owner_name_hi": owner_title_hi,
             "owner_name_en": owner_title_en,
-            "store_name": store_name,
+            "store_name": store_name_hi,
+            "store_name_hi": store_name_hi,
+            "store_name_en": store_name_en,
             "category": m.get("category"),
             "city": m.get("city"),
             "soundbox_id": m.get("soundbox_serial_id"),
@@ -112,11 +115,18 @@ class VoiceCopilot:
 
     def _call_gemini_reasoning(self, query: str, context: Dict[str, Any]) -> Optional[Dict[str, str]]:
         """Invokes Google Gemini with the merchant's real business context."""
-        if not self.gemini_key:
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(override=True)
+        except Exception:
+            pass
+
+        api_key = os.getenv("GEMINI_API_KEY") or self.gemini_key
+        if not api_key:
             return None
         try:
             from google import genai
-            client = genai.Client(api_key=self.gemini_key)
+            client = genai.Client(api_key=api_key)
             prompt = f"""
 You are DukaanSaathi AI (दुकान साथी), an intelligent voice business copilot built for Indian shopkeepers using Paytm Soundbox.
 Address the shopkeeper warmly as "{context['owner_name_hi']}" in Hindi, and "{context['owner_name_en']}" in English.
@@ -144,8 +154,9 @@ User Query: "{query}"
 Instructions:
 1. Answer the query directly and accurately using the store facts above.
 2. If the user asks about past sales (yesterday, 2 days before, last week), quote the EXACT numbers from the store profile above.
-3. Address the merchant by their actual name: {context['owner_name']}.
-4. Output MUST be valid JSON with exactly two fields:
+3. If the user asks about demand or products, ONLY recommend products matching this store's category ({context['category']}) and listed in the store profile above. NEVER recommend grocery items to a non-grocery store.
+4. Address the merchant by their actual name: {context['owner_name']}.
+5. Output MUST be valid JSON with exactly two fields:
    "response_hindi": "Natural Hindi answer in Devanagari script",
    "response_english": "Natural English answer"
 Do not add markdown code fences around the JSON.
@@ -175,7 +186,8 @@ Do not add markdown code fences around the JSON.
         q_lower = query_text.lower().strip()
         owner_hi = context["owner_name_hi"]
         owner_en = context["owner_name_en"]
-        store = context["store_name"]
+        store_hi = context.get("store_name_hi", context["store_name"])
+        store_en = context.get("store_name_en", store_hi)
 
         # A. PAST / HISTORICAL SALES INTENT
         # e.g., "what was sales 2 days before?", "yesterday sales", "2 din pehle", "kal ka galla", "last week"
@@ -198,11 +210,11 @@ Do not add markdown code fences around the JSON.
 
             if offset == 2:
                 resp_hi = (
-                    f"{owner_hi}, 2 दिन पहले ({context['date_2d_ago']}) {store} की कुल बिक्री ₹{context['sales_2d_ago']:,} रही थी, "
+                    f"{owner_hi}, 2 दिन पहले ({context['date_2d_ago']}) {store_hi} की कुल बिक्री ₹{context['sales_2d_ago']:,} रही थी, "
                     f"जिसमें {context['txns_2d_ago']} ग्राहकों ने खरीदारी की थी।"
                 )
                 resp_en = (
-                    f"{owner_en}, 2 days ago on {context['date_2d_ago']}, {store} recorded total sales of ₹{context['sales_2d_ago']:,} "
+                    f"{owner_en}, 2 days ago on {context['date_2d_ago']}, {store_en} recorded total sales of ₹{context['sales_2d_ago']:,} "
                     f"across {context['txns_2d_ago']} customer transactions."
                 )
                 return {"hi": resp_hi, "en": resp_en, "intent": "HISTORICAL_SALES", "tab": "tabDemand"}
@@ -213,78 +225,78 @@ Do not add markdown code fences around the JSON.
                     f"और {context['yesterday_txns']} ग्राहकों ने खरीदारी की थी।"
                 )
                 resp_en = (
-                    f"{owner_en}, yesterday ({context['yesterday_date']}), total sales at {store} were ₹{context['yesterday_sales']:,} "
+                    f"{owner_en}, yesterday ({context['yesterday_date']}), total sales at {store_en} were ₹{context['yesterday_sales']:,} "
                     f"across {context['yesterday_txns']} customer transactions."
                 )
                 return {"hi": resp_hi, "en": resp_en, "intent": "HISTORICAL_SALES", "tab": "tabDemand"}
 
             elif offset == 3:
                 resp_hi = (
-                    f"{owner_hi}, 3 दिन पहले ({context['date_3d_ago']}) {store} की कुल बिक्री ₹{context['sales_3d_ago']:,} रही थी।"
+                    f"{owner_hi}, 3 दिन पहले ({context['date_3d_ago']}) {store_hi} की कुल बिक्री ₹{context['sales_3d_ago']:,} रही थी।"
                 )
                 resp_en = (
-                    f"{owner_en}, 3 days ago on {context['date_3d_ago']}, total sales at {store} were ₹{context['sales_3d_ago']:,}."
+                    f"{owner_en}, 3 days ago on {context['date_3d_ago']}, total sales at {store_en} were ₹{context['sales_3d_ago']:,}."
                 )
                 return {"hi": resp_hi, "en": resp_en, "intent": "HISTORICAL_SALES", "tab": "tabDemand"}
 
             elif any(w in q_lower for w in ["week", "hafte", "7 day", "7 din"]):
                 resp_hi = (
-                    f"{owner_hi}, पिछले 7 दिनों में {store} की कुल बिक्री ₹{context['sales_last_7d']:,} रही है "
+                    f"{owner_hi}, पिछले 7 दिनों में {store_hi} की कुल बिक्री ₹{context['sales_last_7d']:,} रही है "
                     f"(औसत ₹{int(context['sales_last_7d']/7):,} प्रतिदिन)।"
                 )
                 resp_en = (
-                    f"{owner_en}, over the past 7 days, total sales at {store} reached ₹{context['sales_last_7d']:,} "
+                    f"{owner_en}, over the past 7 days, total sales at {store_en} reached ₹{context['sales_last_7d']:,} "
                     f"(averaging ₹{int(context['sales_last_7d']/7):,}/day)."
                 )
                 return {"hi": resp_hi, "en": resp_en, "intent": "HISTORICAL_SALES", "tab": "tabDemand"}
 
         # B. TODAY'S ESTIMATED SALES
-        if any(w in q_lower for w in ["aaj ka galla", "today sales", "today's sale", "aaj kitna", "today's revenue"]):
+        if any(w in q_lower for w in ["aaj ka galla", "today sales", "today's sale", "today sale", "aaj kitna", "today's revenue", "sales today", "revenue today", "aaj ki bikri", "aaj ki sale"]):
             today_est = round(context["daily_sales"] * 1.12)
             resp_hi = (
-                f"{owner_hi}, आज शाम तक {store} का अनुमानित गल्ला लगभग ₹{today_est:,} रहने की उम्मीद है (दैनिक औसत: ₹{context['daily_sales']:,})।"
+                f"{owner_hi}, आज शाम तक {store_hi} का अनुमानित गल्ला लगभग ₹{today_est:,} रहने की उम्मीद है (दैनिक औसत: ₹{context['daily_sales']:,})।"
             )
             resp_en = (
-                f"{owner_en}, today's projected sales for {store} are approximately ₹{today_est:,} (daily average: ₹{context['daily_sales']:,})."
+                f"{owner_en}, today's projected sales for {store_en} are approximately ₹{today_est:,} (daily average: ₹{context['daily_sales']:,})."
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "DEMAND_FORECAST", "tab": "tabDemand"}
 
         # C. FUTURE DEMAND FORECAST / FESTIVAL
-        if any(w in q_lower for w in ["bikega", "demand", "forecast", "future", "festiv", "diwali", "aage kya", "what will sell"]):
+        if any(w in q_lower for w in ["bikega", "demand", "forecast", "future", "festiv", "diwali", "aage kya", "what will sell", "what will be sold", "what to sell", "which product", "kya bikega", "highest demand"]):
             top_s = context["top_forecast_items"]
-            item_lead = top_s[0] if top_s else "फॉर्च्यून तेल और बेसन"
+            item_lead = top_s[0] if top_s else "मुख्य उत्पाद"
             resp_hi = (
-                f"{owner_hi}, {store} के लिए अगले 7 दिनों में त्योहारों के कारण अच्छी बिक्री का अनुमान है। "
+                f"{owner_hi}, {store_hi} के लिए अगले 7 दिनों में त्योहारों और ग्राहकी के कारण अच्छी बिक्री का अनुमान है। "
                 f"सबसे ज्यादा मांग {item_lead} की रहेगी। क्या मैं सप्लायर को व्हाट्सऐप ऑर्डर भेज दूं?"
             )
             resp_en = (
-                f"{owner_en}, festive demand is projected to stay strong at {store}. "
+                f"{owner_en}, festive demand is projected to stay strong at {store_en}. "
                 f"Highest forecasted sales velocity is for {item_lead}. Would you like me to prepare a distributor WhatsApp order?"
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "DEMAND_FORECAST", "tab": "tabDemand"}
 
         # D. INVENTORY / STOCK / OUT OF STOCK
-        if any(w in q_lower for w in ["stock", "shelf", "reorder", "maal", "saman", "khatam", "inventory", "maggi", "kurkure", "atta"]):
+        if any(w in q_lower for w in ["stock", "shelf", "reorder", "maal", "saman", "khatam", "inventory", "shortage", "empty", "khali", "depleted", "low stock", "out of stock"]):
             crit_text = ", ".join(context["critical_stock"]) if context["critical_stock"] else "कोई सामान पूरी तरह खत्म नहीं है"
             low_text = ", ".join(context["low_stock"][:2]) if context["low_stock"] else "स्टॉक सामान्य है"
             resp_hi = (
-                f"{owner_hi}, {store} की शेल्फ जांच में {crit_text} पाया गया है। "
+                f"{owner_hi}, {store_hi} की शेल्फ जांच में {crit_text} पाया गया है। "
                 f"इसके अलावा {low_text} का स्टॉक भी रीऑर्डर पॉइंट से नीचे है। 1-क्लिक में व्हाट्सऐप आर्डर भेज सकते हैं।"
             )
             resp_en = (
-                f"{owner_en}, shelf scanner report for {store}: Out of stock: {crit_text}. "
+                f"{owner_en}, shelf scanner report for {store_en}: Out of stock: {crit_text}. "
                 f"Low stock alert: {low_text}. WhatsApp reorder is ready for approval in your Actions tab."
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "INVENTORY_STATUS", "tab": "tabInventory"}
 
         # E. CUSTOMER CHURN / RETENTION
-        if any(w in q_lower for w in ["customer", "grahak", "churn", "chhod", "regular", "lapsed", "retention", "cashback"]):
+        if any(w in q_lower for w in ["customer", "grahak", "churn", "chhod", "regular", "lapsed", "retention", "cashback", "inactive", "purane"]):
             resp_hi = (
                 f"{owner_hi}, आपके {context['at_risk_customers_count']} नियमित ग्राहक (जैसे {context['top_at_risk_customer']}) पिछले 15+ दिनों से दुकान नहीं आए हैं। "
                 f"उन्हें वापस बुलाने के लिए ₹20 का विशेष पेटीएम कैशबैक ऑफर तैयार है।"
             )
             resp_en = (
-                f"{owner_en}, {context['at_risk_customers_count']} regular customers (including {context['top_at_risk_customer']}) haven't visited {store} in over 15 days. "
+                f"{owner_en}, {context['at_risk_customers_count']} regular customers (including {context['top_at_risk_customer']}) haven't visited {store_en} in over 15 days. "
                 f"A ₹20 Paytm cashback winback campaign is ready."
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "CUSTOMER_RETENTION", "tab": "tabRetention"}
@@ -304,11 +316,11 @@ Do not add markdown code fences around the JSON.
         # G. CREDIT SCORE / MERCHANTMIND
         if any(w in q_lower for w in ["score", "rating", "cibil", "credit", "health", "merchantmind"]):
             resp_hi = (
-                f"{owner_hi}, {store} का मर्चेंटमाइंड साख स्कोर 900 में से {context['credit_score']} ({context['score_tier']}) है! "
+                f"{owner_hi}, {store_hi} का मर्चेंटमाइंड साख स्कोर 900 में से {context['credit_score']} ({context['score_tier']}) है! "
                 f"इस उत्कृष्ट स्कोर के आधार पर आपको न्यूनतम ब्याज दर पर तुरंत लोन मिल सकता है।"
             )
             resp_en = (
-                f"{owner_en}, {store}'s MerchantMind Credit Health Score is {context['credit_score']} / 900 ({context['score_tier']})! "
+                f"{owner_en}, {store_en}'s MerchantMind Credit Health Score is {context['credit_score']} / 900 ({context['score_tier']})! "
                 f"This unlocks preferential rates on Paytm merchant financing."
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "CREDIT_SCORE", "tab": "tabScore"}
@@ -316,22 +328,22 @@ Do not add markdown code fences around the JSON.
         # H. STORE IDENTITY / ASSISTANT INFO
         if any(w in q_lower for w in ["who are you", "who am i", "kaun ho", "meri dukan", "shop name", "my store"]):
             resp_hi = (
-                f"नमस्ते {owner_hi}! मैं आपका दुकान साथी AI असिस्टेंट हूँ। आपकी दुकान का नाम '{store}', श्रेणी: {context['category']}, शहर: {context['city']} है। "
+                f"नमस्ते {owner_hi}! मैं आपका दुकान साथी AI असिस्टेंट हूँ। आपकी दुकान का नाम '{store_hi}', श्रेणी: {context['category']}, शहर: {context['city']} है। "
                 f"आपका साउंडबॉक्स ({context['soundbox_id']}) सक्रिय है।"
             )
             resp_en = (
-                f"Hello {owner_en}! I am DukaanSaathi AI, your business copilot for '{store}' ({context['category']}, {context['city']}) "
+                f"Hello {owner_en}! I am DukaanSaathi AI, your business copilot for '{store_en}' ({context['category']}, {context['city']}) "
                 f"connected to Paytm Soundbox {context['soundbox_id']}."
             )
             return {"hi": resp_hi, "en": resp_en, "intent": "GENERAL_ASSISTANCE", "tab": "tabDemand"}
 
         # I. DEFAULT FALLBACK
         resp_hi = (
-            f"नमस्ते {owner_hi}! मैं {store} का दुकान साथी AI हूँ। आप मुझसे कल की या 2 दिन पहले की बिक्री, आज क्या बिकेगा, "
+            f"नमस्ते {owner_hi}! मैं {store_hi} का दुकान साथी AI हूँ। आप मुझसे कल की या 2 दिन पहले की बिक्री, आज क्या बिकेगा, "
             f"अलमारी में कौन सा सामान खत्म है, पुराने ग्राहकों के कैशबैक या लोन के बारे में पूछ सकते हैं।"
         )
         resp_en = (
-            f"Hello {owner_en}! I am your DukaanSaathi AI partner for {store}. You can ask me about past sales (yesterday or 2 days ago), "
+            f"Hello {owner_en}! I am your DukaanSaathi AI partner for {store_en}. You can ask me about past sales (yesterday or 2 days ago), "
             f"demand forecasts, low stock items, customer retention, or instant loan pre-approvals."
         )
         return {"hi": resp_hi, "en": resp_en, "intent": "GENERAL_ASSISTANCE", "tab": "tabDemand"}

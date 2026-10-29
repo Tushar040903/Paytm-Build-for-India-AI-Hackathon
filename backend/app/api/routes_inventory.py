@@ -27,7 +27,7 @@ async def scan_shelf_query(
         image_bytes = await file.read()
         filename = file.filename or filename
         
-    scan_result = shelf_scanner.process_shelf_image(image_bytes=image_bytes, file_name=filename)
+    scan_result = shelf_scanner.process_shelf_image(image_bytes=image_bytes, file_name=filename, merchant_id=merchant_id)
     db.add_shelf_scan(merchant_id, scan_result)
     return scan_result
 

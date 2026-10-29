@@ -7,6 +7,7 @@ from typing import Dict, List, Any, Optional
 from PIL import Image, ImageDraw, ImageFont
 from backend.app.core.logger import logger
 from backend.app.models.inventory_optimizer import inventory_engine
+from backend.app.data.store import db
 
 class ShelfScanner:
     """Computer Vision Shelf Scanner (YOLOv8 + Vision Heuristics) for 'Snap to Stock'."""
@@ -15,82 +16,98 @@ class ShelfScanner:
         self.model_name = "YOLOv8-RetailShelf-v2 + Gemini Vision"
         logger.info(f"Initialized {self.model_name} for Camera Shelf Scanning.")
 
-    def process_shelf_image(self, image_bytes: Optional[bytes] = None, file_name: str = "shelf_scan.jpg") -> Dict[str, Any]:
+    def process_shelf_image(self, image_bytes: Optional[bytes] = None, file_name: str = "shelf_scan.jpg", merchant_id: str = "PAYTM_M_1001") -> Dict[str, Any]:
         """
         Processes a shelf photo, detects items, estimates stock fullness, and maps to restock triggers.
         If image is provided, annotates it with bounding boxes; otherwise generates an illustrative detection.
         """
         scan_id = f"SCAN_{uuid.uuid4().hex[:8].upper()}"
+        inv = db.get_inventory(merchant_id) or []
         
-        # Detected products with spatial bounding boxes (normalized 0-1)
-        detections = [
-            {
-                "product_name": "Maggi 2-Minute Noodles",
-                "confidence": 0.96,
-                "bbox": [0.08, 0.15, 0.35, 0.52], # [x1, y1, x2, y2]
-                "stock_status": "LOW",
-                "estimated_units": 12,
-                "shelf_fullness_pct": 20.0
-            },
-            {
-                "product_name": "Lay's India's Magic Masala",
-                "confidence": 0.94,
-                "bbox": [0.38, 0.15, 0.65, 0.52],
-                "stock_status": "HEALTHY",
-                "estimated_units": 45,
-                "shelf_fullness_pct": 85.0
-            },
-            {
-                "product_name": "Kurkure Masala Munch (Empty Slot)",
-                "confidence": 0.91,
-                "bbox": [0.68, 0.15, 0.94, 0.52],
-                "stock_status": "OUT_OF_STOCK",
-                "estimated_units": 0,
-                "shelf_fullness_pct": 0.0
-            },
-            {
-                "product_name": "Parle-G Gold 100g",
-                "confidence": 0.97,
-                "bbox": [0.08, 0.58, 0.48, 0.92],
-                "stock_status": "HEALTHY",
-                "estimated_units": 38,
-                "shelf_fullness_pct": 75.0
-            },
-            {
-                "product_name": "Britannia Good Day Butter",
-                "confidence": 0.92,
-                "bbox": [0.52, 0.58, 0.92, 0.92],
-                "stock_status": "HEALTHY",
-                "estimated_units": 26,
-                "shelf_fullness_pct": 65.0
-            }
-        ]
+        if inv and len(inv) >= 5:
+            item_low = next((it for it in inv if it["stock_status"] == "low"), inv[0])
+            item_crit = next((it for it in inv if it["stock_status"] == "critical"), inv[1])
+            healthy_items = [it for it in inv if it["stock_status"] == "healthy"]
+            if len(healthy_items) < 3:
+                healthy_items = [it for it in inv if it["item_id"] not in (item_low["item_id"], item_crit["item_id"])]
+            item_h1 = healthy_items[0] if len(healthy_items) > 0 else inv[2]
+            item_h2 = healthy_items[1] if len(healthy_items) > 1 else inv[3]
+            item_h3 = healthy_items[2] if len(healthy_items) > 2 else inv[4]
 
-        low_stock = ["Maggi 2-Minute Noodles (12 units remaining - 20% capacity)"]
-        out_of_stock = ["Kurkure Masala Munch (Empty shelf slot detected)"]
-        
-        reorder_recs = [
-            {
-                "item_name": "Maggi 2-Minute Noodles",
-                "action": "REORDER_NOW",
-                "suggested_order": "3 Cartons (72 packs)",
-                "cost_estimate_inr": 900.0,
-                "reason": "Predicted weekend demand: 65 packs. Current stock will deplete by Wednesday evening."
-            },
-            {
-                "item_name": "Kurkure Masala Munch",
-                "action": "URGENT_RESTOCK",
-                "suggested_order": "2 Cartons (48 packs)",
-                "cost_estimate_inr": 840.0,
-                "reason": "CRITICAL: Out of stock! Merchant lost ~₹800 in sales during the previous stockout."
-            }
-        ]
-
-        # Knowledge graph cross-sell recommendations
-        cross_sell = [
-            "Bingo Mad Angles (3 nearby shops saw +18% namkeen revenue after adding)",
-            "Chings Secret Noodles (High co-purchase index with Maggi buyers)"
-        ]
+            detections = [
+                {
+                    "product_name": item_low["name"],
+                    "confidence": 0.96,
+                    "bbox": [0.08, 0.15, 0.35, 0.52],
+                    "stock_status": "LOW",
+                    "estimated_units": item_low["current_stock"],
+                    "shelf_fullness_pct": 25.0
+                },
+                {
+                    "product_name": item_h1["name"],
+                    "confidence": 0.94,
+                    "bbox": [0.38, 0.15, 0.65, 0.52],
+                    "stock_status": "HEALTHY",
+                    "estimated_units": item_h1["current_stock"],
+                    "shelf_fullness_pct": 85.0
+                },
+                {
+                    "product_name": f"{item_crit['name']} (Empty Slot)",
+                    "confidence": 0.91,
+                    "bbox": [0.68, 0.15, 0.94, 0.52],
+                    "stock_status": "OUT_OF_STOCK",
+                    "estimated_units": 0,
+                    "shelf_fullness_pct": 0.0
+                },
+                {
+                    "product_name": item_h2["name"],
+                    "confidence": 0.97,
+                    "bbox": [0.08, 0.58, 0.48, 0.92],
+                    "stock_status": "HEALTHY",
+                    "estimated_units": item_h2["current_stock"],
+                    "shelf_fullness_pct": 75.0
+                },
+                {
+                    "product_name": item_h3["name"],
+                    "confidence": 0.92,
+                    "bbox": [0.52, 0.58, 0.92, 0.92],
+                    "stock_status": "HEALTHY",
+                    "estimated_units": item_h3["current_stock"],
+                    "shelf_fullness_pct": 65.0
+                }
+            ]
+            low_stock = [f"{item_low['name']} ({item_low['current_stock']} {item_low['unit']} remaining - 25% capacity)"]
+            out_of_stock = [f"{item_crit['name']} (Empty shelf slot detected)"]
+            reorder_recs = [
+                {
+                    "item_name": item_low["name"],
+                    "action": "REORDER_NOW",
+                    "suggested_order": f"{item_low['optimal_stock_level'] - item_low['current_stock']} {item_low['unit']}",
+                    "cost_estimate_inr": round((item_low['optimal_stock_level'] - item_low['current_stock']) * item_low['unit_cost_inr'], 2),
+                    "reason": f"Predicted demand surge. Current stock will deplete within {item_low['days_until_stockout']} days."
+                },
+                {
+                    "item_name": item_crit["name"],
+                    "action": "URGENT_RESTOCK",
+                    "suggested_order": f"{item_crit['optimal_stock_level']} {item_crit['unit']}",
+                    "cost_estimate_inr": round(item_crit['optimal_stock_level'] * item_crit['unit_cost_inr'], 2),
+                    "reason": f"CRITICAL: Out of stock! Merchant lost revenue during recent customer visits."
+                }
+            ]
+            critical_stockouts = [
+                {"product_name": item_crit["name"], "product_id": item_crit["item_id"], "shelf_tier": "Tier 1"}
+            ]
+            cross_sell = [
+                f"{item_h1['name']} (High co-purchase customer affinity)",
+                f"Bundle {item_low['name']} with {item_h2['name']}"
+            ]
+        else:
+            detections = []
+            low_stock = []
+            out_of_stock = []
+            reorder_recs = []
+            critical_stockouts = []
+            cross_sell = []
 
         # Generate annotated image
         annotated_b64 = self._render_annotated_image(image_bytes, detections)

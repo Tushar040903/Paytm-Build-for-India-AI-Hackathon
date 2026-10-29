@@ -96,10 +96,14 @@ class MerchantMindScorer:
             f"Zero MDR fees on first ₹50,000 monthly transactions"
         ]
 
+        inv = db.get_inventory(merchant_id) or []
+        crit_names = [it["name"] for it in inv if it.get("stock_status") in ["critical", "low"]][:2]
+        crit_str = " & ".join(crit_names) if crit_names else "critical SKU"
+
         boost_actions = [
-            "Recover 8 at-risk regular customers using automated win-back (+25 points)",
-            "Resolve Maggi & Kurkure stockouts to maintain 100% shelf availability (+18 points)",
-            "Maintain 30 consecutive days of ₹4,000+ GMV (+35 points to reach 780+ Platinum Tier)"
+            "Recover at-risk regular customers using automated 1-click win-back (+25 points)",
+            f"Resolve {crit_str} stockouts to maintain 100% shelf availability (+18 points)",
+            "Maintain 30 consecutive days of steady GMV (+35 points to reach 780+ Platinum Tier)"
         ]
 
         return {

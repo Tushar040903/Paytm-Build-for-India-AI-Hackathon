@@ -37,13 +37,16 @@ def get_merchant_kpis(merchant_id: str):
     
     customers = db.get_customers(merchant_id)
     at_risk_count = sum(1 for c in customers if c["churn_probability"] > 0.6)
+    
+    inv = db.get_inventory(merchant_id)
+    top_selling = inv[0]["name"] if inv else "Fast Moving Inventory"
 
     return {
         "today_revenue": today_rev,
         "yesterday_revenue": yest_rev,
         "week_revenue": round(week_rev, 2),
         "month_revenue": round(month_rev, 2),
-        "top_selling_item": "Maggi 2-Minute Masala Noodles",
+        "top_selling_item": top_selling,
         "active_customers_count": len(customers) - at_risk_count,
         "at_risk_customers_count": at_risk_count,
         "pending_actions_count": pending_count,

@@ -9,6 +9,7 @@ from backend.app.data.generator import (
     generate_historical_sales,
     generate_customers,
     generate_recurring_expenses,
+    MERCHANT_CATEGORY_MAP,
     KIRANA_CATALOG
 )
 
@@ -42,24 +43,81 @@ class DataStore:
         logger.info(f"Loaded {len(self.merchants)} merchants and initialized all datasets.")
 
     def _create_initial_actions(self, merchant_id: str) -> List[Dict[str, Any]]:
+        cat_type = MERCHANT_CATEGORY_MAP.get(merchant_id, "KIRANA")
+        
+        if cat_type == "MOBILE":
+            reorder_title = "WhatsApp Reorder: 25 Units 65W Fast Chargers to Patna Electronics Hub"
+            reorder_desc = "Stock is down to 25% while weekend footfall is surging. Auto-drafted order ready to dispatch via WhatsApp."
+            supplier_name = "Patna Electronics & Accessories Wholesalers"
+            supplier_phone = "+91 9835012345"
+            item_name = "65W GaN Fast Charger (Type-C)"
+            qty = "25 units"
+            cost = 8750.0
+            roi = 12475.0
+        elif cat_type == "PHARMACY":
+            reorder_title = "WhatsApp Reorder: 50 Strips Dolo 650mg to Varanasi Pharma Depot"
+            reorder_desc = "Seasonal viral fever demand surge. Stock approaching reorder threshold. 1-click WhatsApp restock ready."
+            supplier_name = "Varanasi Pharma & Surgicals Dist."
+            supplier_phone = "+91 9415023456"
+            item_name = "Dolo 650mg Paracetamol"
+            qty = "50 strips"
+            cost = 1200.0
+            roi = 1600.0
+        elif cat_type == "SWEETS":
+            reorder_title = "WhatsApp Reorder: 15kg Pure Desi Ghee to Jaipur Mandi Wholesalers"
+            reorder_desc = "Festive sweet batch production surge expected this weekend. Urgent raw material restock drafted."
+            supplier_name = "Jaipur Mandi Dairy & Dry Fruits Wholesalers"
+            supplier_phone = "+91 9414034567"
+            item_name = "Pure Desi Ghee (Festive Supply)"
+            qty = "15 kg"
+            cost = 8100.0
+            roi = 11200.0
+        elif cat_type == "CAFE":
+            reorder_title = "WhatsApp Reorder: 10kg Amul Butter & Kulhad Tea to Metro Food Supply"
+            reorder_desc = "Rainy weather tea footfall is up 35%. Essential morning and evening ingredients restock order ready."
+            supplier_name = "Gurugram Metro Dairy & Food Supply"
+            supplier_phone = "+91 9812045678"
+            item_name = "Amul Butter Blocks & Tea Leaves"
+            qty = "10kg Butter + 5kg Tea"
+            cost = 4200.0
+            roi = 7500.0
+        elif cat_type == "APPAREL":
+            reorder_title = "WhatsApp Reorder: 12 Banarasi Silk Sarees to Lucknow Handloom Depot"
+            reorder_desc = "Wedding and festive season rush. High margin handloom ethnic wear restock drafted."
+            supplier_name = "Lucknow Silk & Handloom Mills Depot"
+            supplier_phone = "+91 9450056789"
+            item_name = "Pure Banarasi Silk Zari Saree"
+            qty = "12 sarees"
+            cost = 26400.0
+            roi = 41988.0
+        else: # KIRANA
+            reorder_title = "WhatsApp Reorder: 3 Cartons Maggi to Sharma Distributors"
+            reorder_desc = "Stock is at 20% while weekend demand is predicted 40% above normal. Auto-drafted order ready to dispatch."
+            supplier_name = "Sharma Distributors (Wholesale FMCG)"
+            supplier_phone = "+91 9811223344"
+            item_name = "Maggi 2-Minute Noodles"
+            qty = "3 cartons (72 units)"
+            cost = 900.0
+            roi = 1008.0
+
         return [
             {
                 "action_id": f"ACT_{merchant_id}_01",
                 "action_type": "REORDER_WHATSAPP",
-                "title": "WhatsApp Reorder: 3 Cartons Maggi to Sharma Distributors",
-                "description": "Stock is at 20% while weekend demand is predicted 40% above normal. Auto-drafted order ready to dispatch.",
+                "title": reorder_title,
+                "description": reorder_desc,
                 "details": {
-                    "supplier_name": "Sharma Distributors (Wholesale)",
-                    "supplier_phone": "+91 9811223344",
-                    "item_name": "Maggi 2-Minute Noodles",
-                    "quantity": "3 cartons (72 units)",
-                    "total_cost_inr": 900.0,
+                    "supplier_name": supplier_name,
+                    "supplier_phone": supplier_phone,
+                    "item_name": item_name,
+                    "quantity": qty,
+                    "total_cost_inr": cost,
                     "estimated_arrival": "Tomorrow, 11:00 AM"
                 },
                 "status": "PENDING_APPROVAL",
                 "created_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
                 "requires_confirmation": True,
-                "estimated_roi_inr": 1008.0
+                "estimated_roi_inr": roi
             },
             {
                 "action_id": f"ACT_{merchant_id}_02",

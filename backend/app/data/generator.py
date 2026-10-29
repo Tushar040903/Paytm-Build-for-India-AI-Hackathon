@@ -11,6 +11,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1001",
         "name": "तुषार शर्मा (Tushar Sharma)",
         "business_name": "तुषार किराना स्टोर & सुपरमार्ट",
+        "business_name_en": "Tushar Kirana & Supermart",
         "category": "किराना व दैनिक उपभोग (Kirana & Grocery)",
         "city": "सेक्टर 18, नोएडा (Noida)",
         "pincode": "201301",
@@ -31,6 +32,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1002",
         "name": "रमेश गुप्ता (Ramesh Gupta)",
         "business_name": "लक्ष्मी प्रोविजन स्टोर",
+        "business_name_en": "Laxmi Provision Store",
         "category": "राशन व डेयरी (Grocery & Dairy)",
         "city": "चांदनी चौक, पुरानी दिल्ली (Delhi)",
         "pincode": "110006",
@@ -51,8 +53,9 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1003",
         "name": "सुरेश पटेल (Suresh Patel)",
         "business_name": "बालाजी सुपर डेली मार्ट",
+        "business_name_en": "Balaji Super Daily Mart",
         "category": "सुपरमार्केट व एफएमसीजी (Supermarket)",
-        "city": "इंदिरानगर, बेंगलुरु (Bengaluru)",
+        "city": "इंदिरानगर, Bengaluru (Bengaluru)",
         "pincode": "560038",
         "latitude": 12.9784,
         "longitude": 77.6408,
@@ -71,6 +74,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1004",
         "name": "अमित गुप्ता (Amit Gupta)",
         "business_name": "गुप्ता ब्रदर्स जनरल स्टोर",
+        "business_name_en": "Gupta Brothers General Store",
         "category": "जनरल स्टोर (General Store)",
         "city": "हज़रतगंज, लखनऊ (Lucknow)",
         "pincode": "226001",
@@ -91,6 +95,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1005",
         "name": "पवन अग्रवाल (Pawan Aggarwal)",
         "business_name": "अग्रवाल स्वीट्स & नमकीन",
+        "business_name_en": "Aggarwal Sweets & Namkeen",
         "category": "मिठाई व नमकीन (Sweets & Snacks)",
         "city": "राजा पार्क, जयपुर (Jaipur)",
         "pincode": "302004",
@@ -111,6 +116,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1006",
         "name": "मुकेश यादव (Mukesh Yadav)",
         "business_name": "चाय पॉइंट & कैफे कॉर्नर",
+        "business_name_en": "Chai Point & Cafe Corner",
         "category": "चाय व स्नैक्स (Tea & Quick Bites)",
         "city": "साइबर सिटी, गुरुग्राम (Gurugram)",
         "pincode": "122002",
@@ -131,6 +137,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1007",
         "name": "डॉ. आलोक वर्मा (Dr. Alok Verma)",
         "business_name": "संजीवनी मेडिकोज & फार्मा",
+        "business_name_en": "Sanjeevani Medicos & Pharma",
         "category": "दवा व स्वास्थ्य (Pharmacy & Healthcare)",
         "city": "गोदौलिया, वाराणसी (Varanasi)",
         "pincode": "221001",
@@ -151,6 +158,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1008",
         "name": "विकास सिंह (Vikas Singh)",
         "business_name": "साईं मोबाइल & एक्सेसरीज",
+        "business_name_en": "Sai Mobiles & Accessories",
         "category": "इलेक्ट्रॉनिक्स व मोबाइल (Electronics & Mobile)",
         "city": "कंकड़बाग, पटना (Patna)",
         "pincode": "800020",
@@ -171,6 +179,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1009",
         "name": "सुनीता देवी (Sunita Devi)",
         "business_name": "श्रृंगार वस्त्रालय & साड़ी सदन",
+        "business_name_en": "Shringar Vastralaya & Saree Sadan",
         "category": "कपड़े व वस्त्र (Apparel & Garments)",
         "city": "अमीनाबाद, लखनऊ (Aminabad, Lucknow)",
         "pincode": "226018",
@@ -191,6 +200,7 @@ MERCHANT_PROFILES = [
         "merchant_id": "PAYTM_M_1010",
         "name": "तुषार भारद्वाज (Tushar Bhardwaj)",
         "business_name": "भारद्वाज मेगा सुपरमार्ट",
+        "business_name_en": "Bhardwaj Mega Supermart",
         "category": "हाइपर किराना व सुपरस्टोर (Hypermarket & FMCG)",
         "city": "साउथ एक्स, नई दिल्ली (New Delhi)",
         "pincode": "110049",
@@ -232,6 +242,123 @@ KIRANA_CATALOG = [
     {"name": "Colgate Strong Teeth Toothpaste 200g", "category": "Personal Care", "cost": 92.0, "price": 110.0, "unit": "tube", "daily_base": 14}
 ]
 
+MOBILE_CATALOG = [
+    {"name": "65W GaN Fast Charger (Type-C)", "category": "Chargers & Adapters", "cost": 650.0, "price": 899.0, "unit": "piece", "daily_base": 14},
+    {"name": "9D Curved Tempered Glass (HD Clear)", "category": "Screen Protectors", "cost": 35.0, "price": 150.0, "unit": "piece", "daily_base": 28},
+    {"name": "boAt Bassheads 242 Wired Earphones", "category": "Audio & Earphones", "cost": 320.0, "price": 499.0, "unit": "piece", "daily_base": 12},
+    {"name": "Silicon Matte Protective Back Cover", "category": "Mobile Covers", "cost": 60.0, "price": 199.0, "unit": "piece", "daily_base": 22},
+    {"name": "Mi 10000mAh Power Bank 3i Dual USB", "category": "Power Banks", "cost": 850.0, "price": 1199.0, "unit": "piece", "daily_base": 6},
+    {"name": "Type-C Braided Fast Charging Cable 1m", "category": "Cables & Connectors", "cost": 85.0, "price": 249.0, "unit": "piece", "daily_base": 24},
+    {"name": "SanDisk 64GB Ultra MicroSD Card", "category": "Memory & Storage", "cost": 380.0, "price": 549.0, "unit": "piece", "daily_base": 8},
+    {"name": "OTG Type-C to USB 3.0 Metal Adapter", "category": "Cables & Connectors", "cost": 45.0, "price": 120.0, "unit": "piece", "daily_base": 15},
+    {"name": "Mobile Camera Lens Protector Ring", "category": "Screen Protectors", "cost": 30.0, "price": 99.0, "unit": "piece", "daily_base": 18},
+    {"name": "Universal Magnetic Car Dashboard Mount", "category": "Car Accessories", "cost": 160.0, "price": 349.0, "unit": "piece", "daily_base": 7},
+    {"name": "Portronics SoundDrum 10W Bluetooth Speaker", "category": "Audio & Speakers", "cost": 950.0, "price": 1499.0, "unit": "piece", "daily_base": 4},
+    {"name": "Ring Light 10-inch with Metal Tripod", "category": "Content & Camera", "cost": 480.0, "price": 799.0, "unit": "piece", "daily_base": 5},
+    {"name": "TWS Earbuds Silicon Protective Case", "category": "Audio & Earphones", "cost": 40.0, "price": 149.0, "unit": "piece", "daily_base": 10},
+    {"name": "Micro-USB High Speed Data Cable 1m", "category": "Cables & Connectors", "cost": 50.0, "price": 149.0, "unit": "piece", "daily_base": 16},
+    {"name": "Bluetooth Wireless Neckband ENC Mic", "category": "Audio & Earphones", "cost": 520.0, "price": 799.0, "unit": "piece", "daily_base": 9}
+]
+
+PHARMACY_CATALOG = [
+    {"name": "Dolo 650mg Paracetamol (Strip of 15)", "category": "Pain & Fever", "cost": 24.0, "price": 32.0, "unit": "strip", "daily_base": 45},
+    {"name": "Electral ORS Powder 21.8g Sachet", "category": "Digestive & ORS", "cost": 18.0, "price": 22.5, "unit": "sachet", "daily_base": 36},
+    {"name": "Digene Acidity Relief Gel Mint 200ml", "category": "Antacids & Digestion", "cost": 125.0, "price": 152.0, "unit": "bottle", "daily_base": 14},
+    {"name": "Band-Aid Waterproof Strips (Box of 20)", "category": "First Aid & Wound", "cost": 42.0, "price": 55.0, "unit": "box", "daily_base": 18},
+    {"name": "Limcee Vitamin C 500mg Chewable (Strip 15)", "category": "Vitamins & Minerals", "cost": 21.0, "price": 28.0, "unit": "strip", "daily_base": 25},
+    {"name": "Dettol Antiseptic Liquid 250ml", "category": "Antiseptics", "cost": 115.0, "price": 138.0, "unit": "bottle", "daily_base": 12},
+    {"name": "Omron Digital Forehead Thermometer", "category": "Medical Devices", "cost": 1150.0, "price": 1550.0, "unit": "piece", "daily_base": 3},
+    {"name": "Moov Pain Relief Fast Spray 50g", "category": "Pain Relief", "cost": 145.0, "price": 175.0, "unit": "can", "daily_base": 15},
+    {"name": "Volini Instant Pain Relief Gel 30g", "category": "Pain Relief", "cost": 98.0, "price": 125.0, "unit": "tube", "daily_base": 16},
+    {"name": "Crocin Advance Fast Release 500mg", "category": "Pain & Fever", "cost": 16.0, "price": 21.0, "unit": "strip", "daily_base": 30},
+    {"name": "Vicks VapoRub Cold Relief Balm 50g", "category": "Cold & Cough", "cost": 120.0, "price": 145.0, "unit": "tin", "daily_base": 19},
+    {"name": "Betadine 10% Antiseptic Ointment 20g", "category": "First Aid & Wound", "cost": 95.0, "price": 118.0, "unit": "tube", "daily_base": 11},
+    {"name": "Revital H Daily Health Capsules (Strip 10)", "category": "Vitamins & Minerals", "cost": 92.0, "price": 115.0, "unit": "strip", "daily_base": 14},
+    {"name": "Otrivin Oxy Fast Relief Nasal Spray 10ml", "category": "Cold & Cough", "cost": 84.0, "price": 105.0, "unit": "bottle", "daily_base": 13},
+    {"name": "Boroline Ayurvedic Antiseptic Cream 40g", "category": "Skin & First Aid", "cost": 38.0, "price": 48.0, "unit": "tube", "daily_base": 20}
+]
+
+SWEETS_CATALOG = [
+    {"name": "Kaju Katli Premium Box 500g", "category": "Kaju Sweets", "cost": 380.0, "price": 480.0, "unit": "box", "daily_base": 22},
+    {"name": "Desi Ghee Motichoor Ladoo 1kg", "category": "Desi Ghee Sweets", "cost": 360.0, "price": 460.0, "unit": "box", "daily_base": 26},
+    {"name": "Gulab Jamun Desi Ghee 1kg", "category": "Desi Ghee Sweets", "cost": 320.0, "price": 420.0, "unit": "box", "daily_base": 20},
+    {"name": "Spongy White Rasgulla Tin (1kg)", "category": "Bengali Sweets", "cost": 210.0, "price": 270.0, "unit": "tin", "daily_base": 18},
+    {"name": "Garam Aloo Samosa (Pack of 4)", "category": "Fresh Snacks", "cost": 40.0, "price": 60.0, "unit": "pack", "daily_base": 65},
+    {"name": "Khasta Hing Kachori (Pack of 4)", "category": "Fresh Snacks", "cost": 42.0, "price": 64.0, "unit": "pack", "daily_base": 50},
+    {"name": "Khaman Dhokla Fresh Tray 500g", "category": "Fresh Snacks", "cost": 70.0, "price": 110.0, "unit": "tray", "daily_base": 25},
+    {"name": "Ratlami Spicy Sev 400g", "category": "Namkeen & Farsan", "cost": 90.0, "price": 125.0, "unit": "packet", "daily_base": 30},
+    {"name": "Bikaneri Bhujia Special 400g", "category": "Namkeen & Farsan", "cost": 92.0, "price": 130.0, "unit": "packet", "daily_base": 35},
+    {"name": "Kaju Pista Roll Luxury Pack 500g", "category": "Kaju Sweets", "cost": 440.0, "price": 580.0, "unit": "box", "daily_base": 12},
+    {"name": "Royal Assorted Dry Fruit Gift Box 500g", "category": "Gift Hampers", "cost": 550.0, "price": 750.0, "unit": "box", "daily_base": 15},
+    {"name": "Pure Desi Ghee Besan Ladoo 1kg", "category": "Desi Ghee Sweets", "cost": 340.0, "price": 440.0, "unit": "box", "daily_base": 18},
+    {"name": "Alwar Special Milk Cake 500g", "category": "Milk Sweets", "cost": 240.0, "price": 310.0, "unit": "box", "daily_base": 16},
+    {"name": "Crispy Masala Mathri 500g", "category": "Namkeen & Farsan", "cost": 85.0, "price": 120.0, "unit": "packet", "daily_base": 22},
+    {"name": "Soan Papdi Festive Pack 500g", "category": "Packaged Sweets", "cost": 110.0, "price": 150.0, "unit": "box", "daily_base": 24}
+]
+
+CAFE_CATALOG = [
+    {"name": "Special Kulhad Masala Chai", "category": "Chai & Tea", "cost": 6.0, "price": 20.0, "unit": "cup", "daily_base": 160},
+    {"name": "Bun Maska Fresh Amul Butter", "category": "Bakery & Buns", "cost": 18.0, "price": 40.0, "unit": "plate", "daily_base": 55},
+    {"name": "Crispy Aloo Veg Puff", "category": "Bakery & Puffs", "cost": 14.0, "price": 30.0, "unit": "piece", "daily_base": 48},
+    {"name": "Iced Cold Coffee 300ml", "category": "Coffee & Coolers", "cost": 35.0, "price": 85.0, "unit": "glass", "daily_base": 38},
+    {"name": "Grilled Paneer Tikka Sandwich", "category": "Sandwiches", "cost": 45.0, "price": 99.0, "unit": "plate", "daily_base": 32},
+    {"name": "Mumbai Vada Pav with Chutney (Pair)", "category": "Street Bites", "cost": 22.0, "price": 50.0, "unit": "plate", "daily_base": 70},
+    {"name": "Peri Peri French Fries (Medium)", "category": "Quick Bites", "cost": 30.0, "price": 75.0, "unit": "box", "daily_base": 35},
+    {"name": "Ginger Elaichi Tea (Flask 500ml)", "category": "Chai & Tea", "cost": 28.0, "price": 70.0, "unit": "flask", "daily_base": 22},
+    {"name": "Filter Coffee South Indian Style", "category": "Coffee & Coolers", "cost": 12.0, "price": 35.0, "unit": "cup", "daily_base": 42},
+    {"name": "Cheesy Masala Maggi Bowl", "category": "Quick Bites", "cost": 28.0, "price": 65.0, "unit": "bowl", "daily_base": 40},
+    {"name": "Veg Cheese Grilled Burger", "category": "Burgers", "cost": 42.0, "price": 89.0, "unit": "piece", "daily_base": 26},
+    {"name": "Lemon Mint Iced Tea 300ml", "category": "Coffee & Coolers", "cost": 25.0, "price": 65.0, "unit": "glass", "daily_base": 28},
+    {"name": "Samosa Pav with Spicy Garlic Chutney", "category": "Street Bites", "cost": 16.0, "price": 35.0, "unit": "plate", "daily_base": 45},
+    {"name": "Chocolate Walnut Brownie", "category": "Desserts", "cost": 40.0, "price": 90.0, "unit": "piece", "daily_base": 18},
+    {"name": "Hot Chocolate with Marshmallows", "category": "Coffee & Coolers", "cost": 38.0, "price": 95.0, "unit": "cup", "daily_base": 16}
+]
+
+APPAREL_CATALOG = [
+    {"name": "Pure Banarasi Silk Zari Saree", "category": "Silk Sarees", "cost": 2200.0, "price": 3499.0, "unit": "saree", "daily_base": 5},
+    {"name": "Chanderi Cotton Printed Kurti (L/XL)", "category": "Kurtis & Tunics", "cost": 380.0, "price": 699.0, "unit": "piece", "daily_base": 14},
+    {"name": "Embroidered Festive Kurta Pyjama Set", "category": "Men's Ethnic", "cost": 850.0, "price": 1499.0, "unit": "set", "daily_base": 8},
+    {"name": "Chiffon Party Wear Embroidered Dupatta", "category": "Dupattas & Stoles", "cost": 160.0, "price": 349.0, "unit": "piece", "daily_base": 18},
+    {"name": "Cotton Daily Wear Salwar Suit Material", "category": "Dress Material", "cost": 550.0, "price": 950.0, "unit": "set", "daily_base": 11},
+    {"name": "Designer Brocade Saree Blouse Piece", "category": "Blouses & Fabric", "cost": 120.0, "price": 280.0, "unit": "piece", "daily_base": 20},
+    {"name": "Rayon Anarkali Festive Long Kurti", "category": "Kurtis & Tunics", "cost": 490.0, "price": 899.0, "unit": "piece", "daily_base": 10},
+    {"name": "Men's Pure Cotton Ethnic Kurta", "category": "Men's Ethnic", "cost": 420.0, "price": 799.0, "unit": "piece", "daily_base": 9},
+    {"name": "Georgette Floral Printed Saree", "category": "Daily Sarees", "cost": 580.0, "price": 999.0, "unit": "saree", "daily_base": 12},
+    {"name": "Silk Blend Modi Nehru Jacket", "category": "Men's Ethnic", "cost": 650.0, "price": 1199.0, "unit": "piece", "daily_base": 6},
+    {"name": "Premium Stretch Leggings Combo (Pack 2)", "category": "Bottom Wear", "cost": 240.0, "price": 499.0, "unit": "pack", "daily_base": 16},
+    {"name": "Rajasthani Bandhani Bandhej Dupatta", "category": "Dupattas & Stoles", "cost": 190.0, "price": 399.0, "unit": "piece", "daily_base": 14},
+    {"name": "Kashmiri Woolen Embroidered Shawl", "category": "Winter & Shawls", "cost": 850.0, "price": 1599.0, "unit": "piece", "daily_base": 4},
+    {"name": "Traditional Handloom Cotton Saree", "category": "Cotton Sarees", "cost": 720.0, "price": 1250.0, "unit": "saree", "daily_base": 7},
+    {"name": "Kids Ethnic Kurta Dhoti Set", "category": "Kids Ethnic", "cost": 380.0, "price": 699.0, "unit": "set", "daily_base": 8}
+]
+
+MERCHANT_CATEGORY_MAP = {
+    "PAYTM_M_1001": "KIRANA",
+    "PAYTM_M_1002": "KIRANA",
+    "PAYTM_M_1003": "KIRANA",
+    "PAYTM_M_1004": "KIRANA",
+    "PAYTM_M_1005": "SWEETS",
+    "PAYTM_M_1006": "CAFE",
+    "PAYTM_M_1007": "PHARMACY",
+    "PAYTM_M_1008": "MOBILE",
+    "PAYTM_M_1009": "APPAREL",
+    "PAYTM_M_1010": "KIRANA",
+}
+
+def get_catalog_for_merchant(merchant_id: str) -> List[Dict[str, Any]]:
+    cat_type = MERCHANT_CATEGORY_MAP.get(merchant_id, "KIRANA")
+    if cat_type == "MOBILE":
+        return MOBILE_CATALOG
+    elif cat_type == "PHARMACY":
+        return PHARMACY_CATALOG
+    elif cat_type == "SWEETS":
+        return SWEETS_CATALOG
+    elif cat_type == "CAFE":
+        return CAFE_CATALOG
+    elif cat_type == "APPAREL":
+        return APPAREL_CATALOG
+    return KIRANA_CATALOG
+
 FIRST_NAMES = ["Amit", "Rahul", "Pooja", "Sunil", "Anjali", "Deepak", "Sneha", "Karan", "Priya", "Manoj",
                "Neeraj", "Rohit", "Kavita", "Sanjay", "Ritu", "Mohit", "Aakash", "Geeta", "Vikram", "Shweta"]
 
@@ -239,20 +366,21 @@ def generate_merchants() -> List[Dict[str, Any]]:
     return [dict(m) for m in MERCHANT_PROFILES]
 
 def generate_inventory(merchant_id: str) -> List[Dict[str, Any]]:
+    catalog = get_catalog_for_merchant(merchant_id)
     items = []
-    for idx, prod in enumerate(KIRANA_CATALOG):
-        item_id = f"ITEM_{idx+1:03d}"
+    for idx, prod in enumerate(catalog):
+        item_id = f"ITEM_{merchant_id[-4:]}_{idx+1:03d}"
         daily = prod["daily_base"]
         
-        # Make a couple critical for demo purposes (e.g. Maggi and Kurkure)
-        if prod["name"].startswith("Maggi"):
-            current = int(daily * 0.8) # Low stock
+        # Designate item 0 as low stock, item 1 as critical/out-of-stock, item 4 as low stock
+        if idx == 0:
+            current = int(daily * 0.7)  # Low stock
             status = "low"
-        elif prod["name"].startswith("Kurkure"):
-            current = 0 # Out of stock
+        elif idx == 1:
+            current = 0  # Out of stock / Critical alert
             status = "critical"
-        elif prod["name"].startswith("Organic Sharbati"):
-            current = int(daily * 1.5)
+        elif idx == 4:
+            current = int(daily * 1.3)  # Low stock
             status = "low"
         else:
             current = random.randint(int(daily * 3.5), int(daily * 8.0))
@@ -353,7 +481,20 @@ def generate_customers(merchant_id: str, count: int = 80) -> List[Dict[str, Any]
             churn_prob = round(random.uniform(0.30, 0.55), 2)
             
         lifetime_spend = round(past_visits * random.uniform(350, 950), 2)
-        preferred_cat = random.choice(["Dairy", "Snacks & Namkeen", "Edible Oils", "Tea & Coffee", "Flours & Grains"])
+        cat_type = MERCHANT_CATEGORY_MAP.get(merchant_id, "KIRANA")
+        if cat_type == "MOBILE":
+            pref_cats = ["Chargers & Cables", "Screen Protectors", "Mobile Covers", "Audio & Earphones", "Power Banks"]
+        elif cat_type == "PHARMACY":
+            pref_cats = ["Pain & Fever", "Digestive & ORS", "First Aid & Wound", "Vitamins & Minerals", "Cold & Cough"]
+        elif cat_type == "SWEETS":
+            pref_cats = ["Desi Ghee Sweets", "Fresh Snacks", "Namkeen & Farsan", "Gift Hampers", "Bengali Sweets"]
+        elif cat_type == "CAFE":
+            pref_cats = ["Chai & Tea", "Bakery & Buns", "Sandwiches", "Street Bites", "Coffee & Coolers"]
+        elif cat_type == "APPAREL":
+            pref_cats = ["Silk Sarees", "Kurtis & Tunics", "Men's Ethnic", "Dupattas & Stoles", "Dress Material"]
+        else:
+            pref_cats = ["Dairy", "Snacks & Namkeen", "Edible Oils", "Tea & Coffee", "Flours & Grains"]
+        preferred_cat = random.choice(pref_cats)
         
         customers.append({
             "customer_id": c_id,
