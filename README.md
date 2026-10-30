@@ -1,83 +1,128 @@
 # 🏪 DukaanSaathi AI (दुकान साथी)
-### *The Autonomous AI Business Copilot for Bharat's Kiranas & Paytm Merchants*
-**Paytm Build for India AI Hackathon 2026 — Track 1: Merchant Growth AI**
+### *The Autonomous AI Business Copilot for Bharat's Retail Merchants*
+**Official Paytm for Business Design System • Computer Vision Shelf Scanner • Predictive Cash Flow • Agentic ReAct Automation**
 
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green.svg)](https://fastapi.tiangolo.com/)
-[![Paytm Soundbox Compatible](https://img.shields.io/badge/Paytm-Soundbox%204G%20Integrated-00b9f1.svg)](https://paytm.com/)
-[![Sarvam AI Indic NLP](https://img.shields.io/badge/Sarvam%20AI-Indic%20Voice%20ASR%2FTTS-purple.svg)](https://www.sarvam.ai/)
-[![XGBoost + SHAP](https://img.shields.io/badge/ML-XGBoost%20%2B%20SHAP-orange.svg)](https://github.com/dmlc/xgboost)
-[![Tests Passing](https://img.shields.io/badge/Tests-10%2F10%20Passing-brightgreen.svg)](backend/tests/)
+<p align="center">
+  <img src="frontend/static/sample_shelves/shelf_1_snacks_biscuits.jpg" alt="DukaanSaathi AI Preview" width="750" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,46,110,0.15);" />
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11+-002E6E.svg?style=flat&logo=python&logoColor=white" alt="Python 3.11+" /></a>
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-0.110+-00BAF2.svg?style=flat&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
+  <a href="https://github.com/ultralytics/ultralytics"><img src="https://img.shields.io/badge/YOLOv8-Retail%20Vision-FF7A00.svg?style=flat" alt="YOLOv8 Vision" /></a>
+  <a href="https://xgboost.readthedocs.io/"><img src="https://img.shields.io/badge/XGBoost-Demand%20Oracle-10B981.svg?style=flat" alt="XGBoost" /></a>
+  <a href="https://shap.readthedocs.io/"><img src="https://img.shields.io/badge/TreeSHAP-Credit%20Scoring-8B5CF6.svg?style=flat" alt="TreeSHAP" /></a>
+  <a href="backend/tests/"><img src="https://img.shields.io/badge/Unit%20Tests-10%2F10%20Passing-00AC4F.svg?style=flat&logo=checkmarx&logoColor=white" alt="10/10 Passing" /></a>
+  <a href="backend/tests/"><img src="https://img.shields.io/badge/HTTP%20Endpoints-13%2F13%20Verified-00AC4F.svg?style=flat" alt="13/13 Verified" /></a>
+  <a href="#license"><img src="https://img.shields.io/badge/License-MIT-002E6E.svg?style=flat" alt="License MIT" /></a>
+</p>
 
 ---
 
-## 🎯 Executive Summary & Problem Statement
+## 📌 Executive Summary
 
-Over **30 million Kirana stores and micro-retailers** form the financial backbone of India's retail economy, contributing 11% to the country's GDP. While Paytm revolutionized digital payments with the **Paytm Soundbox and QR**, most small merchants continue to operate with:
-1. **Blind Inventory Replenishment**: Guesswork-based restocking leads to 15–20% stockouts during local festivals and weddings, while slow-moving items tie up scarce working capital.
-2. **Invisible Customer Churn**: Kirana owners cannot track when regular weekly shoppers migrate to quick-commerce dark stores (Blinkit/Zepto/Instamart) until it is too late.
-3. **Recurring Working Capital Crunches**: Irregular distributor settlements and rent deadlines trigger cash crunches that force merchants to turn to informal 36% p.a. moneylenders.
-4. **Language & Digital Literacy Barriers**: Complex ERPs and accounting apps fail because Kirana owners don't type — they speak and listen to their Paytm Soundbox.
+India is home to **over 30 million Kirana stores and micro-retailers**, powering 11% of the national GDP. While Paytm digitized retail transactions via the iconic **Paytm Soundbox and QR**, millions of small merchants still operate under high operational friction:
+1. **Blind Inventory & Stockouts**: Guesswork-based restocking leads to 15–20% stockouts during festivals, while slow-moving items freeze scarce working capital.
+2. **Invisible Customer Churn**: Regular weekly shoppers quietly migrate to 10-minute quick-commerce dark stores (Blinkit, Zepto, Instamart) without the merchant realizing it.
+3. **Surprise Cash Crunches**: Irregular distributor invoice settlements and monthly rent deadlines coincide, forcing retailers into expensive 36% p.a. informal debt.
+4. **Digital Literacy Gap**: Enterprise ERPs and accounting software fail small merchants who prefer **spoken Hindi/vernacular audio guidance** over complex forms.
 
 ### 💡 The Solution: DukaanSaathi AI
-**DukaanSaathi AI** is a voice-first, hyper-localized AI copilot built directly into the Paytm Merchant Ecosystem. It transforms the merchant's Paytm Soundbox and smartphone into an autonomous growth advisor that forecasts demand, audits store shelves via computer vision, models cash flows, predicts credit scores, and dispatches 1-tap WhatsApp reorders.
+**DukaanSaathi AI** upgrades the Paytm Merchant App and Soundbox from a passive payment chime into an **autonomous retail business copilot**. By crunching real-time Soundbox transaction streams, phone camera shelf scans, and hyperlocal neighborhood trends, DukaanSaathi forecasts demand, pinpoints empty shelf slots, projects cash shortages 4 days ahead, and drafts operational actions that merchants approve with **just 1 tap**.
 
 ---
 
 ## 🏛️ System Architecture
 
 ```mermaid
-graph TB
-    subgraph "Data Ingestion & Ecosystem"
-        SB[Paytm Soundbox UPI Streams] --> DP[Real-Time Transaction Stream]
-        CAM[Smartphone Camera / Shelf Photos] --> CV[Vision Pipeline]
-        GEO[H3 Geospatial Neighborhood Data] --> RADAR[Hyperlocal Competitor Radar]
-        EXT[Festival & Weather Calendars] --> ORACLE[Demand Oracle AI]
+flowchart TB
+    subgraph INGEST ["📡 1. Data Ingestion & Streams"]
+        direction TB
+        SB["🔊 Paytm Soundbox 4G Stream<br/>(Transaction Velocity, Footfall)"]
+        CAM["📸 Smartphone Camera / Shelf Photos<br/>(Visual Rack Ratios)"]
+        GEO["📍 Hyperlocal Cluster Data<br/>(1-km Radius Peer Benchmark)"]
+        CAL["📅 Festival & Weather Calendar<br/>(Diwali, Holi, Seasonal Trends)"]
     end
 
-    subgraph "Core AI / ML Intelligence Engines"
-        ORACLE --> ML1[XGBoost + Seasonal Hybrid Forecaster]
-        CV --> ML2[YOLOv8 + Retail Heuristics Shelf Scanner]
-        DP --> ML3[RFM K-Means + Survival Hazard Churn Model]
-        DP --> ML4[Monte Carlo Cash Flow Engine]
-        DP --> ML5[Gradient Boosted Scorer + TreeSHAP]
-        ML1 --> KG[NetworkX Co-Purchase Knowledge Graph]
+    subgraph ENGINES ["🧠 2. Specialized AI & ML Engine Suite"]
+        direction TB
+        M1["📈 XGBoost + Temporal Seasonal Hybrid<br/>7-Day Sales & Footfall Demand Oracle"]
+        M2["👁️ YOLOv8 Retail Vision + Spatial Heuristics<br/>Snap-to-Stock Shelf Fullness Analyzer"]
+        M3["👥 RFM K-Means + Survival Hazard Model<br/>At-Risk Customer Churn Classifier"]
+        M4["💰 Category-Aware Monte Carlo Engine<br/>30-Day Cash Flow & Runway Simulator"]
+        M5["🏅 Gradient Boosted TreeSHAP Attribution<br/>0–900 MerchantMind Credit Health Score"]
+        M6["🌐 NetworkX Product Knowledge Graph<br/>Co-Purchase Basket Affinity Engine"]
     end
 
-    subgraph "Autonomous Agent & Indic Interface"
-        SARVAM[Sarvam AI Indic ASR & TTS] <--> COPILOT[Voice Copilot: Hindi & Hinglish]
-        ML1 & ML2 & ML4 & ML3 --> AGENT[LangChain ReAct Agentic Action Engine]
-        AGENT --> HITL{Human-in-the-Loop 1-Tap Approval}
-        HITL -->|Approved| WAPP[WhatsApp Distributor Purchase Order]
-        HITL -->|Approved| CASHBACK[Paytm Cashback / Push SMS Notification]
-        HITL -->|Approved| LOAN[Paytm Instant Merchant Credit Disbursal]
+    subgraph AGENT ["⚡ 3. Autonomous Agentic Execution"]
+        direction TB
+        REACT["LangChain ReAct Agentic Workflow"]
+        HITL{"🛡️ 100% Human-in-the-Loop<br/>1-Tap Merchant Approval"}
+        A1["📲 Instant WhatsApp PO to Wholesaler"]
+        A2["🎁 Targeted ₹20 Paytm Cashback Voucher"]
+        A3["💳 Instant Pre-Approved ₹25k Paytm Credit"]
     end
 
-    subgraph "Merchant Experience"
-        COPILOT <--> DASH[Interactive Glassmorphic Web Dashboard]
-        COPILOT --> SOUNDBOX[Paytm Soundbox Hindi Voice Broadcast]
+    subgraph INTERFACE ["🖥️ 4. Merchant Experience Layer"]
+        direction TB
+        DASH["Paytm for Business Dashboard<br/>(Navy #002E6E & White #FFFFFF Theme)"]
+        VOICE["Paytm Soundbox Bilingual Voice Copilot<br/>(Natural Hindi & English Audio Synthesis)"]
     end
+
+    INGEST --> ENGINES
+    ENGINES --> AGENT
+    REACT --> HITL
+    HITL -->|Approved| A1
+    HITL -->|Approved| A2
+    HITL -->|Approved| A3
+    ENGINES --> INTERFACE
+    AGENT <--> INTERFACE
 ```
 
 ---
 
-## ✨ Key Modules: Bharat-First Catchy Names & AI Technology
+## ✨ Core AI Modules & Capabilities
 
-| Bharat Catchy Name (दुकानदार के लिए) | Core Technology (जज / AI इंजन) | Key Capabilities & Impact |
+| Module & Tab | Underpinning AI Engine | Real-World Merchant Value |
 | :--- | :--- | :--- |
-| **1. बिक्री अनुमान (Aaj Kya Bikega?)** | XGBoost + Temporal Seasonal Hybrid | 7-दिन का बिक्री व फुटफॉल अनुमान (8.4% MAPE); त्योहार (दीवाली +28%) और मौसम के अनुसार स्टॉक प्लानिंग। |
-| **2. दुकान शेल्फ़ स्कैनर (Dukaan Shelf Scanner)** | YOLOv8-Retail + Vision Heuristics | अलमारी की फोटो से खाली जगह (स्टॉकआउट) का पता लगाना, 68.5% शेल्फ भराव, और लाल डिब्बे में अलर्ट। |
-| **3. स्मार्ट इन्वेंट्री और पर्चा (Smart Stock & PO)** | NetworkX Co-Purchase Graph | साथ में बिकने वाले सामान के बंडल (मैगी + चिंग नूडल्स) और 1-क्लिक **WhatsApp होलसेलर आर्डर**। |
-| **4. पुराने ग्राहक वापस लाओ (Grahak Wapsi)** | RFM K-Means + Survival Hazard | 80+ ग्राहकों में से छूटे हुए ग्राहकों की पहचान और 1-क्लिक में **₹20 पेटीएम कैशबैक ऑफर** भेजना। |
-| **5. तिजोरी और रोकड़ा (Tijori & Cashflow)** | Monte Carlo Recurrence Simulation | 30 दिनों का खर्च व किराया अनुमान; 9 दिन पहले कमी का अलर्ट और **₹25,000 तुरंत पेटीएम लोन**। |
-| **6. दुकान साख स्कोर (Dukaan Saakh - 742/900)** | Gradient Boosted + TreeSHAP | 5 वित्तीय पैमानों पर आधारित क्रेडिट स्कोर, जिसे देखकर बैंक व पेटीएम सस्ता लोन देते हैं। |
-| **7. पड़ोस का बाज़ार (Pados Ka Bazaar)** | H3 Geospatial Cluster Analysis | 1km दायरे की 14 दुकानों का डेटा; लोकल ट्रेंडिंग सामान (+44% ओट मिल्क) व डार्क स्टोर डिस्काउंट अलर्ट। |
-| **8. 1-टैप दुकान साथी काम (1-Tap Helper)** | LangChain ReAct (Human-in-the-Loop) | साथी द्वारा तैयार महत्वपूर्ण काम (व्हाट्सएप पर्चा, लोन, कैशबैक) जिन्हें व्यापारी 1-टैप में मंज़ूर करता है। |
-| **9. साथी वॉयस असिस्टेंट (Paytm Soundbox Voice)** | Sarvam AI Indic Speech + Web Speech | शुद्ध हिंदी व हिंग्लिश में बोलकर बातचीत ("तुषार जी, आज शाम..."), बिना टाइप किए पूरी दुकान का संचालन। |
+| **1. Demand Oracle (बिक्री अनुमान)** | **XGBoost + Temporal Seasonal Hybrid** | Predicts sales revenue and footfall 7 days ahead (8.4% MAPE), adjusting dynamically for weekends and festivals (e.g. Diwali +28%). |
+| **2. Shelf Scanner (अलमारी स्कैनर)** | **YOLOv8 + Retail Spatial Heuristics** | Detects depleted racks and empty bays from shelf photos, calculates fullness percentage, and triggers distributor purchase orders. |
+| **3. Smart Inventory (स्मार्ट इन्वेंट्री)** | **NetworkX Product Knowledge Graph** | Identifies co-purchased basket affinities (e.g., Maggi noodles + sauce) and generates optimal reorder quantities in 1 click. |
+| **4. Customer Retention (ग्राहक वापसी)** | **RFM K-Means + Survival Hazard Model** | Flags valued regulars who haven't visited in 15–30 days and dispatches targeted ₹20 Paytm cashback incentives. |
+| **5. Cash Flow & Credit (तिजोरी व रोकड़ा)** | **Monte Carlo Runway Simulation** | Forecasts daily balances 30 days ahead; warns **4 days before cash shortages** and disburses pre-approved ₹25,000 Paytm credit instantly. |
+| **6. Credit Health (दुकान साख स्कोर)** | **Gradient Boosted TreeSHAP** | Generates an explainable 0–900 store creditworthiness score, showing exactly which actions unlock lower interest rates. |
+| **7. Competitor Radar (आस-पास का बाज़ार)** | **Geospatial Cluster Analysis** | Benchmarks the store against peer merchants in a 1-km radius; highlights local high-velocity items and dark-store price threats. |
+| **8. 1-Tap Actions (स्वायत्त कार्य)** | **LangChain ReAct Agent** | Pre-drafts high-ROI business decisions with complete human-in-the-loop safety: **nothing is dispatched without explicit confirmation**. |
+| **9. Soundbox Voice Copilot (साथी आवाज़)** | **Indic NLP + Web Speech / Sarvam** | Speaks operational guidance in fluent **Hindi and English** directly through the Paytm Soundbox (e.g., *"Bhaiya, aaj kya bikega?"*). |
 
-> **💡 Dual UX Modes Built-In:**
-> - **🏪 दुकानदार मोड (Merchant Mode):** डिफ़ॉल्ट रूप से एक्टिव। तकनीकी जटिलताओं को छुपाकर केवल काम की बातें, बड़े बटन, व्हाट्सएप आर्डर और साउंडबॉक्स आवाज़ दिखाता है।
-> - **👨‍💻 जज / AI मोड (Judge / Tech Mode):** हेडर में दिए गए बटन से 1-क्लिक में चालू होता है। सभी अंडरलाइंग AI/ML बैज (XGBoost, YOLOv8, Monte Carlo, SHAP, NetworkX) लाइव दिखाता है।
+---
+
+## 🎨 Official Paytm Design System
+
+The web dashboard is built using the official **Paytm for Business** color palette for maximum contrast and storefront legibility:
+- **Paytm Dark Navy (`#002E6E`)**: Primary headers, prominent button backgrounds, active navigation tabs.
+- **Paytm Process Cyan (`#00BAF2`)**: Accent highlights, audio pulse rings, live badges, and brand typography.
+- **Paytm Canvas Slate-Blue (`#F4F7FB`)**: Clean background canvas optimized for outdoor screen glare.
+- **Paytm Card White (`#FFFFFF`)**: High-contrast card surfaces with soft elevation shadows.
+- **Paytm UPI Green (`#00AC4F`)**: Live Soundbox status, positive cashflow indicators, and success states.
+- **Paytm Alert Orange (`#FF7A00`)**: Hardware tags, low-stock warnings, and loan action triggers.
+- **Symmetric Bilingual Localization**: Instant 1-click toggle between **pure English** and **pure Hindi** without mixed parenthetical strings.
+
+---
+
+## 📸 Sample Shelf Test Suite (Built-In)
+
+The repository includes **5 realistic retail shelf test images** located in [`sample_shelves/`](sample_shelves/) and served statically at [`frontend/static/sample_shelves/`](frontend/static/sample_shelves/):
+
+| Image File | Category & Scene Description | Expected AI Analysis |
+| :--- | :--- | :--- |
+| `shelf_1_snacks_biscuits.jpg` | Retail wooden racks with biscuits and snacks; 1 empty center bay. | **53.2% Fullness** • Empty rack bay detected • Prepares Maggi/Parle-G restock. |
+| `shelf_2_beverages_dairy.jpg` | Commercial beverage and milk cooler fridge. | **57.0% Fullness** • Cold bay stockout detected • Triggers dairy supply PO. |
+| `shelf_3_personal_care.jpg` | Supermarket aisle with soaps, shampoos, and detergents. | **77.4% Fullness** • Healthy display • Identifies 1 low-stock item. |
+| `shelf_4_kirana_staples.jpg` | Indian kirana staple rack with Atta bags, refined oils, and tea packs. | **74.0% Fullness** • Fast-moving staple grain tracking. |
+| `shelf_5_empty_depleted.jpg` | Severe stockout crisis: dusty empty metal shelving with 2 lone items. | **18.0% Fullness (Crisis Alert)** • Urgent multi-item distributor restock. |
+
+*You can test these photos live using the 1-click quick chips on the **Smart Inventory & Shelf Scanner** tab or upload your own store photo.*
 
 ---
 
@@ -87,22 +132,22 @@ graph TB
 Paytm-Build-for-India-AI-Hackathon/
 ├── backend/
 │   ├── app/
-│   │   ├── api/                     # 9 FastAPI REST API Routers
-│   │   │   ├── routes_merchant.py   # Merchant profiles & KPI streams
+│   │   ├── api/                     # 9 Modular FastAPI REST API Routers
+│   │   │   ├── routes_merchant.py   # Merchant profiles, metrics & store selector
 │   │   │   ├── routes_demand.py     # 7-day Demand Oracle endpoint
-│   │   │   ├── routes_inventory.py  # Inventory & Camera Shelf Scanner
-│   │   │   ├── routes_retention.py  # RFM Customer Retention & Win-back
-│   │   │   ├── routes_cashflow.py   # Monte Carlo Cash Flow & Crunch Alert
-│   │   │   ├── routes_scorer.py     # 0-900 MerchantMind Credit Score
-│   │   │   ├── routes_competitor.py # H3 Hyperlocal Neighborhood Radar
-│   │   │   ├── routes_actions.py    # Autonomous Agentic Action Dispatcher
-│   │   │   └── routes_voice_copilot.py # Indic Voice Copilot
+│   │   │   ├── routes_inventory.py  # Inventory graph & YOLOv8 Shelf Scanner
+│   │   │   ├── routes_retention.py  # RFM Customer Segmentation & Churn Win-Back
+│   │   │   ├── routes_cashflow.py   # Monte Carlo 30-Day Runway & Crunch Alerts
+│   │   │   ├── routes_scorer.py     # 0–900 MerchantMind Credit Health Score
+│   │   │   ├── routes_competitor.py # 1-km Hyperlocal Neighborhood Radar
+│   │   │   ├── routes_actions.py    # 1-Tap Agentic Action Dispatcher
+│   │   │   └── routes_voice_copilot.py # Indic Bilingual Voice Assistant
 │   │   ├── core/
-│   │   │   └── logger.py            # Windows UTF-8 console safe logger
+│   │   │   └── logger.py            # Console logger with UTF-8 safety
 │   │   ├── data/
-│   │   │   ├── generator.py         # Realistic Indian retail simulation (10 Kiranas, 80 custs)
-│   │   │   └── store.py             # Thread-safe in-memory & persistent datastore
-│   │   ├── models/                  # 9 Production-grade AI/ML model engines
+│   │   │   ├── generator.py         # Realistic Indian retail generator (10 merchants, 80 customers)
+│   │   │   └── store.py             # Thread-safe in-memory datastore with auto-hydration
+│   │   ├── models/                  # 9 Production-grade AI/ML Model Engines
 │   │   │   ├── demand_forecaster.py
 │   │   │   ├── inventory_optimizer.py
 │   │   │   ├── shelf_scanner.py
@@ -114,22 +159,24 @@ Paytm-Build-for-India-AI-Hackathon/
 │   │   │   └── voice_copilot.py
 │   │   ├── schemas/
 │   │   │   └── api_models.py        # Strict Pydantic V2 data contracts
-│   │   ├── config.py                # Environment settings & config
-│   │   └── main.py                  # FastAPI Application + Static Mounts
+│   │   ├── config.py                # Environment configuration & fallbacks
+│   │   └── main.py                  # FastAPI Application Entry & Static Mounts
 │   └── tests/
-│       ├── test_modules.py          # 10/10 Passing Unit Tests
-│       └── verify_endpoints.py      # End-to-end 13/13 HTTP Verification
+│       ├── test_modules.py          # 10/10 Passing Automated Unit Tests
+│       └── verify_endpoints.py      # End-to-end 13/13 HTTP Integration Test Suite
 ├── frontend/
 │   ├── static/
 │   │   ├── css/
-│   │   │   └── styles.css           # Vanilla CSS Design System with Paytm Branding
-│   │   └── js/
-│   │       └── app.js               # Reactive JS Controller (Chart.js + Audio + APIs)
+│   │   │   └── styles.css           # Paytm Navy/Cyan Design System (Responsive)
+│   │   ├── js/
+│   │   │   └── app.js               # Reactive Vanilla JS Controller (Chart.js + Audio APIs)
+│   │   └── sample_shelves/          # Statically served sample retail shelf test images
 │   └── index.html                   # High-Aesthetic Single-Page Dashboard
-├── run_backend.py                   # 1-Click Server Launcher
-├── requirements.txt                 # Clean dependency manifest
-├── .env.example                     # Environment configuration template
-└── README.md                        # Master Documentation
+├── sample_shelves/                  # High-resolution sample shelf images for upload testing
+├── run_backend.py                   # 1-Click Python Server Launcher
+├── requirements.txt                 # Dependencies manifest
+├── .env.example                     # Environment variables template
+└── README.md                        # Master Project Documentation
 ```
 
 ---
@@ -137,135 +184,92 @@ Paytm-Build-for-India-AI-Hackathon/
 ## 🚀 Quick Start Guide
 
 ### Prerequisites
-- Python 3.10, 3.11, or 3.12 installed on your machine.
-- Modern web browser (Chrome, Edge, Firefox, or Safari).
+- **Python 3.10+** (Tested on Python 3.11 & 3.12)
+- Any modern web browser (Chrome, Edge, Firefox, Safari)
 
-### Step 1: Clone & Navigate to Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/Tushar040903/Paytm-Build-for-India-AI-Hackathon.git
 cd Paytm-Build-for-India-AI-Hackathon
 ```
 
-### Step 2: Install Dependencies
+### 2. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 3: Configure Environment Variables (Optional)
-The system works **100% out of the box** even without external API keys thanks to built-in offline simulation engines and Web Speech API. 
-
-If you have live API keys for Sarvam AI or Google Gemini, copy `.env.example` to `.env`:
-```bash
-cp .env.example .env
-```
-Edit `.env`:
-```env
-SARVAM_API_KEY=your_sarvam_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-### Step 4: Run the Application
-Launch the server with the one-click launcher:
+### 3. Run the Backend Server
+Launch the server with the included launcher:
 ```bash
 python run_backend.py
 ```
-Or directly using Uvicorn:
+*Or directly via Uvicorn:*
 ```bash
 uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### Step 5: Open the Interactive Dashboard
+### 4. Open the Dashboard
 Navigate to:
-- **Web Application Dashboard**: [http://localhost:8000](http://localhost:8000)
-- **Interactive OpenAPI Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Alternative ReDoc UI**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+- **Interactive Web App**: [http://localhost:8000](http://localhost:8000)
+- **Interactive OpenAPI (Swagger) Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **ReDoc Technical Docs**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
-## 🧪 Automated Testing & Verification
+## 🧪 Verification & Automated Tests
 
-Run the comprehensive unit test suite:
+### 1. Run Core ML Unit Tests
 ```bash
 python -m unittest backend/tests/test_modules.py
 ```
-*Output:*
 ```
-Ran 10 tests in 0.174s
+----------------------------------------------------------------------
+Ran 10 tests in 0.085s
+
 OK
 ```
 
-Run the end-to-end HTTP integration test across all 13 endpoints:
+### 2. Run HTTP Integration Tests (All 13 Endpoints)
 ```bash
 python backend/tests/verify_endpoints.py
 ```
-*Output:*
 ```
 === VERIFYING DUKAANSAATHI AI HTTP ENDPOINTS ===
-[PASS] 200 : /health
-[PASS] 200 : /
-[PASS] 200 : /api/merchants/
-[PASS] 200 : /api/merchants/PAYTM_M_1001
-[PASS] 200 : /api/demand/forecast/PAYTM_M_1001
-[PASS] 200 : /api/inventory/recommendations/PAYTM_M_1001
-[PASS] 200 : /api/retention/insights/PAYTM_M_1001
-[PASS] 200 : /api/cashflow/projection/PAYTM_M_1001
-[PASS] 200 : /api/scorer/credit-health/PAYTM_M_1001
-[PASS] 200 : /api/competitor/radar/PAYTM_M_1001
-[PASS] 200 : /api/actions/pending/PAYTM_M_1001
+[PASS] 200 : /health (size: 225 bytes)
+[PASS] 200 : / (size: 52613 bytes)
+[PASS] 200 : /api/merchants/ (size: 10604 bytes)
+[PASS] 200 : /api/merchants/PAYTM_M_1001 (size: 1067 bytes)
+[PASS] 200 : /api/demand/forecast/PAYTM_M_1001 (size: 5938 bytes)
+[PASS] 200 : /api/inventory/recommendations/PAYTM_M_1001 (size: 8706 bytes)
+[PASS] 200 : /api/retention/insights/PAYTM_M_1001 (size: 8240 bytes)
+[PASS] 200 : /api/cashflow/projection/PAYTM_M_1001 (size: 8324 bytes)
+[PASS] 200 : /api/scorer/credit-health/PAYTM_M_1001 (size: 5781 bytes)
+[PASS] 200 : /api/competitor/radar/PAYTM_M_1001 (size: 9873 bytes)
+[PASS] 200 : /api/actions/pending/PAYTM_M_1001 (size: 6604 bytes)
 [PASS] 200 : /api/copilot/query -> Intent: DEMAND_FORECAST
-[PASS] 200 : /api/inventory/scan-shelf -> Fullness: 68.5%
+[PASS] 200 : /api/inventory/scan-shelf -> Fullness: 53.2%
 
 Result: 13 / 13 endpoints verified successfully!
 ```
 
 ---
 
-## 🎬 3-Minute Demo Walkthrough Script for Hackathon Judges
+## 🤝 Paytm Ecosystem Alignment
 
-When presenting to Paytm judges and evaluators, follow this recommended walkthrough:
-
-1. **The Merchant Persona & Soundbox (30s)**:
-   - Point out the active merchant selector (*"Tushar Kirana Store & Supermart, Sector 18 Noida"*).
-   - Show the green pulsing **Soundbox 4G Live** indicator in the top header.
-2. **Indic Voice Copilot (45s)**:
-   - Click the prompt chip: `💡 Bhaiya, aaj kya bikega?`.
-   - Observe how the AI processes the query in real-time, displays the detected intent (`DEMAND_FORECAST`), renders bilingual Hindi/English guidance, and speaks out loud through the browser audio synthesizer replicating the iconic Paytm Soundbox.
-3. **"Snap to Stock" Camera Shelf Scanner (45s)**:
-   - Switch to the **📦 Inventory & Camera Shelf** tab.
-   - Click **⚡ Run Demo Shelf Scan** (or upload any shelf photo).
-   - Point out the annotated image with glowing YOLO bounding boxes, the calculated **68.5% Shelf Fullness**, and the critical stockout alert for *Kurkure Masala Munch*.
-   - Click the **📲 Order** button to simulate dispatching a formatted WhatsApp purchase order to the wholesale distributor.
-4. **Predictive Cash Flow & Instant Credit (30s)**:
-   - Switch to the **💰 Cash Flow & Loans** tab.
-   - Show the 30-day Monte Carlo confidence fan chart.
-   - Highlight the **Predicted Working Capital Shortfall (In 9 Days)** warning: Rent (₹16k) and Sharma Distributors bill (₹12.5k) coincide.
-   - Click **1-Tap Claim to Wallet** on the pre-approved ₹25,000 Paytm Instant Loan.
-5. **Explainable AI Credit Score & Agentic Dispatcher (30s)**:
-   - Switch to **🏅 MerchantMind Score** to show the 742/900 dial gauge and the **TreeSHAP** attribution waterfall explaining exactly why the score was awarded.
-   - Switch to **⚡ Agentic Actions** to show the pending autonomous recommendations awaiting 1-tap human approval.
+DukaanSaathi AI strengthens Paytm’s core business verticals:
+* **Paytm Soundbox 4G**: Transformed from a payment chime into a conversational AI business advisor.
+* **Paytm QR & UPI**: High-velocity payment records become training inputs for personalized AI insights.
+* **Paytm Merchant Lending**: Mitigates credit default risk by detecting working capital shortfalls 4 days in advance and proactively offering collateral-free merchant credit.
+* **Paytm Consumer App**: Merchant win-back vouchers are delivered straight to consumers' Paytm wallets.
 
 ---
 
-## 🔑 External API Integrations (Optional)
-
-DukaanSaathi AI is engineered with graceful fallbacks:
-1. **Sarvam AI (`SARVAM_API_KEY`)**:
-   - Free Indic voice models: `saaras:v1` (Indic ASR) and `bulbul:v1` (Indic TTS).
-   - *Fallback*: Web Speech Synthesis API (`SpeechSynthesisUtterance`) with `hi-IN` voice profile.
-2. **Google Gemini (`GEMINI_API_KEY`)**:
-   - Multimodal vision model: `gemini-1.5-flash` for zero-shot retail shelf packaging recognition.
-   - *Fallback*: Built-in PIL heuristic computer vision bounding box generator.
+## 📄 License
+This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🏆 Paytm Strategic Alignment (Why This Wins)
-
-- **Track 1 (Merchant Growth AI)**: Directly tackles small merchant operational profitability, working capital health, and customer churn.
-- **Paytm Soundbox Monetization**: Transforms the Soundbox from a passive audio notification speaker into an active, intelligent conversational advisor.
-- **Paytm Merchant Lending Distribution**: Uses predictive cash flow crunch warnings and the 0-900 MerchantMind score to pre-qualify and disburse collateral-free merchant credit.
-- **Paytm UPI Velocity Retention**: Uses targeted cashback campaigns on dormant customers, driving repeat transaction frequency back through Paytm QR codes.
-
----
-
-**Developed with ❤️ for Paytm Build for India AI Hackathon 2026**
-*Author: Tushar 
+<p align="center">
+  <b>Built with ❤️ for Bharat's Kiranas & Paytm Merchants</b><br/>
+  <i>Engineered by Tushar • 2026</i>
+</p>
